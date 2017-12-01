@@ -43,6 +43,7 @@ def main():
     yblocks = range(0, 480, 20)
     stopevents = QUIT, KEYDOWN, MOUSEBUTTONDOWN
     while 1:
+        screen.fill((0, 0, 0))  # (255, 255, 255) RGB value for WHITE
         for e in pygame.event.get():
             if e.type in stopevents:
                 return

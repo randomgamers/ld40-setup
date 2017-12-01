@@ -6,7 +6,7 @@ SOUNDS_DIR = 'sounds'
 
 # screen setting
 SCREEN_WIDTH = 480
-SCREEN_HEIGHT = 60
+SCREEN_HEIGHT = 320
 FPS = 60
 
 # player speed

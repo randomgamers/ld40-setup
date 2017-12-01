@@ -42,10 +42,11 @@ def main():
     punch_sound = load_sound('punch.wav')
     chimp = Chimp()
     fist = Fist()
-    allsprites = pygame.sprite.RenderPlain((fist, chimp))
+    allsprites = pygame.sprite.RenderPlain((chimp, fist))
 
     # Main Loop
     going = True
+    pygame.key.set_repeat(1, int(1000 / config.FPS));
     while going:
         clock.tick(config.FPS)
 
@@ -55,6 +56,22 @@ def main():
                 going = False
             elif event.type == KEYDOWN and event.key == K_ESCAPE:
                 going = False
+            elif event.type == KEYDOWN and event.key == K_RIGHT:
+                chimp.moveX(3);
+            elif event.type == KEYDOWN and event.key == K_LEFT:
+                chimp.moveX(-3);
+            elif event.type == KEYDOWN and event.key == K_UP:
+                chimp.moveY(-3);
+            elif event.type == KEYDOWN and event.key == K_DOWN:
+                chimp.moveY(3);
+            elif event.type == KEYUP and event.key == K_RIGHT:
+                chimp.moveX(0);
+            elif event.type == KEYUP and event.key == K_LEFT:
+                chimp.moveX(0);
+            elif event.type == KEYUP and event.key == K_UP:
+                chimp.moveY(0);
+            elif event.type == KEYUP and event.key == K_DOWN:
+                chimp.moveY(0);
             elif event.type == MOUSEBUTTONDOWN:
                 if fist.punch(chimp):
                     punch_sound.play()  # punch
@@ -65,7 +82,6 @@ def main():
                 fist.unpunch()
 
         allsprites.update()
-
         # Draw Everything
         screen.blit(background, (0, 0))
         allsprites.draw(screen)
