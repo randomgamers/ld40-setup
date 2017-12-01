@@ -28,7 +28,7 @@ while 1:
         if event.type in (QUIT, KEYDOWN):
             sys.exit()
         for o in objects:
-            screen.blit(background, o.pos, o.pos)
+            screen.blit(background, o.pos)
         for o in objects:
             o.move()
             screen.blit(o.image, o.pos)
