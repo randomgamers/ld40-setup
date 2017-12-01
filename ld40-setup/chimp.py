@@ -1,30 +1,17 @@
-# !/usr/bin/env python
-"""
-This simple example is used for the line-by-line tutorial
-that comes with pygame. It is based on a 'popular' web banner.
-Note there are comments here, but for the full explanation,
-follow along in the tutorial.
-"""
-
-# Import Modules
-import os, pygame
-from pygame.locals import *
-from pygame.compat import geterror
+import pygame
 
 if not pygame.font: print('Warning, fonts disabled')
 if not pygame.mixer: print('Warning, sound disabled')
 
 from .resources import load_sound
 from .sprites import Chimp, Fist
+from . import config
 
 
 def main():
-    """this function is called when the program starts.
-       it initializes everything it needs, then runs in
-       a loop until the function returns."""
     # Initialize Everything
     pygame.init()
-    screen = pygame.display.set_mode((468, 60))
+    screen = pygame.display.set_mode((config.SCREEN_WIDTH, config.SCREEN_HEIGHT))
     pygame.display.set_caption('Monkey Fever')
     pygame.mouse.set_visible(0)
 
@@ -82,9 +69,5 @@ def main():
     pygame.quit()
 
 
-# Game Over
-
-
-# this calls the 'main' function when this script is executed
 if __name__ == '__main__':
     main()
