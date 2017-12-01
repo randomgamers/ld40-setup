@@ -10,9 +10,12 @@ class GameObject:
         self.pos = image.get_rect().move(0, height)
 
     def move(self):
-        self.pos = self.pos.move(self.speed, 0)
+        self.pos = self.pos.move(self.speed * 2, self.speed)
         if self.pos.right > 600:
             self.pos.left = 0
+
+        if self.pos.bottom > 440:
+            self.pos.top = 0
 
 
 screen = pygame.display.set_mode((640, 480))
@@ -33,4 +36,4 @@ while 1:
             o.move()
             screen.blit(o.image, o.pos)
         pygame.display.update()
-        pygame.time.delay(100)
+        pygame.time.delay(15)
