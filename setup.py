@@ -4,7 +4,7 @@ from cx_Freeze import setup, Executable
 # fine tuning.
 buildOptions = dict(packages=['ld40_setup', 'ld40_setup.resources', 'ld40_setup.resources.images', 'ld40_setup.resources.sounds'],
                     excludes = [],
-                    include_files=[('ld40_setup/resources', 'ld40-setup/resources')]
+                    include_files=[('ld40_setup/resources', 'ld40_setup/resources')]
                     )
 
 import sys
