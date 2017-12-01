@@ -44,7 +44,7 @@ def main():
     # Main Loop
     going = True
     while going:
-        clock.tick(60)
+        clock.tick(config.FPS)
 
         # Handle Input Events
         for event in pygame.event.get():
