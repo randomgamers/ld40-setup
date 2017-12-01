@@ -1,6 +1,5 @@
 import pygame
-from ..resources import load_image_norect
-from ..utils import load_image
+from ..utils import load_image, load_image_norect
 from .. import config
 
 
