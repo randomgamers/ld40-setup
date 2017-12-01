@@ -1,5 +1,5 @@
 import pygame
-from ..resources import load_image
+from ..utils import load_image
 
 
 class Chimp(pygame.sprite.Sprite):

@@ -1,11 +1,13 @@
 import pygame
 from pygame.locals import *
 from pygame.compat import geterror
+import sys
+import os
 
 if not pygame.font: print('Warning, fonts disabled')
 if not pygame.mixer: print('Warning, sound disabled')
 
-from .resources import load_sound
+from .utils import load_sound
 from .sprites import Chimp, Fist
 from . import config
 
