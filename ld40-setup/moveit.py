@@ -17,7 +17,7 @@ class GameObject:
 
 screen = pygame.display.set_mode((640, 480))
 player = pygame.image.load('ld40-setup/ball.png').convert()
-background = pygame.image.load('ld40-setup/ball.png').convert()
+background = pygame.image.load('ld40-setup/background.png').convert()
 screen.blit(background, (0, 0))
 objects = []
 for x in range(10):                    #create 10 objects</i>
