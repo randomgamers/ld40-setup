@@ -12,6 +12,7 @@ from . import config
 
 def main():
     # Initialize Everything
+    pygame.mixer.pre_init(44100, -16, 1, 512)
     pygame.init()
     screen = pygame.display.set_mode((config.SCREEN_WIDTH, config.SCREEN_HEIGHT))
     pygame.display.set_caption('Monkey Fever')
