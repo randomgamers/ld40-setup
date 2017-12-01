@@ -10,7 +10,7 @@ class GameObject:
         self.pos = image.get_rect().move(0, height)
 
     def move(self):
-        self.pos = self.pos.move(0, self.speed)
+        self.pos = self.pos.move(self.speed, 0)
         if self.pos.right > 600:
             self.pos.left = 0
 
