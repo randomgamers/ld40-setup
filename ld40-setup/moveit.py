@@ -10,7 +10,7 @@ class GameObject:
         self.pos = image.get_rect().move(0, height)
 
     def move(self):
-        self.pos = self.pos.move(0, self.speed)
+        self.pos = self.pos.move(self.speed, 0)
         if self.pos.right > 600:
             self.pos.left = 0
 
@@ -28,7 +28,7 @@ while 1:
         if event.type in (QUIT, KEYDOWN):
             sys.exit()
         for o in objects:
-            screen.blit(background, o.pos, o.pos)
+            screen.blit(background, o.pos)
         for o in objects:
             o.move()
             screen.blit(o.image, o.pos)
