@@ -1,8 +1,10 @@
 import pygame
+
 from pygame import QUIT, KEYDOWN
 import sys
 
 from .resources import load_image
+
 
 
 class GameObject:
@@ -21,11 +23,12 @@ class GameObject:
 
 
 if __name__ == '__main__':
-
-    player = load_image('ball.png')
-    background = load_image('background.png')
-
+    pygame.init()
     screen = pygame.display.set_mode((640, 480))
+
+    player, player_rect = load_image('ball.png')
+    background, background_rect = load_image('background.png')
+
     screen.blit(background, (0, 0))
 
     objects = []
