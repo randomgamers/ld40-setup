@@ -101,3 +101,14 @@ class FatGuy(Hostage):
         self.idle_image = load_image_norect('characters/hostage2/idle.png', True)
 
 
+class RegularGuy(Hostage):
+    def __init__(self, position, player, entry_tile):
+        super().__init__(image_dir='characters/hostage3/walk',
+                         image_files=['walk_0{}.png'.format(i) for i in range(1, 9)],
+                         position=position,
+                         player=player,
+                         entry_tile=entry_tile)
+
+        self.idle_image = load_image_norect('characters/hostage3/idle.png', True)
+
+
