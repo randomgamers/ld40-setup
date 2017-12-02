@@ -1,6 +1,7 @@
 import os
 
 from . import config
+from .sprites import Guard
 
 
 class Level:
@@ -22,6 +23,11 @@ class Level:
         self.doors_coords = [(row_num, col_num) for row_num, row in enumerate(self.map)
                                                 for col_num, tile in enumerate(row)
                                                 if tile == 'D']
+
+        self.guards = [
+            Guard([(20,20), (20,30)]),
+            Guard([(60,30), (100,30)]),
+        ]
 
 
 if __name__ == '__main__':

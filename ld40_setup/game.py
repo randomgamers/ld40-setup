@@ -10,7 +10,7 @@ if not pygame.mixer: print('Warning, sound disabled')
 from .utils import load_sound
 from .sprites import Player, Fist
 from . import config
-
+from .level import Level
 
 def main():
     # Initialize Everything
@@ -42,6 +42,7 @@ def main():
     punch_sound = load_sound('punch.wav')
     player = Player()
     fist = Fist()
+    level = Level(1)
     allsprites = pygame.sprite.RenderPlain((player, fist))
 
     # Main Loop
