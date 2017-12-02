@@ -25,12 +25,25 @@ class Hostage(AnimatedSprite):
         self.collision_sprite.image = pygame.Surface((self.collision_rect.w, self.collision_rect.h))
         self.collision_sprite.image.fill((255, 125, 0))
 
+        # last speeds
+        self.last_position = position
+
     def collision_check(self, _, player):
         return self.collision_rect.colliderect(player.rect)
 
     def update(self):
-        self.speed_x = self.speed_y = 0
-        super().update()
+
+        # compute deltas
+        dx = self.rect.centerx - self.last_position[0]
+        dy = self.rect.centery - self.last_position[1]
+
+        # update last position
+        self.last_position = self.rect.center
+
+        if dx != 0 or dy != 0:  # instead of super update
+            print(dx, dy)
+            self.animate()
+
         self.collision_rect.center = self.rect.center
 
         collisions = pygame.sprite.spritecollide(self, [self.player], False, collided=self.collision_check)
