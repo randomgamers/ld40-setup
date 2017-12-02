@@ -9,6 +9,7 @@ if not pygame.mixer: print('Warning, sound disabled')
 
 from .utils import load_sound
 from .sprites import Player, Fist
+from .level import Level
 from . import config
 
 def main():
