@@ -25,14 +25,6 @@ class Level:
                                                 if tile == 'D']
 
         self.guards = [
-            Guard([(2,6), (10,6), (10,10), (20,10)]),
-            # Guard([(6,3), (10,3)]),
+            Guard(walk_path=[(2,6), (10,6), (10,10), (20,10)], walk_speed=1),
+            Guard(walk_path=[(10,10), (20,10), (20, 15)], walk_speed=2),
         ]
-
-
-if __name__ == '__main__':
-    level1 = Level(1)
-    print(level1.map)
-    print(level1.wall_coords)
-    print(level1.entry_coords)
-    print(level1.doors_coords)
