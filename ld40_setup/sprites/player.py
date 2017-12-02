@@ -27,18 +27,26 @@ class Player(AnimatedSprite):
         self.collision_sprite.image = pygame.Surface((self.collision_rect.w, self.collision_rect.h))
         self.collision_sprite.image.fill((255, 125, 0))
 
+        # train stuff
+        self.train = []
+        self.position_history = []
+
         # player stuff
         self.dizzy = 0
         self.walking = False
         self.flipped = False
-        self.walking_speed = int(config.PLAYER_SPEED / config.FPS)
+        self.walking_speed = self.update_walking_speed()
 
         # allowed directions of move
         self.allowed_directions = dict(left=True, right=True, top=True, bottom=True)
 
-        # train stuff
-        self.train = []
-        self.position_history = []
+    def update_walking_speed(self):
+        train_slowdown = 1.0
+        if len(self.train) > 0:
+            train_slowdown = np.max([hostage.slowdown for hostage in self.train])
+
+        self.walking_speed = int(config.PLAYER_SPEED / config.FPS / train_slowdown)
+        return self.walking_speed
 
     def collision_check(self, _, wall):
         return self.collision_rect.colliderect(wall.rect)
@@ -107,4 +115,4 @@ class Player(AnimatedSprite):
 
     def add_to_train(self, hostage):
         self.train.append(hostage)
-        print('added to train')
+        self.update_walking_speed()

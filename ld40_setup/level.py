@@ -48,7 +48,7 @@ class Level:
 
         self.hostages = [
             hostages.NoisyChick(position=(5,5), player=self.player),
-            hostages.NoisyChick(position=(7,7), player=self.player),
+            hostages.FatGuy(position=(7,7), player=self.player),
         ]
 
 

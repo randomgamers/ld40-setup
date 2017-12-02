@@ -8,6 +8,10 @@ class Hostage(AnimatedSprite):
     def __init__(self, image_dir, image_files, position, player):
         super().__init__(image_dir=image_dir, image_files=image_files, position=position)
 
+        # general stats
+        self.noise = 0
+        self.slowdown = 1.0
+
         # train stuff
         self.player = player
         self.in_train = False
@@ -35,16 +39,6 @@ class Hostage(AnimatedSprite):
                 if not self.in_train:
                     self.player.add_to_train(self)
                     self.in_train = True
-                # x_offset = self.collision_rect.center[0] - collision.rect.center[0]
-                # y_offset = self.collision_rect.center[1] - collision.rect.center[1]
-                # x_offset_threshold = self.collision_rect.w / 2
-                # y_offset_threshold = self.collision_rect.h / 2
-                # if abs(x_offset) - config.TILE_SIZE/2 < x_offset_threshold and abs(y_offset) - config.TILE_SIZE/2 < y_offset_threshold*0.5:
-                #     direction = 'left' if x_offset > 0 else 'right'
-                #     self.allowed_directions[direction] = False
-                # if abs(y_offset) - config.TILE_SIZE/2 < y_offset_threshold and abs(x_offset) - config.TILE_SIZE/2 < x_offset_threshold*0.25:
-                #     direction = 'top' if y_offset > 0 else 'bottom'
-                #     self.allowed_directions[direction] = False
 
     def move_to(self, new_position: Tuple[int,int]):
         self.rect.center = self.collision_rect.center = new_position
@@ -56,3 +50,13 @@ class NoisyChick(Hostage):
                          image_files=['walk_0{}.png'.format(i) for i in range(1, 9)],
                          position=position,
                          player=player)
+        self.noise = 1
+
+
+class FatGuy(Hostage):
+    def __init__(self, position, player):
+        super().__init__(image_dir='runsprite',
+                         image_files=['run00{}.png'.format(i) for i in range(1, 9)],
+                         position=position,
+                         player=player)
+        self.slowdown = 2
