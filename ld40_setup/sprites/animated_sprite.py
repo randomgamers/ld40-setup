@@ -47,7 +47,8 @@ class AnimatedSprite(pygame.sprite.Sprite):
     def update(self):
         """Move the sprite and animate it."""
         super().update()
-        self.rect.move_ip((self.speed_x, self.speed_y))
+        if self.speed_x != 0 and self.speed_y != 0:
+            self.rect.move_ip((self.speed_x, self.speed_y))
         self.animate()
 
     def animate(self):
