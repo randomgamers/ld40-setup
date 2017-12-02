@@ -3,7 +3,7 @@ import pygame
 from pygame import QUIT, KEYDOWN
 import sys
 
-from ld40_setup.resources import load_image
+from ld40_setup.utils import load_image
 
 
 
