@@ -27,6 +27,8 @@ class Level:
                                                 for col_num, tile in enumerate(row)
                                                 if tile == 'E']
 
+        assert len(self.entry_coords) == 1, 'Too many/few level entries'
+
         self.doors_coords = [(col_num, row_num) for row_num, row in enumerate(self.map)
                                                 for col_num, tile in enumerate(row)
                                                 if tile == 'D']
@@ -40,7 +42,7 @@ class Level:
             floor_tile = Floor(x, y)
             self.floor.append(floor_tile)
 
-        self.player = Player(self.walls)
+        self.player = Player(position=self.entry_coords[0], walls=self.walls)
         self.guards = []
         self.hostages = []
 
@@ -60,9 +62,8 @@ class Level1(Level):
         super().__init__()
 
         self.guards = [
-            Guard(walk_path=[(2,6), (10,6), (10,10), (20,10)], walk_speed=1),
-            Guard(walk_path=[(10,10), (20,10), (20, 15)], walk_speed=2),
-            Camera(position=(12,3), angle_from=0, angle_to=90, rotation_speed=60, delay=1),
+            Guard(walk_path=[(2,6), (10,6)], walk_speed=1),
+            Camera(position=(2,15), angle_from=-180, angle_to=0, rotation_speed=60, delay=1),
         ]
 
         self.hostages = [

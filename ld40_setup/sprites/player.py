@@ -12,11 +12,11 @@ from .light_particle import LightParticle
 class Player(AnimatedSprite):
     """Player sprite."""
 
-    def __init__(self, walls):
+    def __init__(self, position, walls):
 
         super().__init__(image_dir='characters/player/walk',
                          image_files=['walk_0{}.png'.format(i) for i in range(1, 9)],
-                         position=(10, 10))
+                         position=position)
 
         # TODO: this shuld be somewhere else
         self.walls = walls
