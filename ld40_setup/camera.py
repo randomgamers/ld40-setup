@@ -22,4 +22,4 @@ class Camera(object):
     @property
     def blit_position(self):
         p = [(self.position[i] / self.game_size[i]) * self.window_size[i] for i in [0, 1]]
-        return -self.position[0] + p[0] + (self.window_size[0] / 2), -self.position[1] + p[1] + (self.window_size[1] / 2)
+        return -self.position[0] + p[0], -self.position[1] + p[1]
