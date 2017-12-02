@@ -52,6 +52,8 @@ def main():
         wall = Wall(x, y)
         walls.add(wall)
 
+    guards = pygame.sprite.Group(*level1.guards)
+
     # Main Loop
     going = True
     pygame.key.set_repeat(1, int(1000 / config.FPS));
@@ -90,9 +92,11 @@ def main():
                 fist.unpunch()
 
         allsprites.update()
+        guards.update()
         # Draw Everything
         screen.blit(background, (0, 0))
         walls.draw(screen)
+        guards.draw(screen)
         allsprites.draw(screen)
         pygame.display.flip()
 

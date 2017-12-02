@@ -34,7 +34,6 @@ class Guard(pygame.sprite.Sprite):
         self.rect.topleft = (30, 30)
         self.speed_x = 0
         self.speed_y = 0
-        self.dizzy = 0
         self.walking = False
 
     def update(self):
