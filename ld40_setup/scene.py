@@ -36,7 +36,7 @@ class Scene(object):
 
 
 def coord_to_game_pixel(coord, tile_size):
-    return coord[1] * tile_size[0], coord[0] * tile_size[1]
+    return coord[0] * tile_size[0], coord[1] * tile_size[1]
 
 
 def convert_coord(coord, ratio):
@@ -67,8 +67,11 @@ def main():
     screen = pygame.display.set_mode((0, 0))  # , pygame.FULLSCREEN)
     screen_size = screen.get_size()
 
+    # Scene
+    scene = Scene()
+
     # Game screen
-    game_size = (6500, 1500)
+    game_size = list(map(lambda shape: shape * 100, scene.level.map_shape))
     game_screen = pygame.Surface(game_size)
     background = pygame.Surface(game_size)
     background = background.convert()
@@ -77,7 +80,6 @@ def main():
     window_size = (2000, 1000)
     window = pygame.Surface(window_size)
 
-    scene = Scene()
     camera = Camera(game_size, window_size)
 
     # g2sratio = game_size[0] / screen_size[0], game_size[1] / screen_size[1]
