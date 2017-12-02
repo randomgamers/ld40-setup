@@ -44,6 +44,7 @@ class Player(pygame.sprite.Sprite):
         self.speed_y = 0
         self.dizzy = 0
         self.walking = False
+        self.flipped = False
 
         self.allowed_directions = dict(left=True, right=True, top=True, bottom=True)
 
@@ -80,10 +81,12 @@ class Player(pygame.sprite.Sprite):
                 self.image_index = 0
 
             # flipping hoizontally
-            if self.speed_x < 0:
+            if self.speed_x < 0 or (self.speed_x == 0 and self.flipped):
                 self.image = pygame.transform.flip(self.images[self.image_index], True, False)
-            elif self.speed_x > 0:
+                self.flipped = True
+            elif self.speed_x > 0 or (self.speed_x == 0 and not self.flipped):
                 self.image = self.images[self.image_index]
+                self.flipped = False
 
         # if self.dizzy:
         #     self._spin()
