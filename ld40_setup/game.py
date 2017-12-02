@@ -142,20 +142,31 @@ def play_level(level_num, screen):
                 pass #playerwas detected by guard
 
         hostages.update()
+        for hostage in hostages.sprites():
+            hostage.soundwaves.update()
         camera.update()
 
         # Draw Everything
         game_screen.blit(background, (0, 0))
         floor.draw(game_screen)
         walls.draw(game_screen)
+        screen_rect = pygame.Rect((np.array(camera.blit_position) * -1), (window.get_size()))
         for guard in guards.sprites():
-            screen_rect = pygame.Rect((np.array(camera.blit_position) * -1), (window.get_size()))
             if guard.particle_rect.colliderect(screen_rect):
                 for particle in guard.particles.sprites():
                     if particle.visible:
                         pygame.sprite.GroupSingle(particle).draw(game_screen)
         guards.draw(game_screen)
+        for hostage in hostages.sprites():
+            hostage.soundwaves.draw(game_screen)
+            # if hostage.soundwave_rect.colliderect(screen_rect):
         hostages.draw(game_screen)
+        #
+        # for hostage in hostages.sprites():
+        #     for circle in hostage.soundwaves:
+        #         if circle['radius'] > 3:
+        #             pygame.draw.circle(game_screen, (255, 0, 0, 100) , hostage.rect.center, circle['radius'], 3)
+
         allsprites.draw(game_screen)
         # player.particles.draw(game_screen)
 
