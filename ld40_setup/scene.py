@@ -6,7 +6,7 @@ from . import config
 from .level import Level
 from .utils import load_image
 
-from .camera import Camera
+from .game_camera import GameCamera
 
 
 class Scene(object):
@@ -61,7 +61,7 @@ def main():
     window_size = tiles[0] * config.TILE_SIZE, tiles[1] * config.TILE_SIZE
     window = pygame.Surface(window_size)
 
-    camera = Camera(game_size, window_size)
+    camera = GameCamera(game_size, window_size)
 
     # g2sratio = game_size[0] / screen_size[0], game_size[1] / screen_size[1]
 
