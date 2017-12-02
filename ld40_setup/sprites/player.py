@@ -1,4 +1,5 @@
 import pygame
+import numpy as np
 
 from .. import config
 from ..utils import load_image, load_image_norect
@@ -8,7 +9,7 @@ from .animated_sprite import AnimatedSprite
 class Player(AnimatedSprite):
     """Player sprite."""
 
-    def __init__(self, walls):
+    def __init__(self, walls, speed=3):
 
         super().__init__(image_dir='runsprite',
                          image_files=['run00{}.png'.format(i) for i in range(1, 9)],
@@ -30,6 +31,7 @@ class Player(AnimatedSprite):
         self.dizzy = 0
         self.walking = False
         self.flipped = False
+        self.walking_speed = speed
 
         # allowed directions of move
         self.allowed_directions = dict(left=True, right=True, top=True, bottom=True)
@@ -74,10 +76,10 @@ class Player(AnimatedSprite):
             self.animate()
 
     def move_x(self, speed):
-        self.speed_x = speed
+        self.speed_x = self.walking_speed * np.sign(speed)
 
     def move_y(self, speed):
-        self.speed_y = speed
+        self.speed_y = self.walking_speed * np.sign(speed)
 
     def punched(self):
         """TODO: remove"""
