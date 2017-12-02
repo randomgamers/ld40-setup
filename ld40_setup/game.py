@@ -62,21 +62,21 @@ def main():
             elif event.type == KEYDOWN and event.key == K_ESCAPE:
                 going = False
             elif event.type == KEYDOWN and event.key == K_RIGHT:
-                player.moveX(3)
+                player.move_x(3)
             elif event.type == KEYDOWN and event.key == K_LEFT:
-                player.moveX(-3)
+                player.move_x(-3)
             elif event.type == KEYDOWN and event.key == K_UP:
-                player.moveY(-3)
+                player.move_y(-3)
             elif event.type == KEYDOWN and event.key == K_DOWN:
-                player.moveY(3)
+                player.move_y(3)
             elif event.type == KEYUP and event.key == K_RIGHT:
-                player.moveX(0)
+                player.move_x(0)
             elif event.type == KEYUP and event.key == K_LEFT:
-                player.moveX(0)
+                player.move_x(0)
             elif event.type == KEYUP and event.key == K_UP:
-                player.moveY(0)
+                player.move_y(0)
             elif event.type == KEYUP and event.key == K_DOWN:
-                player.moveY(0)
+                player.move_y(0)
             elif event.type == MOUSEBUTTONDOWN:
                 if fist.punch(player):
                     punch_sound.play()  # punch
