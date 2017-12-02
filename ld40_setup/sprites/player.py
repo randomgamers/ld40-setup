@@ -37,6 +37,9 @@ class Player(AnimatedSprite):
         self.flipped = False
         self.walking_speed = self.update_walking_speed()
 
+        # idle state
+        self.idle_image = load_image_norect('characters/player/idle.png', True)
+
         # allowed directions of move
         self.allowed_directions = dict(left=True, right=True, top=True, bottom=True)
 
@@ -88,8 +91,10 @@ class Player(AnimatedSprite):
         if self.speed_x != 0 or self.speed_y != 0:
             self.position_history.append(self.rect.center)
 
-        if self.speed_x != 0 or self.speed_y != 0 or (self.image_index != 2 and self.image_index != 6):
+        if self.speed_x != 0 or self.speed_y != 0 :
             self.animate()
+        else :
+            self.set_idle()
 
         # move train
         for i, hostage in enumerate(self.train):
@@ -112,6 +117,9 @@ class Player(AnimatedSprite):
     def stop_walk(self):
         self.speed_x = 0
         self.speed_y = 0
+
+    def set_idle(self):
+        self.image = self.idle_image
 
     def add_to_train(self, hostage):
         self.train.append(hostage)
