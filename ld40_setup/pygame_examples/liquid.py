@@ -25,7 +25,7 @@ def main():
     screen = pygame.display.set_mode((640, 480), HWSURFACE|DOUBLEBUF)
 
     #load image and quadruple
-    bitmap, bitmap_rect = load_image('liquid.bmp', -1)
+    bitmap, bitmap_rect = load_image('liquid.bmp')
     bitmap = pygame.transform.scale2x(bitmap)
     bitmap = pygame.transform.scale2x(bitmap)
 
