@@ -13,9 +13,10 @@ SCREEN_HEIGHT = 1000
 FPS = 60
 
 # player speed
-PLAYER_SPEED = 3
+PLAYER_SPEED = 8
 
 # number of tiles on the
+TILE_SIZE = 50
 TILES = (20, 10)
 
 # max camera acc

@@ -6,28 +6,7 @@ from . import config
 from .level import Level
 from .utils import load_image
 
-
-class Camera(object):
-    def __init__(self, game_size, window_size):
-        self.game_size = game_size
-        self.window_size = window_size
-        self.position = [0, 0]
-        self.velocity = [0, 0]
-        self.wanted_position = [0, 0]
-
-    def update(self):
-        pos_diff = [float(self.wanted_position[i] - self.position[i]) for i in (0, 1)]
-        distance = float(math.sqrt(pos_diff[0] ** 2 + pos_diff[1] ** 2))
-
-        current_velocity = float(config.CAMERA_VELOCITY * distance / config.MAX_CAMERA_DISTANCE)
-        for ax in (0, 1):
-            self.velocity[ax] = current_velocity * pos_diff[ax] / distance
-            self.position[ax] = self.position[ax] + self.velocity[ax]
-
-    @property
-    def blit_position(self):
-        p = [(self.position[i] / self.game_size[i]) * self.window_size[i] for i in [0, 1]]
-        return -self.position[0] + p[0], -self.position[1] + p[1]
+from .camera import Camera
 
 
 class Scene(object):
@@ -35,8 +14,8 @@ class Scene(object):
         self.level = Level(1)
 
 
-def coord_to_game_pixel(coord, tile_size):
-    return coord[1] * tile_size[0], coord[0] * tile_size[1]
+def coord_to_game_pixel(coord):
+    return coord[0] * config.TILE_SIZE, coord[1] * config.TILE_SIZE
 
 
 def convert_coord(coord, ratio):
@@ -56,8 +35,7 @@ def scale_window_to_screen(window, screen):
 
 
 def blit_game_to_window(game_screen, window, camera):
-    window_size = (2000, 1000)
-    window.blit(game_screen, pygame.Rect(*camera.blit_position, *window_size))
+    window.blit(game_screen, pygame.Rect(*camera.blit_position, *window.get_size()))
 
 
 def main():
@@ -67,26 +45,27 @@ def main():
     screen = pygame.display.set_mode((0, 0))  # , pygame.FULLSCREEN)
     screen_size = screen.get_size()
 
+    # Scene
+    scene = Scene()
+
     # Game screen
-    game_size = (6500, 1500)
+    game_size = list(map(lambda shape: (shape + 5) * 100, scene.level.map_shape))
     game_screen = pygame.Surface(game_size)
     background = pygame.Surface(game_size)
     background = background.convert()
 
+    # Tiles
+    tiles = config.TILES
+
     # Viewing Window
-    window_size = (2000, 1000)
+    window_size = tiles[0] * config.TILE_SIZE, tiles[1] * config.TILE_SIZE
     window = pygame.Surface(window_size)
 
-    scene = Scene()
     camera = Camera(game_size, window_size)
 
     # g2sratio = game_size[0] / screen_size[0], game_size[1] / screen_size[1]
 
-    # Tiles
-    tiles = config.TILES
-    tile_size = (window_size[0] / tiles[0], window_size[1] / tiles[1])
-
-    tile, tile_rect = load_image('ball.png')
+    tile, tile_rect = load_image('map/wall.png')
 
     clock = pygame.time.Clock()
     going = True
@@ -112,7 +91,7 @@ def main():
 
         game_screen.blit(background, (0, 0))
         for coord in scene.level.wall_coords:
-            game_screen.blit(tile, coord_to_game_pixel(coord, tile_size))
+            game_screen.blit(tile, coord_to_game_pixel(coord))
 
         camera.update()
         blit_game_to_window(game_screen, window, camera)

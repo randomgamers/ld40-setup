@@ -10,37 +10,54 @@ if not pygame.mixer: print('Warning, sound disabled')
 from .utils import load_sound
 from .sprites import Player, Fist
 from .level import Level
+from .camera import Camera
 from . import config
+
+
+def coord_to_game_pixel(coord):
+    return coord[0] * config.TILE_SIZE, coord[1] * config.TILE_SIZE
+
+
+def scale_window_to_screen(window, screen):
+    pygame.transform.scale(window, screen.get_size(), screen)
+
+
+def blit_game_to_window(game_screen, window, camera):
+    window.blit(game_screen, pygame.Rect(*camera.blit_position, *window.get_size()))
+
 
 def main():
     # Initialize Everything
     pygame.mixer.pre_init(44100, -16, 1, 512) # Including this makes the sound not lag
     pygame.init()
-    screen = pygame.display.set_mode((config.SCREEN_WIDTH, config.SCREEN_HEIGHT))
+    screen = pygame.display.set_mode((0, 0))
     pygame.display.set_caption('Monkey Fever')
     pygame.mouse.set_visible(0)
 
+    level = Level(1)
+
+    tiles = config.TILES
+
+    game_size = list(map(lambda shape: (shape + 5) * config.TILE_SIZE, level.map_shape))
+    game_screen = pygame.Surface(game_size)
+    window_size = tiles[0] * 100, tiles[1] * 100
+    window = pygame.Surface(window_size)
+
+    camera = Camera(game_size, window_size)
+
     # Create The Backgound
-    background = pygame.Surface(screen.get_size())
+    background = pygame.Surface(game_screen.get_size())
     background = background.convert()
     background.fill((250, 250, 250))
 
-    # Put Text On The Background, Centered
-    if pygame.font:
-        font = pygame.font.Font(None, 36)
-        text = font.render("Pummel The Chimp, And Win $$$", 1, (10, 10, 10))
-        textpos = text.get_rect(centerx=background.get_width() / 2)
-        background.blit(text, textpos)
-
     # Display The Background
-    screen.blit(background, (0, 0))
+    game_screen.blit(background, (0, 0))
     pygame.display.flip()
 
     # Prepare Game Objects
     clock = pygame.time.Clock()
     whiff_sound = load_sound('whiff.wav')
     punch_sound = load_sound('punch.wav')
-    level = Level(1)
 
     fist = Fist()
 
@@ -72,21 +89,29 @@ def main():
 
         player.stop_walk()
         if pygame.key.get_pressed()[pygame.K_UP] or pygame.key.get_pressed()[pygame.K_w]:
-            player.move_y(-3)
+            player.move_y(-1)
         if pygame.key.get_pressed()[pygame.K_DOWN] or pygame.key.get_pressed()[pygame.K_s]:
-            player.move_y(3)
+            player.move_y(1)
         if pygame.key.get_pressed()[pygame.K_LEFT] or pygame.key.get_pressed()[pygame.K_a]:
-            player.move_x(-3)
+            player.move_x(-1)
         if pygame.key.get_pressed()[pygame.K_RIGHT] or pygame.key.get_pressed()[pygame.K_d]:
-            player.move_x(3)
+            player.move_x(1)
+
+        camera.wanted_position = player.rect.center
 
         allsprites.update()
         guards.update()
+        camera.update()
+
         # Draw Everything
-        screen.blit(background, (0, 0))
-        walls.draw(screen)
-        guards.draw(screen)
-        allsprites.draw(screen)
+        game_screen.blit(background, (0, 0))
+        walls.draw(game_screen)
+        guards.draw(game_screen)
+        allsprites.draw(game_screen)
+
+        blit_game_to_window(game_screen, window, camera)
+        scale_window_to_screen(window, screen)
+
         pygame.display.flip()
 
     pygame.quit()

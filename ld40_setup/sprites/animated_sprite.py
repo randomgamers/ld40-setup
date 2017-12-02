@@ -41,6 +41,9 @@ class AnimatedSprite(pygame.sprite.Sprite):
         # init. position
         self.rect.center = tile_to_px(*position)
 
+        # Save the last direction the character was facing
+        self.flipped = False
+
         # save speed
         self.speed_x, self.speed_y = speed
 
@@ -61,10 +64,12 @@ class AnimatedSprite(pygame.sprite.Sprite):
             self.image_index = 0
 
         # flipping hoizontally
-        if self.speed_x < 0:
+        if self.speed_x < 0 or (self.speed_x == 0 and self.flipped):
             self.image = pygame.transform.flip(self.images[self.image_index], True, False)
-        else :
+            self.flipped = True
+        elif self.speed_x > 0 or (self.speed_x == 0 and not self.flipped):
             self.image = self.images[self.image_index]
+            self.flipped = False
 
     @property
     def current_tile(self):

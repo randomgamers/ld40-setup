@@ -103,3 +103,5 @@ ENV/
 .idea
 
 .DS_Store
+
+ld40_setup/resources/**/Thumbs.db

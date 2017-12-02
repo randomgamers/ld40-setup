@@ -18,7 +18,7 @@ def load_image(image_name, colorkey=None):
         if colorkey is -1:
             colorkey = image.get_at((0,0))
         image.set_colorkey(colorkey, RLEACCEL)
-    image = image.convert_alpha()
+    image = image.convert()
     return image, image.get_rect()
 
 

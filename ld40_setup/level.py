@@ -38,4 +38,4 @@ class Level:
 
     @property
     def map_shape(self):
-        return np.array(self.map).shape
+        return np.array(self.map).T.shape
