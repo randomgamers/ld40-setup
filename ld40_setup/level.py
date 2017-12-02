@@ -9,7 +9,7 @@ class Level:
                                   'level{}.map'.format(level_num))
 
         with open(level_file, 'r') as fin:
-            self.map = [list(line) for line in fin]
+            self.map = [list(line)[:-1] for line in fin]
 
         self.wall_coords = [(row_num, col_num) for row_num, row in enumerate(self.map)
                                                for col_num, tile in enumerate(row)
