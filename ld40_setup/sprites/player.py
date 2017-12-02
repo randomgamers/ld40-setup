@@ -11,23 +11,23 @@ class Player(pygame.sprite.Sprite):
         # self.image, self.rect = load_image('chimp.bmp', -1)
 
         self.images = []
-        self.images.append(load_image_norect('runsprite/run001.png', -1))
-        self.images.append(load_image_norect('runsprite/run002.png', -1))
-        self.images.append(load_image_norect('runsprite/run003.png', -1))
-        self.images.append(load_image_norect('runsprite/run004.png', -1))
-        self.images.append(load_image_norect('runsprite/run005.png', -1))
-        self.images.append(load_image_norect('runsprite/run006.png', -1))
-        self.images.append(load_image_norect('runsprite/run007.png', -1))
-        self.images.append(load_image_norect('runsprite/run008.png', -1))
+        self.images.append(load_image_norect('characters/player/walk/walk_01.png', -1))
+        self.images.append(load_image_norect('characters/player/walk/walk_02.png', -1))
+        self.images.append(load_image_norect('characters/player/walk/walk_03.png', -1))
+        self.images.append(load_image_norect('characters/player/walk/walk_04.png', -1))
+        self.images.append(load_image_norect('characters/player/walk/walk_05.png', -1))
+        self.images.append(load_image_norect('characters/player/walk/walk_06.png', -1))
+        self.images.append(load_image_norect('characters/player/walk/walk_07.png', -1))
+        self.images.append(load_image_norect('characters/player/walk/walk_08.png', -1))
 
-        self.image, self.rect = load_image('runsprite/run001.png', -1)
+        self.image, self.rect = load_image('characters/player/walk/walk_01.png', -1)
 
         self.image_index = 0
 
         self.frame_wait_counter = 0
         self.frame_wait_max = config.FPS
         self.frame_wait_max /= len(self.images)
-        self.frame_wait_max /= 3
+        self.frame_wait_max /= 2
 
         screen = pygame.display.get_surface()
         self.area = screen.get_rect()
@@ -49,7 +49,7 @@ class Player(pygame.sprite.Sprite):
                 self.image_index = 0
 
             # flipping hoizontally
-            if self.speed_x < 0:
+            if self.speed_x > 0:
                 self.image = pygame.transform.flip(self.images[self.image_index], True, False)
             else :
                 self.image = self.images[self.image_index]
@@ -57,7 +57,7 @@ class Player(pygame.sprite.Sprite):
         # if self.dizzy:
         #     self._spin()
         # else:
-        #     self._walk()
+        self._walk()
 
     def _walk(self):
         newpos = self.rect.move((self.speed_x, self.speed_y))
@@ -74,7 +74,7 @@ class Player(pygame.sprite.Sprite):
     def updateWalk(self):
         if self.speed_x != 0 or self.speed_y != 0:
             self.walking = True
-            self._walk()
+            # self._walk()
         else :
             self.walking = False
 
