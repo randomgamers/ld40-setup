@@ -9,10 +9,13 @@ class Level:
                                   'level{}.map'.format(level_num))
 
         with open(level_file, 'r') as fin:
-            char_map = [line.split() for line in fin]
+            self._char_map = [line.split() for line in fin]
 
-        print(char_map)
+    @property
+    def map(self):
+        return self._char_map
 
 
 if __name__ == '__main__':
     level1 = Level(1)
+    print(level1.map)
