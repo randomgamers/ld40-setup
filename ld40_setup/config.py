@@ -1,5 +1,3 @@
-import os
-
 # resources
 PROJECT_ROOT = 'ld40_setup'
 RESOURCES_ROOT = 'resources'
@@ -23,4 +21,5 @@ TILES = (20, 10)
 GAME_CAMERA_VELOCITY = 50
 MAX_GAME_CAMERA_DISTANCE = 150
 
-
+# train
+TRAIN_DELAY = 0.25
