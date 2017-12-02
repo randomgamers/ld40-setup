@@ -24,14 +24,22 @@ class LightParticle(pygame.sprite.Sprite):
         self.reset()
 
     def reset(self):
+        self.visible = True
+
+        self.image = self.original_image.copy()
+
         # self.parent.speed_x > 0 && self.parent.speed_y > 0
-        direction = self.parent.direction - 15 + (self.particle_id / config.LIGHT_PARTICLE_BATCH_SIZE) * 30
+        direction = self.parent.direction - config.LIGHT_PARTICLE_ANGLE/2 + (self.particle_id / config.LIGHT_PARTICLE_BATCH_SIZE) * config.LIGHT_PARTICLE_ANGLE
 
         self.speed_x = self.speed * math.cos(math.radians(direction))
         self.speed_y = self.speed * math.sin(math.radians(direction))
 
         self.rect.center = self.parent.rect.center
         self.lifetime = config.LIGHT_PARTICLE_LIFETIME
+
+    def check_collisions(self, group):
+        if pygame.sprite.spritecollide(self, group, False):
+            self.visible = False
 
     def update(self):
         self.rect.move_ip(self.speed_x, self.speed_y)
@@ -41,5 +49,4 @@ class LightParticle(pygame.sprite.Sprite):
         self.lifetime -= 1
 
         if self.lifetime == 1:
-            self.image = self.original_image.copy()
             self.reset()

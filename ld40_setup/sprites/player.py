@@ -12,11 +12,11 @@ from .light_particle import LightParticle
 class Player(AnimatedSprite):
     """Player sprite."""
 
-    def __init__(self, walls):
+    def __init__(self, position, walls):
 
         super().__init__(image_dir='characters/player/walk',
                          image_files=['walk_0{}.png'.format(i) for i in range(1, 9)],
-                         position=(10, 10))
+                         position=position)
 
         # TODO: this shuld be somewhere else
         self.walls = walls
@@ -104,7 +104,9 @@ class Player(AnimatedSprite):
         for i, hostage in enumerate(self.train):
             if self.hostage_init_delay[i] <= 0:
                 hostage.move_to(self.position_history[int(-config.TRAIN_DELAY * (i+1) * config.FPS)])
+                hostage.waiting = False
             elif self.speed_x != 0 or self.speed_y != 0:
+                hostage.waiting = True
                 self.hostage_init_delay[i] -= 1
 
     def normalize_speed(self):

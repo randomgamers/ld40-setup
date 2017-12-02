@@ -9,7 +9,7 @@ if not pygame.mixer: print('Warning, sound disabled')
 
 from .utils import load_sound, coord_to_game_pixel
 from .sprites import Fist
-from .level import Level
+from .level import build_level
 from .game_camera import GameCamera
 from . import config
 
@@ -29,7 +29,7 @@ def main():
     pygame.display.set_caption('Monkey Fever')
     pygame.mouse.set_visible(0)
 
-    level = Level(1)
+    level = build_level(1)
 
     tiles = config.TILES
 
@@ -102,6 +102,10 @@ def main():
         guards.update()
         for guard in guards.sprites():
             guard.particles.update()
+            for particle in guard.particles.sprites():
+                particle.check_collisions(walls)
+                particle.check_collisions(hostages)
+                particle.check_collisions(pygame.sprite.GroupSingle(player))
         hostages.update()
         camera.update()
 
@@ -110,7 +114,9 @@ def main():
         floor.draw(game_screen)
         walls.draw(game_screen)
         for guard in guards.sprites():
-            guard.particles.draw(game_screen)
+            for particle in guard.particles.sprites():
+                if particle.visible:
+                    pygame.sprite.GroupSingle(particle).draw(game_screen)
         guards.draw(game_screen)
         hostages.draw(game_screen)
         allsprites.draw(game_screen)
