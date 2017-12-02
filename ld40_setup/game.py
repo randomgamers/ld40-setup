@@ -102,6 +102,10 @@ def main():
         guards.update()
         for guard in guards.sprites():
             guard.particles.update()
+            for particle in guard.particles.sprites():
+                particle.check_collisions(walls)
+                particle.check_collisions(hostages)
+                particle.check_collisions(pygame.sprite.GroupSingle(player))
         hostages.update()
         camera.update()
 
@@ -110,7 +114,9 @@ def main():
         floor.draw(game_screen)
         walls.draw(game_screen)
         for guard in guards.sprites():
-            guard.particles.draw(game_screen)
+            for particle in guard.particles.sprites():
+                if particle.visible:
+                    pygame.sprite.GroupSingle(particle).draw(game_screen)
         guards.draw(game_screen)
         hostages.draw(game_screen)
         allsprites.draw(game_screen)
