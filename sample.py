@@ -1,2 +1,2 @@
-from ld40_setup.chimp import main
+from ld40_setup.game import main
 main()
