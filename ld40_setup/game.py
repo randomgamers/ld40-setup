@@ -83,24 +83,21 @@ def play_level(level_num, screen):
     whiff_sound = load_sound('whiff.wav')
     punch_sound = load_sound('punch.wav')
 
-    fist = Fist()
+    fist = Fist(camera)
 
     floor = pygame.sprite.Group(*level.floor)
     walls = pygame.sprite.Group(*level.walls)
     guards = pygame.sprite.Group(*level.guards)
     hostages = pygame.sprite.Group(*level.hostages)
     player = level.player
-    allsprites = pygame.sprite.RenderPlain(
-        (player, fist, guards.sprites()[0].particle_sprite))  # player.collision_sprite
+    allsprites = pygame.sprite.RenderPlain((player, fist)) # player.collision_sprite, guards.sprites()[0].particle_sprite
 
     # Main Loop
     going = True
     pygame.key.set_repeat(1, int(1000 / config.FPS));
 
     while going:
-        # for i in range(100):
-        # particle_group.add(Particle())
-        clock.tick(config.FPS)
+        delay = clock.tick(config.FPS)
 
         if total_hostages == player.num_saved_hostages:
             return True
@@ -137,17 +134,11 @@ def play_level(level_num, screen):
         allsprites.update()
         guards.update()
         for guard in guards.sprites():
-            guard.particles.update()
-            screen_rect = pygame.Rect((np.array(camera.blit_position) * -1), (window.get_size()))
-            if guard.particle_rect.colliderect(screen_rect) and pygame.sprite.spritecollideany(guard.particle_sprite,
-                                                                                               walls):
-                for particle in guard.particles.sprites():
-                    particle.check_collisions(walls)
-            if guard.particle_rect.colliderect(screen_rect) and pygame.sprite.collide_rect(guard.particle_sprite,
-                                                                                           player):
-                for particle in guard.particles.sprites():
-                    # particle.check_collisions(hostages)
-                    particle.check_collisions(pygame.sprite.GroupSingle(player))
+            guard.particles.update(level)
+            screen_rect = pygame.Rect((np.array(camera.blit_position)*-1), (window.get_size()))
+
+            if guard.particle_rect.colliderect(screen_rect) and pygame.sprite.collide_rect(guard.particle_sprite, player):
+                pass #playerwas detected by guard
 
         hostages.update()
         camera.update()
@@ -169,6 +160,12 @@ def play_level(level_num, screen):
 
         blit_game_to_window(game_screen, window, camera)
         scale_window_to_screen(window, screen)
+
+        font = pygame.font.Font(None, 48)
+        fps_text = font.render("%.2f" % (1000.0/delay), 1, (10, 10, 10))
+        fps_text_pos = fps_text.get_rect()
+        fps_text_pos.topleft = (0, 0)
+        screen.blit(fps_text, fps_text_pos)
 
         pygame.display.flip()
     quit()   #TODO: without this the game cannot be terminated

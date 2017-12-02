@@ -17,8 +17,6 @@ class Guard(WanderingSprite):
 
         # particle collision rectangle
         self.particle_rect = pygame.Rect(0, 0, 250, 60)
-
-        # visualization of collider TODO: remove
         self.particle_sprite = pygame.sprite.Sprite()
         self.particle_sprite.rect = self.particle_rect
 
@@ -57,7 +55,6 @@ class Guard(WanderingSprite):
             self.particle_rect.h = 250
             self.particle_rect.left = self.rect.center[0] - 30
             self.particle_rect.bottom = self.rect.center[1]
-
 
         super().update()
 

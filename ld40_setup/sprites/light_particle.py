@@ -29,7 +29,7 @@ class LightParticle(pygame.sprite.Sprite):
         self.image = self.original_image.copy()
 
         # self.parent.speed_x > 0 && self.parent.speed_y > 0
-        direction = self.parent.direction - config.LIGHT_PARTICLE_ANGLE/2 + (self.particle_id / config.LIGHT_PARTICLE_BATCH_SIZE) * config.LIGHT_PARTICLE_ANGLE
+        direction = self.parent.direction - config.LIGHT_PARTICLE_ANGLE/2 + (self.particle_id / (config.LIGHT_PARTICLE_BATCH_SIZE - 1)) * config.LIGHT_PARTICLE_ANGLE
 
         self.speed_x = self.speed * math.cos(math.radians(direction))
         self.speed_y = self.speed * math.sin(math.radians(direction))
@@ -37,11 +37,13 @@ class LightParticle(pygame.sprite.Sprite):
         self.rect.center = self.parent.rect.center
         self.lifetime = config.LIGHT_PARTICLE_LIFETIME
 
-    def check_collisions(self, group):
-        if pygame.sprite.spritecollide(self, group, False):
+    def update(self, level):
+        tile_x = int(self.rect.center[0]/config.TILE_SIZE)
+        tile_y = int(self.rect.center[1] / config.TILE_SIZE)
+
+        if level.map[tile_y][tile_x] == 'W':
             self.visible = False
 
-    def update(self):
         self.rect.move_ip(self.speed_x, self.speed_y)
         size_const = 1 + 3 * (1 - (self.lifetime / config.LIGHT_PARTICLE_LIFETIME))
 
