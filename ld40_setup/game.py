@@ -3,6 +3,7 @@ from pygame.locals import *
 from pygame.compat import geterror
 import sys
 import os
+import numpy as np
 
 if not pygame.font: print('Warning, fonts disabled')
 if not pygame.mixer: print('Warning, sound disabled')
@@ -61,7 +62,7 @@ def main():
     guards = pygame.sprite.Group(*level.guards)
     hostages = pygame.sprite.Group(*level.hostages)
     player = level.player
-    allsprites = pygame.sprite.RenderPlain((player, fist)) # player.collision_sprite
+    allsprites = pygame.sprite.RenderPlain((player, fist, guards.sprites()[0].particle_sprite)) # player.collision_sprite
 
     # Main Loop
     going = True
@@ -102,10 +103,15 @@ def main():
         guards.update()
         for guard in guards.sprites():
             guard.particles.update()
-            for particle in guard.particles.sprites():
-                particle.check_collisions(walls)
-                particle.check_collisions(hostages)
-                particle.check_collisions(pygame.sprite.GroupSingle(player))
+            screen_rect = pygame.Rect((np.array(camera.blit_position)*-1), (window.get_size()))
+            if guard.particle_rect.colliderect(screen_rect) and pygame.sprite.spritecollideany(guard.particle_sprite, walls):
+                for particle in guard.particles.sprites():
+                    particle.check_collisions(walls)
+            if guard.particle_rect.colliderect(screen_rect) and pygame.sprite.collide_rect(guard.particle_sprite, player):
+                for particle in guard.particles.sprites():
+                    # particle.check_collisions(hostages)
+                    particle.check_collisions(pygame.sprite.GroupSingle(player))
+
         hostages.update()
         camera.update()
 
@@ -114,9 +120,11 @@ def main():
         floor.draw(game_screen)
         walls.draw(game_screen)
         for guard in guards.sprites():
-            for particle in guard.particles.sprites():
-                if particle.visible:
-                    pygame.sprite.GroupSingle(particle).draw(game_screen)
+            screen_rect = pygame.Rect((np.array(camera.blit_position) * -1), (window.get_size()))
+            if guard.particle_rect.colliderect(screen_rect):
+                for particle in guard.particles.sprites():
+                    if particle.visible:
+                        pygame.sprite.GroupSingle(particle).draw(game_screen)
         guards.draw(game_screen)
         hostages.draw(game_screen)
         allsprites.draw(game_screen)
