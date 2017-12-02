@@ -61,7 +61,7 @@ def main():
     guards = pygame.sprite.Group(*level.guards)
     hostages = pygame.sprite.Group(*level.hostages)
     player = level.player
-    allsprites = pygame.sprite.RenderPlain((player.collision_sprite, player, fist))
+    allsprites = pygame.sprite.RenderPlain((player, fist)) # player.collision_sprite
 
     # Main Loop
     going = True
