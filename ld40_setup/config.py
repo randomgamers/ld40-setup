@@ -9,7 +9,7 @@ LEVELS_DIR = 'levels'
 
 # screen setting
 SCREEN_WIDTH = 1280
-SCREEN_HEIGHT = 320
+SCREEN_HEIGHT = 1000
 FPS = 60
 
 # player speed
