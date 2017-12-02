@@ -30,7 +30,7 @@ def main():
     # Initialize Everything
     pygame.mixer.pre_init(44100, -16, 1, 512) # Including this makes the sound not lag
     pygame.init()
-    screen = pygame.display.set_mode((640, 480))
+    screen = pygame.display.set_mode((0, 0))
     pygame.display.set_caption('Monkey Fever')
     pygame.mouse.set_visible(0)
 
@@ -89,13 +89,13 @@ def main():
 
         player.stop_walk()
         if pygame.key.get_pressed()[pygame.K_UP] or pygame.key.get_pressed()[pygame.K_w]:
-            player.move_y(-3)
+            player.move_y(-config.PLAYER_SPEED)
         if pygame.key.get_pressed()[pygame.K_DOWN] or pygame.key.get_pressed()[pygame.K_s]:
-            player.move_y(3)
+            player.move_y(config.PLAYER_SPEED)
         if pygame.key.get_pressed()[pygame.K_LEFT] or pygame.key.get_pressed()[pygame.K_a]:
-            player.move_x(-3)
+            player.move_x(-config.PLAYER_SPEED)
         if pygame.key.get_pressed()[pygame.K_RIGHT] or pygame.key.get_pressed()[pygame.K_d]:
-            player.move_x(3)
+            player.move_x(config.PLAYER_SPEED)
 
         camera.wanted_position = player.rect.center
 

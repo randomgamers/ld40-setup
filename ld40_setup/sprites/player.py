@@ -9,7 +9,7 @@ from .animated_sprite import AnimatedSprite
 class Player(AnimatedSprite):
     """Player sprite."""
 
-    def __init__(self, walls, speed=3):
+    def __init__(self, walls):
 
         super().__init__(image_dir='runsprite',
                          image_files=['run00{}.png'.format(i) for i in range(1, 9)],
@@ -31,7 +31,7 @@ class Player(AnimatedSprite):
         self.dizzy = 0
         self.walking = False
         self.flipped = False
-        self.walking_speed = speed
+        self.walking_speed = config.PLAYER_SPEED
 
         # allowed directions of move
         self.allowed_directions = dict(left=True, right=True, top=True, bottom=True)
