@@ -10,3 +10,4 @@ class Camera(RotatingSprite):
                          **kwargs)
 
         self.particles = pygame.sprite.Group()
+        self.particle_rect = pygame.Rect(0, 0, 0, 0)
