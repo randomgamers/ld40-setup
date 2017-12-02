@@ -28,10 +28,33 @@ def main():
     pygame.mixer.pre_init(44100, -16, 1, 512) # Including this makes the sound not lag
     pygame.init()
     screen = pygame.display.set_mode((0, 0))
-    pygame.display.set_caption('Monkey Fever')
+    pygame.display.set_caption('TODO: name')
     pygame.mouse.set_visible(0)
 
-    level = build_level(1)
+    # foreach level
+    max_levels = 3
+    for level_num in range(1, max_levels+1):
+
+        # while level not finished
+        show_prelevel_board(level_num, 'start')
+        while True:
+            success = play_level(level_num, screen)
+            if success:
+                break
+            else:
+                show_prelevel_board(level_num, 'fail')
+
+    show_prelevel_board(-1, 'finished')
+
+    pygame.quit()
+
+
+def show_prelevel_board(level_num, status):
+    print('Lets go for level {}'.format(level_num))
+
+
+def play_level(level_num, screen):
+    level = build_level(level_num)
     total_hostages = len(level.hostages)
 
     tiles = config.TILES
@@ -64,7 +87,8 @@ def main():
     guards = pygame.sprite.Group(*level.guards)
     hostages = pygame.sprite.Group(*level.hostages)
     player = level.player
-    allsprites = pygame.sprite.RenderPlain((player, fist, guards.sprites()[0].particle_sprite)) # player.collision_sprite
+    allsprites = pygame.sprite.RenderPlain(
+        (player, fist, guards.sprites()[0].particle_sprite))  # player.collision_sprite
 
     # Main Loop
     going = True
@@ -76,8 +100,10 @@ def main():
         clock.tick(config.FPS)
 
         if total_hostages == player.num_saved_hostages:
-            print('done')
-            quit()
+            return True
+
+        if player.dead:
+            return False
 
         # Handle Input Events
         for event in pygame.event.get():
@@ -109,11 +135,13 @@ def main():
         guards.update()
         for guard in guards.sprites():
             guard.particles.update()
-            screen_rect = pygame.Rect((np.array(camera.blit_position)*-1), (window.get_size()))
-            if guard.particle_rect.colliderect(screen_rect) and pygame.sprite.spritecollideany(guard.particle_sprite, walls):
+            screen_rect = pygame.Rect((np.array(camera.blit_position) * -1), (window.get_size()))
+            if guard.particle_rect.colliderect(screen_rect) and pygame.sprite.spritecollideany(guard.particle_sprite,
+                                                                                               walls):
                 for particle in guard.particles.sprites():
                     particle.check_collisions(walls)
-            if guard.particle_rect.colliderect(screen_rect) and pygame.sprite.collide_rect(guard.particle_sprite, player):
+            if guard.particle_rect.colliderect(screen_rect) and pygame.sprite.collide_rect(guard.particle_sprite,
+                                                                                           player):
                 for particle in guard.particles.sprites():
                     # particle.check_collisions(hostages)
                     particle.check_collisions(pygame.sprite.GroupSingle(player))
@@ -140,8 +168,7 @@ def main():
         scale_window_to_screen(window, screen)
 
         pygame.display.flip()
-
-    pygame.quit()
+    quit()   #TODO: without this the game cannot be terminated
 
 
 if __name__ == '__main__':

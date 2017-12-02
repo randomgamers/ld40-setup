@@ -52,7 +52,8 @@ class Level:
 
 
 def build_level(level_num: int) -> Level:
-    return [Level1][level_num-1]()
+    # TODO: multiple levels
+    return [Level1,Level1,Level1][level_num-1]()
 
 
 class Level1(Level):
