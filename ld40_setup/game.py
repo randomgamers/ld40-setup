@@ -9,8 +9,8 @@ if not pygame.mixer: print('Warning, sound disabled')
 
 from .utils import load_sound
 from .sprites import Player, Fist
+from .level import Level
 from . import config
-
 
 def main():
     # Initialize Everything
@@ -40,9 +40,14 @@ def main():
     clock = pygame.time.Clock()
     whiff_sound = load_sound('whiff.wav')
     punch_sound = load_sound('punch.wav')
-    player = Player()
+    level = Level(1)
+
     fist = Fist()
-    allsprites = pygame.sprite.RenderPlain((player, fist))
+
+    walls = pygame.sprite.Group(*level.walls)
+    guards = pygame.sprite.Group(*level.guards)
+    player = Player(walls)
+    allsprites = pygame.sprite.RenderPlain((player.collision_sprite, player, fist))
 
     # Main Loop
     going = True
@@ -57,21 +62,21 @@ def main():
             elif event.type == KEYDOWN and event.key == K_ESCAPE:
                 going = False
             elif event.type == KEYDOWN and event.key == K_RIGHT:
-                player.moveX(3);
+                player.moveX(3)
             elif event.type == KEYDOWN and event.key == K_LEFT:
-                player.moveX(-3);
+                player.moveX(-3)
             elif event.type == KEYDOWN and event.key == K_UP:
-                player.moveY(-3);
+                player.moveY(-3)
             elif event.type == KEYDOWN and event.key == K_DOWN:
-                player.moveY(3);
+                player.moveY(3)
             elif event.type == KEYUP and event.key == K_RIGHT:
-                player.moveX(0);
+                player.moveX(0)
             elif event.type == KEYUP and event.key == K_LEFT:
-                player.moveX(0);
+                player.moveX(0)
             elif event.type == KEYUP and event.key == K_UP:
-                player.moveY(0);
+                player.moveY(0)
             elif event.type == KEYUP and event.key == K_DOWN:
-                player.moveY(0);
+                player.moveY(0)
             elif event.type == MOUSEBUTTONDOWN:
                 if fist.punch(player):
                     punch_sound.play()  # punch
@@ -82,8 +87,11 @@ def main():
                 fist.unpunch()
 
         allsprites.update()
+        guards.update()
         # Draw Everything
         screen.blit(background, (0, 0))
+        walls.draw(screen)
+        guards.draw(screen)
         allsprites.draw(screen)
         pygame.display.flip()
 
