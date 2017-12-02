@@ -31,7 +31,7 @@ class Player(AnimatedSprite):
         self.dizzy = 0
         self.walking = False
         self.flipped = False
-        self.walking_speed = config.PLAYER_SPEED
+        self.walking_speed = int(config.PLAYER_SPEED / config.FPS)
 
         # allowed directions of move
         self.allowed_directions = dict(left=True, right=True, top=True, bottom=True)

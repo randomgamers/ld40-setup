@@ -13,7 +13,7 @@ SCREEN_HEIGHT = 1000
 FPS = 60
 
 # player speed
-PLAYER_SPEED = 8
+PLAYER_SPEED = 500  # px/second
 
 # number of tiles on the
 TILE_SIZE = 50
