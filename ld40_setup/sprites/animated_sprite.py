@@ -9,12 +9,12 @@ from .. import config
 
 def tile_to_px(tile_x, tile_y):
     """TODO: need @gyfis's update"""
-    return tile_x*10, tile_y*10
+    return tile_x*config.TILE_SIZE, tile_y*config.TILE_SIZE
 
 
 def px_to_tile(px_x, px_y):
     """TODO: need @gyfis's update"""
-    return px_x//10, px_y//10
+    return px_x//config.TILE_SIZE, px_y//config.TILE_SIZE
 
 
 class AnimatedSprite(pygame.sprite.Sprite):
@@ -50,8 +50,8 @@ class AnimatedSprite(pygame.sprite.Sprite):
     def update(self):
         """Move the sprite and animate it."""
         super().update()
-        if self.speed_x != 0 and self.speed_y != 0:
-            self.rect.move_ip((self.speed_x, self.speed_y))
+        # if self.speed_x != 0 and self.speed_y != 0:  # TODO: this should be here but it doesnt work...
+        self.rect.move_ip((self.speed_x, self.speed_y))
         self.animate()
 
     def animate(self):

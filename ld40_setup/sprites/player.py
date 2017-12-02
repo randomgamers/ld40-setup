@@ -31,7 +31,7 @@ class Player(AnimatedSprite):
         self.dizzy = 0
         self.walking = False
         self.flipped = False
-        self.walking_speed = config.PLAYER_SPEED
+        self.walking_speed = int(config.PLAYER_SPEED / config.FPS)
 
         # allowed directions of move
         self.allowed_directions = dict(left=True, right=True, top=True, bottom=True)
@@ -70,10 +70,18 @@ class Player(AnimatedSprite):
             self.speed_y = 0
 
         # almost like super update
-        self.rect.move_ip((self.speed_x, self.speed_y))
+        speed_x, speed_y = self.normalize_speed()
+        self.rect.move_ip((speed_x, speed_y))
 
         if self.speed_x != 0 or self.speed_y != 0 or (self.image_index != 2 and self.image_index != 6):
             self.animate()
+
+    def normalize_speed(self):
+        normalization_factor = np.sqrt(((self.speed_x/self.walking_speed)**2 + (self.speed_y/self.walking_speed)**2))
+        if normalization_factor == 0:
+            return 0, 0
+
+        return self.speed_x / normalization_factor, self.speed_y / normalization_factor
 
     def move_x(self, speed):
         self.speed_x = self.walking_speed * np.sign(speed)

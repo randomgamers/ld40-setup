@@ -13,14 +13,14 @@ SCREEN_HEIGHT = 1000
 FPS = 60
 
 # player speed
-PLAYER_SPEED = 8
+PLAYER_SPEED = 500  # px/second
 
 # number of tiles on the
 TILE_SIZE = 50
 TILES = (20, 10)
 
 # max camera acc
-CAMERA_VELOCITY = 50
-MAX_CAMERA_DISTANCE = 150
+GAME_CAMERA_VELOCITY = 50
+MAX_GAME_CAMERA_DISTANCE = 150
 
 
