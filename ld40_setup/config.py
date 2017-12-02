@@ -10,12 +10,13 @@ LEVELS_DIR = 'levels'
 # screen setting
 SCREEN_WIDTH = 1280
 SCREEN_HEIGHT = 1000
-FPS = 60
+FPS = 23
 
 # player speed
 PLAYER_SPEED = 3
 
 # number of tiles on the
+TILE_SIZE = 100
 TILES = (20, 10)
 
 # max camera acc
