@@ -25,7 +25,7 @@ class LightParticle(pygame.sprite.Sprite):
 
     def reset(self):
         # self.parent.speed_x > 0 && self.parent.speed_y > 0
-        direction = self.parent.direction - 15 + (self.particle_id / config.LIGHT_PARTICLE_BATCH_SIZE) * 30
+        direction = self.parent.direction - config.LIGHT_PARTICLE_ANGLE/2 + (self.particle_id / config.LIGHT_PARTICLE_BATCH_SIZE) * config.LIGHT_PARTICLE_ANGLE
 
         self.speed_x = self.speed * math.cos(math.radians(direction))
         self.speed_y = self.speed * math.sin(math.radians(direction))
