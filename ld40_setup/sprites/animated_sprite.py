@@ -61,9 +61,11 @@ class AnimatedSprite(pygame.sprite.Sprite):
             self.image = self.images[self.image_index]
             self.flipped = False
 
-
     def set_idle(self):
-        self.image = self.idle_image
+        if self.flipped:
+            self.image = self.idle_image
+        else :
+            self.image = pygame.transform.flip(self.idle_image, True, False)
 
     @property
     def current_tile(self):
