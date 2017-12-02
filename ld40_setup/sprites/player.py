@@ -19,7 +19,7 @@ class Player(AnimatedSprite):
         self.walls = walls
 
         # collision rectangle
-        self.collision_rect = self.rect.inflate(-self.rect.w*0.52, -self.rect.h*0.35)
+        self.collision_rect = self.rect.inflate(-self.rect.w*0.5, -self.rect.h*0.15)
 
         # visualization of collider TODO: remove
         self.collision_sprite = pygame.sprite.Sprite()
@@ -41,7 +41,7 @@ class Player(AnimatedSprite):
 
     def update(self):
         # sprite update
-        self.collision_rect.center = (self.rect.center[0], self.rect.center[1] + self.rect.w*0.1)
+        self.collision_rect.center = (self.rect.center[0], self.rect.center[1])
 
         for direction, _ in self.allowed_directions.items():
             self.allowed_directions[direction] = True
