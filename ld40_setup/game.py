@@ -47,11 +47,11 @@ def main():
     allsprites = pygame.sprite.RenderPlain((player, fist))
 
     walls = pygame.sprite.Group()
-    for x, y in level1.wall_coords:
+    for x, y in level.wall_coords:
         wall = Wall(x, y)
         walls.add(wall)
 
-    guards = pygame.sprite.Group(*level1.guards)
+    guards = pygame.sprite.Group(*level.guards)
 
     # Main Loop
     going = True
