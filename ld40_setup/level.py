@@ -2,7 +2,7 @@ import os
 
 from . import config
 from .sprites import Guard
-
+from .sprites import Wall
 
 class Level:
     def __init__(self, level_num: int):
@@ -28,6 +28,11 @@ class Level:
             Guard([(2,6), (10,6), (10,10), (20,10)]),
             # Guard([(6,3), (10,3)]),
         ]
+
+        self.walls = []
+        for x, y in self.wall_coords:
+            wall = Wall(x, y)
+            self.walls.append(wall)
 
 
 if __name__ == '__main__':

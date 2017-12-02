@@ -8,10 +8,8 @@ if not pygame.font: print('Warning, fonts disabled')
 if not pygame.mixer: print('Warning, sound disabled')
 
 from .utils import load_sound
-from .sprites import Player, Fist, Wall
-from .level import Level
+from .sprites import Player, Fist
 from . import config
-
 
 def main():
     # Initialize Everything
@@ -41,17 +39,14 @@ def main():
     clock = pygame.time.Clock()
     whiff_sound = load_sound('whiff.wav')
     punch_sound = load_sound('punch.wav')
-    player = Player()
-    fist = Fist()
     level = Level(1)
-    allsprites = pygame.sprite.RenderPlain((player, fist))
 
-    walls = pygame.sprite.Group()
-    for x, y in level.wall_coords:
-        wall = Wall(x, y)
-        walls.add(wall)
+    fist = Fist()
 
+    walls = pygame.sprite.Group(*level.walls)
     guards = pygame.sprite.Group(*level.guards)
+    player = Player(walls)
+    allsprites = pygame.sprite.RenderPlain((player.collision_sprite, player, fist))
 
     # Main Loop
     going = True

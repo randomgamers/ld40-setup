@@ -6,9 +6,11 @@ class Player(pygame.sprite.Sprite):
     """moves a monkey critter across the screen. it can spin the
        monkey when it is punched."""
 
-    def __init__(self):
+    def __init__(self, walls):
         pygame.sprite.Sprite.__init__(self)  # call Sprite intializer
         # self.image, self.rect = load_image('chimp.bmp', -1)
+
+        self.walls = walls
 
         self.images = []
         self.images.append(load_image_norect('runsprite/run001.png', -1))
@@ -21,6 +23,12 @@ class Player(pygame.sprite.Sprite):
         self.images.append(load_image_norect('runsprite/run008.png', -1))
 
         self.image, self.rect = load_image('runsprite/run001.png', -1)
+        self.collision_rect = self.rect.inflate(-50, -35)
+
+        self.collision_sprite = pygame.sprite.Sprite()
+        self.collision_sprite.rect = self.collision_rect
+        self.collision_sprite.image = pygame.Surface((self.collision_rect.w, self.collision_rect.h))
+        self.collision_sprite.image.fill((255, 125, 0))
 
         self.image_index = 0
 
@@ -31,16 +39,39 @@ class Player(pygame.sprite.Sprite):
 
         screen = pygame.display.get_surface()
         self.area = screen.get_rect()
-        self.rect.topleft = 10, 10
+        self.rect.move_ip(60, 100)
         self.speed_x = 0
         self.speed_y = 0
         self.dizzy = 0
         self.walking = False
 
+        self.allowed_directions = dict(left=True, right=True, top=True, bottom=True)
+
+    def collision_check(self, _, wall):
+        return self.collision_rect.colliderect(wall.rect)
 
     def update(self):
         # sprite update
-        if self.walking :
+        self.collision_rect.center = (self.rect.center[0], self.rect.center[1] + 10)
+
+        for direction, _ in self.allowed_directions.items():
+            self.allowed_directions[direction] = True
+
+        collisions = pygame.sprite.spritecollide(self, self.walls, False, collided=self.collision_check)
+        if collisions:
+            for collision in collisions:
+                x_offset = self.collision_rect.center[0] - collision.rect.center[0]
+                y_offset = self.collision_rect.center[1] - collision.rect.center[1]
+                x_offset_threshold = self.collision_rect.w / 2
+                y_offset_threshold = self.collision_rect.h / 2
+                if abs(x_offset) > x_offset_threshold and abs(y_offset) < y_offset_threshold*0.9:
+                    direction = 'left' if x_offset > 0 else 'right'
+                    self.allowed_directions[direction] = False
+                if abs(y_offset) > y_offset_threshold and abs(x_offset) < x_offset_threshold*0.9:
+                    direction = 'top' if y_offset > 0 else 'bottom'
+                    self.allowed_directions[direction] = False
+
+        if self.walking:
             self.frame_wait_counter += 1
             if self.frame_wait_counter >= self.frame_wait_max:
                 self.frame_wait_counter = 0
@@ -60,16 +91,23 @@ class Player(pygame.sprite.Sprite):
         #     self._walk()
 
     def _walk(self):
-        newpos = self.rect.move((self.speed_x, self.speed_y))
-        self.rect = newpos
+        self.rect.move_ip((self.speed_x, self.speed_y))
 
     def moveX(self, speed):
-        self.speed_x = speed
-        self.updateWalk()
+        direction = 'left' if speed < 0 else 'right'
+        if self.allowed_directions[direction]:
+            self.speed_x = speed
+            self.updateWalk()
+        else:
+            self.stopWalk()
 
     def moveY(self, speed):
-        self.speed_y = speed
-        self.updateWalk()
+        direction = 'top' if speed < 0 else 'bottom'
+        if self.allowed_directions[direction]:
+            self.speed_y = speed
+            self.updateWalk()
+        else:
+            self.stopWalk()
 
     def updateWalk(self):
         if self.speed_x != 0 or self.speed_y != 0:
@@ -82,7 +120,6 @@ class Player(pygame.sprite.Sprite):
 
     def stopWalk(self):
         self.walking = False
-
 
     def _spin(self):
         "spin the monkey image"
