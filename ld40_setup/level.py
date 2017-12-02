@@ -9,13 +9,14 @@ class Level:
                                   'level{}.map'.format(level_num))
 
         with open(level_file, 'r') as fin:
-            self._char_map = [line.split() for line in fin]
+            self.map = [list(line) for line in fin]
 
-    @property
-    def map(self):
-        return self._char_map
+        self.wall_coords = [(row_num, col_num) for row_num, row in enumerate(self.map)
+                                               for col_num, tile in enumerate(row)
+                                               if tile == 'W']
 
 
 if __name__ == '__main__':
     level1 = Level(1)
     print(level1.map)
+    print(level1.wall_coords)
