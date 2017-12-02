@@ -1,0 +1,3 @@
+numpy
+pygame
+cx-Freeze==6.0b1

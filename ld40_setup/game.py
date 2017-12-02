@@ -13,6 +13,7 @@ from .sprites import Fist
 from .level import build_level
 from .game_camera import GameCamera
 from . import config
+from .menu import MainMenu
 
 
 def scale_window_to_screen(window, screen):
@@ -28,29 +29,32 @@ def main():
     pygame.mixer.pre_init(44100, -16, 1, 512) # Including this makes the sound not lag
     pygame.init()
     screen = pygame.display.set_mode((0, 0))
-    pygame.display.set_caption('TODO: name')
+    pygame.display.set_caption(config.GAME_NAME)
     pygame.mouse.set_visible(0)
+
+    response = MainMenu(screen).run()
+    if response == 'quit':
+        quit()
+    elif response == 'start':
+        pass
 
     # foreach level
     max_levels = 3
     for level_num in range(1, max_levels+1):
 
         # while level not finished
-        show_prelevel_board(level_num, 'start')
+        # show_menu(level_num, 'pre', screen)
         while True:
             success = play_level(level_num, screen)
             if success:
                 break
             else:
-                show_prelevel_board(level_num, 'fail')
+                pass
+                # show_menu(level_num, 'fail', screen)
 
-    show_prelevel_board(-1, 'finished')
+    # show_menu(-1, 'finished', screen)
 
     pygame.quit()
-
-
-def show_prelevel_board(level_num, status):
-    print('Lets go for level {}'.format(level_num))
 
 
 def play_level(level_num, screen):
