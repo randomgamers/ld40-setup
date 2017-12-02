@@ -49,6 +49,7 @@ def main():
             if success:
                 break
             else:
+                pass
                 # show_menu(level_num, 'fail', screen)
 
     # show_menu(-1, 'finished', screen)
