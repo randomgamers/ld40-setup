@@ -14,7 +14,7 @@ class MainMenu:
         self.clock = pygame.time.Clock()
 
         items = ['(S) Start', '(Q) Quit']
-        self.font = pygame.font.SysFont(font, font_size)
+        self.font = pygame.font.Font(None, 48)
         self.font_color = font_color
 
         self.items = []
