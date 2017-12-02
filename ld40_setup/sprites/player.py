@@ -4,9 +4,8 @@ import pygame
 import numpy as np
 
 from .. import config
-from ..utils import load_image, load_image_norect
+from ..utils import load_image_norect
 from .animated_sprite import AnimatedSprite
-from .light_particle import LightParticle
 
 
 class Player(AnimatedSprite):
@@ -135,7 +134,6 @@ class Player(AnimatedSprite):
         self.update_walking_speed()
 
     def remove_from_train(self, hostage):
-        print(self.train)
         self.train.remove(hostage)
         self.num_saved_hostages += 1
         self.update_walking_speed()
