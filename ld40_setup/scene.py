@@ -71,7 +71,7 @@ def main():
     scene = Scene()
 
     # Game screen
-    game_size = list(map(lambda shape: shape * 100, scene.level.map_shape))
+    game_size = list(map(lambda shape: (shape + 5) * 100, scene.level.map_shape))
     game_screen = pygame.Surface(game_size)
     background = pygame.Surface(game_size)
     background = background.convert()
