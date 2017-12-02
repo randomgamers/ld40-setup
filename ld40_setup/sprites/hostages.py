@@ -55,8 +55,8 @@ class NoisyChick(Hostage):
 
 class FatGuy(Hostage):
     def __init__(self, position, player):
-        super().__init__(image_dir='runsprite',
-                         image_files=['run00{}.png'.format(i) for i in range(1, 9)],
+        super().__init__(image_dir='characters/hostage2/walk',
+                         image_files=['walk_0{}.png'.format(i) for i in range(1, 9)],
                          position=position,
                          player=player)
         self.slowdown = 2
