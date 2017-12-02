@@ -10,7 +10,7 @@ if not pygame.mixer: print('Warning, sound disabled')
 from .utils import load_sound
 from .sprites import Player, Fist
 from .level import Level
-from .camera import Camera
+from .game_camera import GameCamera
 from . import config
 
 
@@ -43,7 +43,7 @@ def main():
     window_size = tiles[0] * config.TILE_SIZE, tiles[1] * config.TILE_SIZE
     window = pygame.Surface(window_size)
 
-    camera = Camera(game_size, window_size)
+    camera = GameCamera(game_size, window_size)
 
     # Create The Backgound
     background = pygame.Surface(game_screen.get_size())
