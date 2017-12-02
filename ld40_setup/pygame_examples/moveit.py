@@ -5,8 +5,6 @@ import sys
 
 from ld40_setup.utils import load_image
 
-
-
 class GameObject:
     def __init__(self, image, height, speed):
         self.speed = speed
@@ -15,12 +13,11 @@ class GameObject:
 
     def move(self):
         self.pos = self.pos.move(self.speed * 2, self.speed)
-        if self.pos.right > 600:
+        if self.pos.right > 640:
             self.pos.left = 0
 
-        if self.pos.bottom > 440:
+        if self.pos.bottom > 480:
             self.pos.top = 0
-
 
 if __name__ == '__main__':
     pygame.init()
