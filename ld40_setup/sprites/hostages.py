@@ -30,6 +30,9 @@ class Hostage(AnimatedSprite):
         # last speeds
         self.last_position = position
 
+        # waiting for adding to train
+        self.waiting = False
+
     def collision_check(self, _, player):
         return self.collision_rect.colliderect(player.rect)
 
@@ -45,7 +48,9 @@ class Hostage(AnimatedSprite):
         if dx != 0 or dy != 0:  # instead of super update
             self.animate()
 
-        elif dx == 0 and dy == 0 :
+        elif dx == 0 and dy == 0:
+            if self.waiting:
+                self.flipped = not self.flipped
             self.set_idle()
 
         if dx > 0:

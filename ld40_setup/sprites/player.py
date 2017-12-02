@@ -104,7 +104,9 @@ class Player(AnimatedSprite):
         for i, hostage in enumerate(self.train):
             if self.hostage_init_delay[i] <= 0:
                 hostage.move_to(self.position_history[int(-config.TRAIN_DELAY * (i+1) * config.FPS)])
+                hostage.waiting = False
             elif self.speed_x != 0 or self.speed_y != 0:
+                hostage.waiting = True
                 self.hostage_init_delay[i] -= 1
 
     def normalize_speed(self):
