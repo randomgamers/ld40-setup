@@ -65,9 +65,6 @@ class Hostage(AnimatedSprite):
     def move_to(self, new_position: Tuple[int,int]):
         self.rect.center = self.collision_rect.center = new_position
 
-    def set_idle(self):
-        self.image = self.idle_image
-
 
 class NoisyChick(Hostage):
     def __init__(self, position, player):

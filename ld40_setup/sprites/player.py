@@ -116,9 +116,7 @@ class Player(AnimatedSprite):
     def stop_walk(self):
         self.speed_x = 0
         self.speed_y = 0
-
-    def set_idle(self):
-        self.image = self.idle_image
+        
 
     def add_to_train(self, hostage):
         self.train.append(hostage)
