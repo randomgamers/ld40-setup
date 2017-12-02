@@ -1,9 +1,12 @@
+from collections import defaultdict
+
 import pygame
 import numpy as np
 
 from .. import config
 from ..utils import load_image, load_image_norect
 from .animated_sprite import AnimatedSprite
+from .light_particle import LightParticle
 
 
 class Player(AnimatedSprite):
@@ -30,6 +33,7 @@ class Player(AnimatedSprite):
         # train stuff
         self.train = []
         self.position_history = []
+        self.hostage_init_delay = defaultdict(int)
 
         # player stuff
         self.dizzy = 0
@@ -88,17 +92,20 @@ class Player(AnimatedSprite):
         speed_x, speed_y = self.normalize_speed()
         self.rect.move_ip((speed_x, speed_y))
 
-        if self.speed_x != 0 or self.speed_y != 0:
+        if self.speed_x != 0 or self.speed_y != 0:  # TODO: can be reaaaaly big list
             self.position_history.append(self.rect.center)
 
-        if self.speed_x != 0 or self.speed_y != 0 :
+        if self.speed_x != 0 or self.speed_y != 0:
             self.animate()
-        else :
+        else:
             self.set_idle()
 
         # move train
         for i, hostage in enumerate(self.train):
-            hostage.move_to(self.position_history[int(-config.TRAIN_DELAY * (i+1) * config.FPS)])
+            if self.hostage_init_delay[i] <= 0:
+                hostage.move_to(self.position_history[int(-config.TRAIN_DELAY * (i+1) * config.FPS)])
+            elif self.speed_x != 0 or self.speed_y != 0:
+                self.hostage_init_delay[i] -= 1
 
     def normalize_speed(self):
         normalization_factor = np.sqrt(((self.speed_x/self.walking_speed)**2 + (self.speed_y/self.walking_speed)**2))
@@ -117,7 +124,7 @@ class Player(AnimatedSprite):
         self.speed_x = 0
         self.speed_y = 0
 
-
     def add_to_train(self, hostage):
         self.train.append(hostage)
+        self.hostage_init_delay[len(self.train)-1] = config.TRAIN_DELAY * (len(self.train)+1) * config.FPS
         self.update_walking_speed()
