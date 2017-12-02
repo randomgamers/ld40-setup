@@ -53,7 +53,6 @@ class Player(AnimatedSprite):
                 y_offset = self.collision_rect.center[1] - collision.rect.center[1]
                 x_offset_threshold = self.collision_rect.w / 2
                 y_offset_threshold = self.collision_rect.h / 2
-                print(abs(y_offset) - config.TILE_SIZE/2, y_offset_threshold)
                 if abs(x_offset) - config.TILE_SIZE/2 < x_offset_threshold and abs(y_offset) - config.TILE_SIZE/2 < y_offset_threshold*0.5:
                     direction = 'left' if x_offset > 0 else 'right'
                     self.allowed_directions[direction] = False
