@@ -14,7 +14,7 @@ import pygame, os
 from pygame.locals import *
 from math import sin
 import time
-from ld40_setup.resources import load_image
+from ld40_setup.utils import load_image
 
 main_dir = os.path.split(os.path.abspath(__file__))[0]
 
