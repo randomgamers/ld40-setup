@@ -1,3 +1,4 @@
+import pygame
 from .rotating_sprite import RotatingSprite
 
 
@@ -7,3 +8,5 @@ class Camera(RotatingSprite):
         super().__init__(image_dir='',
                          image_file='camera_small.png',
                          **kwargs)
+
+        self.particles = pygame.sprite.Group()

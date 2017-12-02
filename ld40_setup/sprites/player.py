@@ -6,6 +6,7 @@ import numpy as np
 from .. import config
 from ..utils import load_image, load_image_norect
 from .animated_sprite import AnimatedSprite
+from .light_particle import LightParticle
 
 
 class Player(AnimatedSprite):
