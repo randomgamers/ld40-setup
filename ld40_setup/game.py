@@ -8,7 +8,7 @@ if not pygame.font: print('Warning, fonts disabled')
 if not pygame.mixer: print('Warning, sound disabled')
 
 from .utils import load_sound, coord_to_game_pixel
-from .sprites import Player, Fist
+from .sprites import Fist
 from .level import Level
 from .game_camera import GameCamera
 from . import config
@@ -60,7 +60,8 @@ def main():
     floor = pygame.sprite.Group(*level.floor)
     walls = pygame.sprite.Group(*level.walls)
     guards = pygame.sprite.Group(*level.guards)
-    player = Player(walls)
+    hostages = pygame.sprite.Group(*level.hostages)
+    player = level.player
     allsprites = pygame.sprite.RenderPlain((player.collision_sprite, player, fist))
 
     # Main Loop
@@ -97,6 +98,7 @@ def main():
 
         allsprites.update()
         guards.update()
+        hostages.update()
         camera.update()
 
         # Draw Everything
@@ -104,6 +106,7 @@ def main():
         floor.draw(game_screen)
         walls.draw(game_screen)
         guards.draw(game_screen)
+        hostages.draw(game_screen)
         allsprites.draw(game_screen)
 
         blit_game_to_window(game_screen, window, camera)
