@@ -3,18 +3,8 @@ from typing import List, Tuple
 
 import pygame
 
-from ..utils import load_image, load_image_norect
+from ..utils import load_image, load_image_norect, coord_to_game_pixel, game_pixel_to_coord
 from .. import config
-
-
-def tile_to_px(tile_x, tile_y):
-    """TODO: need @gyfis's update"""
-    return tile_x*config.TILE_SIZE, tile_y*config.TILE_SIZE
-
-
-def px_to_tile(px_x, px_y):
-    """TODO: need @gyfis's update"""
-    return px_x//config.TILE_SIZE, px_y//config.TILE_SIZE
 
 
 class AnimatedSprite(pygame.sprite.Sprite):
@@ -39,7 +29,7 @@ class AnimatedSprite(pygame.sprite.Sprite):
         self.frame_wait_max /= 3
 
         # init. position
-        self.rect.center = tile_to_px(*position)
+        self.rect.center = coord_to_game_pixel(position)
 
         # Save the last direction the character was facing
         self.flipped = False
@@ -73,4 +63,4 @@ class AnimatedSprite(pygame.sprite.Sprite):
 
     @property
     def current_tile(self):
-        return px_to_tile(*self.rect.center)
+        return game_pixel_to_coord(self.rect.center)

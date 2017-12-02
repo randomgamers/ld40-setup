@@ -7,15 +7,11 @@ import os
 if not pygame.font: print('Warning, fonts disabled')
 if not pygame.mixer: print('Warning, sound disabled')
 
-from .utils import load_sound
+from .utils import load_sound, coord_to_game_pixel
 from .sprites import Player, Fist
 from .level import Level
 from .game_camera import GameCamera
 from . import config
-
-
-def coord_to_game_pixel(coord):
-    return coord[0] * config.TILE_SIZE, coord[1] * config.TILE_SIZE
 
 
 def scale_window_to_screen(window, screen):

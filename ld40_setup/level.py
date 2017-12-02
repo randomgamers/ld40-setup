@@ -28,7 +28,7 @@ class Level:
         self.guards = [
             Guard(walk_path=[(2,6), (10,6), (10,10), (20,10)], walk_speed=1),
             Guard(walk_path=[(10,10), (20,10), (20, 15)], walk_speed=2),
-            Camera(position=(500,500), angle_from=0, angle_to=90, rotation_speed=60, delay=1),
+            Camera(position=(12,3), angle_from=0, angle_to=90, rotation_speed=60, delay=1),
         ]
 
         self.walls = []

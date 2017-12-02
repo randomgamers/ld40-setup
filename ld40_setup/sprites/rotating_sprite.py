@@ -3,7 +3,7 @@ from typing import Tuple
 
 import pygame
 
-from ..utils import load_image
+from ..utils import load_image, coord_to_game_pixel
 from .. import config
 
 
@@ -45,7 +45,7 @@ class RotatingSprite(pygame.sprite.Sprite):
         self.delay = delay
 
         # move image
-        self.rect.center = position
+        self.rect.center = coord_to_game_pixel(position)
         self.image = pygame.transform.rotate(self.image, self.angle_from)
 
         # delay counter

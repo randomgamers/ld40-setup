@@ -40,3 +40,13 @@ def load_sound(sound_name):
     except pygame.error as ex:
         raise LoadError('Cannot load `{}`'.format(sound_name)) from ex
     return sound
+
+
+def coord_to_game_pixel(coord):
+    x, y = coord
+    return x * config.TILE_SIZE, y * config.TILE_SIZE
+
+
+def game_pixel_to_coord(game_pixel):
+    x, y = game_pixel
+    return x // config.TILE_SIZE, y // config.TILE_SIZE
