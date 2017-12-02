@@ -80,7 +80,7 @@ def play_level(level_num, screen):
     whiff_sound = load_sound('whiff.wav')
     punch_sound = load_sound('punch.wav')
 
-    fist = Fist()
+    fist = Fist(camera)
 
     floor = pygame.sprite.Group(*level.floor)
     walls = pygame.sprite.Group(*level.walls)
