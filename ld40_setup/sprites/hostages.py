@@ -1,6 +1,8 @@
 from typing import Tuple
 import pygame
 
+from ..utils import load_image_norect
+
 from .animated_sprite import AnimatedSprite
 
 
@@ -43,6 +45,9 @@ class Hostage(AnimatedSprite):
         if dx != 0 or dy != 0:  # instead of super update
             self.animate()
 
+        elif dx == 0 and dy == 0 :
+            self.set_idle()
+
         if dx > 0:
             self.flipped = True
         elif dx < 0:
@@ -60,6 +65,9 @@ class Hostage(AnimatedSprite):
     def move_to(self, new_position: Tuple[int,int]):
         self.rect.center = self.collision_rect.center = new_position
 
+    def set_idle(self):
+        self.image = self.idle_image
+
 
 class NoisyChick(Hostage):
     def __init__(self, position, player):
@@ -68,6 +76,7 @@ class NoisyChick(Hostage):
                          position=position,
                          player=player)
         self.noise = 1
+        self.idle_image = load_image_norect('characters/hostage1/idle.png', True)
 
 
 class FatGuy(Hostage):
@@ -77,3 +86,7 @@ class FatGuy(Hostage):
                          position=position,
                          player=player)
         self.slowdown = 2
+
+        self.idle_image = load_image_norect('characters/hostage2/idle.png', True)
+
+
