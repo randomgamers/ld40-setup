@@ -99,7 +99,6 @@ class Player(AnimatedSprite):
         # move train
         for i, hostage in enumerate(self.train):
             hostage.move_to(self.position_history[int(-config.TRAIN_DELAY * (i+1) * config.FPS)])
-            # hostage.speed_x, hostage.speed_y = self.position_history[-10 * i]
 
     def normalize_speed(self):
         normalization_factor = np.sqrt(((self.speed_x/self.walking_speed)**2 + (self.speed_y/self.walking_speed)**2))

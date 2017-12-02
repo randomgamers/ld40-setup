@@ -53,7 +53,7 @@ class AnimatedSprite(pygame.sprite.Sprite):
         if self.image_index >= len(self.images):
             self.image_index = 0
 
-        # flipping hoizontally
+        # flipping horizontally
         if self.speed_x > 0 or (self.speed_x == 0 and self.flipped):
             self.image = pygame.transform.flip(self.images[self.image_index], True, False)
             self.flipped = True
