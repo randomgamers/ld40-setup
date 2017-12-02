@@ -15,8 +15,18 @@ class Level:
                                                for col_num, tile in enumerate(row)
                                                if tile == 'W']
 
+        self.entry_coords = [(row_num, col_num) for row_num, row in enumerate(self.map)
+                                                for col_num, tile in enumerate(row)
+                                                if tile == 'E']
+
+        self.doors_coords = [(row_num, col_num) for row_num, row in enumerate(self.map)
+                                                for col_num, tile in enumerate(row)
+                                                if tile == 'D']
+
 
 if __name__ == '__main__':
     level1 = Level(1)
     print(level1.map)
     print(level1.wall_coords)
+    print(level1.entry_coords)
+    print(level1.doors_coords)
