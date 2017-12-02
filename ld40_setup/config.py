@@ -8,7 +8,7 @@ LEVELS_DIR = 'levels'
 # screen setting
 SCREEN_WIDTH = 1280
 SCREEN_HEIGHT = 1000
-FPS = 60
+FPS = 40
 
 # player speed
 PLAYER_SPEED = 500  # px/second

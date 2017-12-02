@@ -63,11 +63,12 @@ class Level1(Level):
 
         self.guards = [
             Guard(walk_path=[(2,6), (10,6)], walk_speed=1),
-            Camera(position=(2,15), angle_from=-180, angle_to=0, rotation_speed=60, delay=1),
+            Guard(walk_path=[(12,18), (12,10)], walk_speed=1),
+            Guard(walk_path=[(16,10), (16,18)], walk_speed=2),
+            Camera(position=(3,14), angle_from=180, angle_to=270, rotation_speed=60, delay=1),
         ]
 
         self.hostages = [
-            hostages.NoisyChick(position=(5,5), player=self.player),
-            hostages.FatGuy(position=(7,7), player=self.player),
+            hostages.NoisyChick(position=(2,17), player=self.player),
+            # hostages.FatGuy(position=(7,7), player=self.player),
         ]
-
