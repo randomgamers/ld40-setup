@@ -1,8 +1,10 @@
 import os
+import numpy as np
 
 from . import config
 from .sprites import Guard
 from .sprites import Wall
+
 
 class Level:
     def __init__(self, level_num: int):
@@ -33,3 +35,7 @@ class Level:
         for x, y in self.wall_coords:
             wall = Wall(x, y)
             self.walls.append(wall)
+
+    @property
+    def map_shape(self):
+        return np.array(self.map).shape
