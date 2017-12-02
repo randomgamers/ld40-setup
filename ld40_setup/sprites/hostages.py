@@ -41,8 +41,12 @@ class Hostage(AnimatedSprite):
         self.last_position = self.rect.center
 
         if dx != 0 or dy != 0:  # instead of super update
-            print(dx, dy)
             self.animate()
+
+        if dx > 0:
+            self.flipped = True
+        elif dx < 0:
+            self.flipped = False
 
         self.collision_rect.center = self.rect.center
 
