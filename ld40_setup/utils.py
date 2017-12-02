@@ -8,22 +8,21 @@ class LoadError(RuntimeError):
     pass
 
 
-def load_image(image_name, colorkey=None):
+def load_image(image_name, use_alpha=False):
     fullname = os.path.join(config.PROJECT_ROOT, config.RESOURCES_ROOT, config.IMAGES_DIR, image_name)
     try:
         image = pygame.image.load(fullname)
     except pygame.error as ex:
         raise LoadError('Cannot load `{}`'.format(image_name)) from ex
-    if colorkey is not None:
-        if colorkey is -1:
-            colorkey = image.get_at((0,0))
-        image.set_colorkey(colorkey, RLEACCEL)
-    image = image.convert()
+    if use_alpha :
+        image = image.convert_alpha()
+    else :
+        image = image.convert()
     return image, image.get_rect()
 
 
-def load_image_norect(image_name, colorkey=None):
-    image, rect = load_image(image_name, colorkey)
+def load_image_norect(image_name, use_alpha=False):
+    image, rect = load_image(image_name, use_alpha)
     return image
 
 

@@ -25,11 +25,11 @@ class AnimatedSprite(pygame.sprite.Sprite):
         assert len(image_files) > 0, 'Animated sprite must contain at least one image.'
 
         # load images
-        self.images = [load_image_norect(os.path.join(image_dir, image_file), -1)
+        self.images = [load_image_norect(os.path.join(image_dir, image_file), True)
                        for image_file in image_files]
 
         # set up current image
-        self.image, self.rect = load_image(os.path.join(image_dir, image_files[0]), -1)
+        self.image, self.rect = load_image(os.path.join(image_dir, image_files[0]), True)
         self.image_index = 0
 
         # frames-realted stuff
@@ -64,10 +64,10 @@ class AnimatedSprite(pygame.sprite.Sprite):
             self.image_index = 0
 
         # flipping hoizontally
-        if self.speed_x < 0 or (self.speed_x == 0 and self.flipped):
+        if self.speed_x > 0 or (self.speed_x == 0 and self.flipped):
             self.image = pygame.transform.flip(self.images[self.image_index], True, False)
             self.flipped = True
-        elif self.speed_x > 0 or (self.speed_x == 0 and not self.flipped):
+        elif self.speed_x < 0 or (self.speed_x == 0 and not self.flipped):
             self.image = self.images[self.image_index]
             self.flipped = False
 

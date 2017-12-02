@@ -81,7 +81,6 @@ def main():
             elif event.type == MOUSEBUTTONDOWN:
                 if fist.punch(player):
                     punch_sound.play()  # punch
-                    player.punched()
                 else:
                     whiff_sound.play()  # miss
             elif event.type == MOUSEBUTTONUP:

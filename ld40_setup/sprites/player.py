@@ -11,9 +11,9 @@ class Player(AnimatedSprite):
 
     def __init__(self, walls):
 
-        super().__init__(image_dir='runsprite',
-                         image_files=['run00{}.png'.format(i) for i in range(1, 9)],
-                         position=(50, 50))
+        super().__init__(image_dir='characters/player/walk',
+                         image_files=['walk_0{}.png'.format(i) for i in range(1, 9)],
+                         position=(10, 10))
 
         # TODO: this shuld be somewhere else
         self.walls = walls
@@ -84,9 +84,3 @@ class Player(AnimatedSprite):
     def stop_walk(self):
         self.speed_x = 0
         self.speed_y = 0
-
-    def punched(self):
-        """TODO: remove"""
-        if not self.dizzy:
-            self.dizzy = 1
-            self.original = self.image
