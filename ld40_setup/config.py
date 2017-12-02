@@ -14,3 +14,12 @@ FPS = 60
 
 # player speed
 PLAYER_SPEED = 3
+
+# number of tiles on the
+TILES = (20, 10)
+
+# max camera acc
+CAMERA_VELOCITY = 50
+MAX_CAMERA_DISTANCE = 150
+
+
