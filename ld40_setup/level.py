@@ -6,9 +6,11 @@ from .sprites import Player, hostages, Guard, Camera, Wall, Floor
 
 
 class Level:
-    def __init__(self, level_num: int):
+    def __init__(self):
+        assert hasattr(self, 'level_num')
+
         level_file = os.path.join(config.PROJECT_ROOT, config.RESOURCES_ROOT, config.LEVELS_DIR,
-                                  'level{}.map'.format(level_num))
+                                  'level{}.map'.format(self.level_num))
 
         with open(level_file, 'r') as fin:
             self.map = [list(line)[:-1] for line in fin]
@@ -39,6 +41,23 @@ class Level:
             self.floor.append(floor_tile)
 
         self.player = Player(self.walls)
+        self.guards = []
+        self.hostages = []
+
+    @property
+    def map_shape(self):
+        return np.array(self.map).T.shape
+
+
+def build_level(level_num: int) -> Level:
+    return [Level1][level_num-1]()
+
+
+class Level1(Level):
+    def __init__(self):
+        self.level_num = 1
+
+        super().__init__()
 
         self.guards = [
             Guard(walk_path=[(2,6), (10,6), (10,10), (20,10)], walk_speed=1),
@@ -51,8 +70,3 @@ class Level:
             hostages.FatGuy(position=(7,7), player=self.player),
         ]
 
-
-
-    @property
-    def map_shape(self):
-        return np.array(self.map).T.shape

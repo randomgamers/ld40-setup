@@ -9,7 +9,7 @@ if not pygame.mixer: print('Warning, sound disabled')
 
 from .utils import load_sound, coord_to_game_pixel
 from .sprites import Fist
-from .level import Level
+from .level import build_level
 from .game_camera import GameCamera
 from . import config
 
@@ -29,7 +29,7 @@ def main():
     pygame.display.set_caption('Monkey Fever')
     pygame.mouse.set_visible(0)
 
-    level = Level(1)
+    level = build_level(1)
 
     tiles = config.TILES
 
