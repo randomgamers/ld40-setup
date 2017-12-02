@@ -11,7 +11,7 @@ class Player(AnimatedSprite):
 
     def __init__(self, walls):
 
-        super().__init__(image_dir='characters/hostage2/walk',
+        super().__init__(image_dir='characters/player/walk',
                          image_files=['walk_0{}.png'.format(i) for i in range(1, 9)],
                          position=(10, 10))
 
@@ -19,7 +19,7 @@ class Player(AnimatedSprite):
         self.walls = walls
 
         # collision rectangle
-        self.collision_rect = self.rect.inflate(-self.rect.w*0.52, -self.rect.h*0.35)
+        self.collision_rect = self.rect.inflate(-self.rect.w*0.5, -self.rect.h*0.15)
 
         # visualization of collider TODO: remove
         self.collision_sprite = pygame.sprite.Sprite()
@@ -27,21 +27,33 @@ class Player(AnimatedSprite):
         self.collision_sprite.image = pygame.Surface((self.collision_rect.w, self.collision_rect.h))
         self.collision_sprite.image.fill((255, 125, 0))
 
+        # train stuff
+        self.train = []
+        self.position_history = []
+
         # player stuff
         self.dizzy = 0
         self.walking = False
         self.flipped = False
-        self.walking_speed = int(config.PLAYER_SPEED / config.FPS)
+        self.walking_speed = self.update_walking_speed()
 
         # allowed directions of move
         self.allowed_directions = dict(left=True, right=True, top=True, bottom=True)
+
+    def update_walking_speed(self):
+        train_slowdown = 1.0
+        if len(self.train) > 0:
+            train_slowdown = np.max([hostage.slowdown for hostage in self.train])
+
+        self.walking_speed = int(config.PLAYER_SPEED / config.FPS / train_slowdown)
+        return self.walking_speed
 
     def collision_check(self, _, wall):
         return self.collision_rect.colliderect(wall.rect)
 
     def update(self):
         # sprite update
-        self.collision_rect.center = (self.rect.center[0], self.rect.center[1] + self.rect.w*0.1)
+        self.collision_rect.center = self.rect.center
 
         for direction, _ in self.allowed_directions.items():
             self.allowed_directions[direction] = True
@@ -73,8 +85,16 @@ class Player(AnimatedSprite):
         speed_x, speed_y = self.normalize_speed()
         self.rect.move_ip((speed_x, speed_y))
 
+        if self.speed_x != 0 or self.speed_y != 0:
+            self.position_history.append(self.rect.center)
+
         if self.speed_x != 0 or self.speed_y != 0 or (self.image_index != 2 and self.image_index != 6):
             self.animate()
+
+        # move train
+        for i, hostage in enumerate(self.train):
+            hostage.move_to(self.position_history[-10 * (i+1)])
+            # hostage.speed_x, hostage.speed_y = self.position_history[-10 * i]
 
     def normalize_speed(self):
         normalization_factor = np.sqrt(((self.speed_x/self.walking_speed)**2 + (self.speed_y/self.walking_speed)**2))
@@ -92,3 +112,7 @@ class Player(AnimatedSprite):
     def stop_walk(self):
         self.speed_x = 0
         self.speed_y = 0
+
+    def add_to_train(self, hostage):
+        self.train.append(hostage)
+        self.update_walking_speed()
