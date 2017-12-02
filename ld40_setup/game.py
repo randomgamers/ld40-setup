@@ -61,22 +61,6 @@ def main():
                 going = False
             elif event.type == KEYDOWN and event.key == K_ESCAPE:
                 going = False
-            elif event.type == KEYDOWN and event.key == K_RIGHT:
-                player.move_x(3)
-            elif event.type == KEYDOWN and event.key == K_LEFT:
-                player.move_x(-3)
-            elif event.type == KEYDOWN and event.key == K_UP:
-                player.move_y(-3)
-            elif event.type == KEYDOWN and event.key == K_DOWN:
-                player.move_y(3)
-            elif event.type == KEYUP and event.key == K_RIGHT:
-                player.move_x(0)
-            elif event.type == KEYUP and event.key == K_LEFT:
-                player.move_x(0)
-            elif event.type == KEYUP and event.key == K_UP:
-                player.move_y(0)
-            elif event.type == KEYUP and event.key == K_DOWN:
-                player.move_y(0)
             elif event.type == MOUSEBUTTONDOWN:
                 if fist.punch(player):
                     punch_sound.play()  # punch
@@ -85,6 +69,16 @@ def main():
                     whiff_sound.play()  # miss
             elif event.type == MOUSEBUTTONUP:
                 fist.unpunch()
+
+        player.stop_walk()
+        if pygame.key.get_pressed()[pygame.K_UP] or pygame.key.get_pressed()[pygame.K_w]:
+            player.move_y(-3)
+        if pygame.key.get_pressed()[pygame.K_DOWN] or pygame.key.get_pressed()[pygame.K_s]:
+            player.move_y(3)
+        if pygame.key.get_pressed()[pygame.K_LEFT] or pygame.key.get_pressed()[pygame.K_a]:
+            player.move_x(-3)
+        if pygame.key.get_pressed()[pygame.K_RIGHT] or pygame.key.get_pressed()[pygame.K_d]:
+            player.move_x(3)
 
         allsprites.update()
         guards.update()

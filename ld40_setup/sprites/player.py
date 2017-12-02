@@ -79,6 +79,10 @@ class Player(AnimatedSprite):
     def move_y(self, speed):
         self.speed_y = speed
 
+    def stop_walk(self):
+        self.speed_x = 0
+        self.speed_y = 0
+
     def punched(self):
         """TODO: remove"""
         if not self.dizzy:
