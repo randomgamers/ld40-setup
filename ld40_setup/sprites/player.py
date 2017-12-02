@@ -23,7 +23,7 @@ class Player(pygame.sprite.Sprite):
         self.images.append(load_image_norect('runsprite/run008.png', -1))
 
         self.image, self.rect = load_image('runsprite/run001.png', -1)
-        self.collision_rect = self.rect.inflate(-50, -35)
+        self.collision_rect = self.rect.inflate(-self.rect.w*0.52, -self.rect.h*0.35)
 
         self.collision_sprite = pygame.sprite.Sprite()
         self.collision_sprite.rect = self.collision_rect
@@ -52,7 +52,7 @@ class Player(pygame.sprite.Sprite):
 
     def update(self):
         # sprite update
-        self.collision_rect.center = (self.rect.center[0], self.rect.center[1] + 10)
+        self.collision_rect.center = (self.rect.center[0], self.rect.center[1] + self.rect.w*0.1)
 
         for direction, _ in self.allowed_directions.items():
             self.allowed_directions[direction] = True
@@ -82,7 +82,7 @@ class Player(pygame.sprite.Sprite):
             # flipping hoizontally
             if self.speed_x < 0:
                 self.image = pygame.transform.flip(self.images[self.image_index], True, False)
-            else :
+            elif self.speed_x > 0:
                 self.image = self.images[self.image_index]
 
         # if self.dizzy:
@@ -91,22 +91,22 @@ class Player(pygame.sprite.Sprite):
         #     self._walk()
 
     def _walk(self):
+        x_direction = 'left' if self.speed_x < 0 else 'right'
+        y_direction = 'top' if self.speed_y < 0 else 'bottom'
+
+        if not self.allowed_directions[x_direction]:
+            self.speed_x = 0
+        if not self.allowed_directions[y_direction]:
+            self.speed_y = 0
+
         self.rect.move_ip((self.speed_x, self.speed_y))
 
     def moveX(self, speed):
-        direction = 'left' if speed < 0 else 'right'
-        if self.allowed_directions[direction]:
-            self.speed_x = speed
-        else:
-            self.speed_x = 0
+        self.speed_x = speed
         self.updateWalk()
 
     def moveY(self, speed):
-        direction = 'top' if speed < 0 else 'bottom'
-        if self.allowed_directions[direction]:
-            self.speed_y = speed
-        else:
-            self.speed_y = 0
+        self.speed_y = speed
         self.updateWalk()
 
     def updateWalk(self):
