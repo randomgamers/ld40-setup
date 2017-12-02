@@ -8,7 +8,7 @@ if not pygame.font: print('Warning, fonts disabled')
 if not pygame.mixer: print('Warning, sound disabled')
 
 from .utils import load_sound
-from .sprites import Chimp, Fist
+from .sprites import Player, Fist
 from . import config
 
 
@@ -40,9 +40,9 @@ def main():
     clock = pygame.time.Clock()
     whiff_sound = load_sound('whiff.wav')
     punch_sound = load_sound('punch.wav')
-    chimp = Chimp()
+    player = Player()
     fist = Fist()
-    allsprites = pygame.sprite.RenderPlain((chimp, fist))
+    allsprites = pygame.sprite.RenderPlain((player, fist))
 
     # Main Loop
     going = True
@@ -57,25 +57,25 @@ def main():
             elif event.type == KEYDOWN and event.key == K_ESCAPE:
                 going = False
             elif event.type == KEYDOWN and event.key == K_RIGHT:
-                chimp.moveX(3);
+                player.moveX(3);
             elif event.type == KEYDOWN and event.key == K_LEFT:
-                chimp.moveX(-3);
+                player.moveX(-3);
             elif event.type == KEYDOWN and event.key == K_UP:
-                chimp.moveY(-3);
+                player.moveY(-3);
             elif event.type == KEYDOWN and event.key == K_DOWN:
-                chimp.moveY(3);
+                player.moveY(3);
             elif event.type == KEYUP and event.key == K_RIGHT:
-                chimp.moveX(0);
+                player.moveX(0);
             elif event.type == KEYUP and event.key == K_LEFT:
-                chimp.moveX(0);
+                player.moveX(0);
             elif event.type == KEYUP and event.key == K_UP:
-                chimp.moveY(0);
+                player.moveY(0);
             elif event.type == KEYUP and event.key == K_DOWN:
-                chimp.moveY(0);
+                player.moveY(0);
             elif event.type == MOUSEBUTTONDOWN:
-                if fist.punch(chimp):
+                if fist.punch(player):
                     punch_sound.play()  # punch
-                    chimp.punched()
+                    player.punched()
                 else:
                     whiff_sound.play()  # miss
             elif event.type == MOUSEBUTTONUP:

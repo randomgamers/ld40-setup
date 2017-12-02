@@ -1,2 +1,2 @@
-from .chimp import Chimp
+from .player import Player
 from .fist import Fist

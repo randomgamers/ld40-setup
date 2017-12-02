@@ -2,8 +2,7 @@ import pygame
 from ..utils import load_image, load_image_norect
 from .. import config
 
-
-class Chimp(pygame.sprite.Sprite):
+class Player(pygame.sprite.Sprite):
     """moves a monkey critter across the screen. it can spin the
        monkey when it is punched."""
 
