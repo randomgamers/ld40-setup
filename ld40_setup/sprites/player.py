@@ -13,15 +13,15 @@ class Player(AnimatedSprite):
 
         super().__init__(image_dir='runsprite',
                          image_files=['run00{}.png'.format(i) for i in range(1, 9)],
-                         position=(10, 10))
+                         position=(50, 50))
 
         # TODO: this shuld be somewhere else
         self.walls = walls
 
-        # visualization of collider TODO: remove
+        # collision rectangle
         self.collision_rect = self.rect.inflate(-self.rect.w*0.52, -self.rect.h*0.35)
 
-        # collision rectangle
+        # visualization of collider TODO: remove
         self.collision_sprite = pygame.sprite.Sprite()
         self.collision_sprite.rect = self.collision_rect
         self.collision_sprite.image = pygame.Surface((self.collision_rect.w, self.collision_rect.h))
@@ -53,10 +53,11 @@ class Player(AnimatedSprite):
                 y_offset = self.collision_rect.center[1] - collision.rect.center[1]
                 x_offset_threshold = self.collision_rect.w / 2
                 y_offset_threshold = self.collision_rect.h / 2
-                if abs(x_offset) > x_offset_threshold and abs(y_offset) < y_offset_threshold*0.9:
+                print(abs(y_offset) - config.TILE_SIZE/2, y_offset_threshold)
+                if abs(x_offset) - config.TILE_SIZE/2 < x_offset_threshold and abs(y_offset) - config.TILE_SIZE/2 < y_offset_threshold*0.5:
                     direction = 'left' if x_offset > 0 else 'right'
                     self.allowed_directions[direction] = False
-                if abs(y_offset) > y_offset_threshold and abs(x_offset) < x_offset_threshold*0.9:
+                if abs(y_offset) - config.TILE_SIZE/2 < y_offset_threshold and abs(x_offset) - config.TILE_SIZE/2 < x_offset_threshold*0.25:
                     direction = 'top' if y_offset > 0 else 'bottom'
                     self.allowed_directions[direction] = False
 

@@ -89,13 +89,13 @@ def main():
 
         player.stop_walk()
         if pygame.key.get_pressed()[pygame.K_UP] or pygame.key.get_pressed()[pygame.K_w]:
-            player.move_y(-config.PLAYER_SPEED)
+            player.move_y(-1)
         if pygame.key.get_pressed()[pygame.K_DOWN] or pygame.key.get_pressed()[pygame.K_s]:
-            player.move_y(config.PLAYER_SPEED)
+            player.move_y(1)
         if pygame.key.get_pressed()[pygame.K_LEFT] or pygame.key.get_pressed()[pygame.K_a]:
-            player.move_x(-config.PLAYER_SPEED)
+            player.move_x(-1)
         if pygame.key.get_pressed()[pygame.K_RIGHT] or pygame.key.get_pressed()[pygame.K_d]:
-            player.move_x(config.PLAYER_SPEED)
+            player.move_x(1)
 
         camera.wanted_position = player.rect.center
 
