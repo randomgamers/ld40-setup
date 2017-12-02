@@ -77,11 +77,10 @@ class Player(AnimatedSprite):
             self.animate()
 
     def normalize_speed(self):
-        normalization_factor = np.sqrt(((self.speed_x/config.PLAYER_SPEED)**2 + (self.speed_y/config.PLAYER_SPEED)**2))
+        normalization_factor = np.sqrt(((self.speed_x/self.walking_speed)**2 + (self.speed_y/self.walking_speed)**2))
         if normalization_factor == 0:
             return 0, 0
 
-        print(normalization_factor)
         return self.speed_x / normalization_factor, self.speed_y / normalization_factor
 
     def move_x(self, speed):
