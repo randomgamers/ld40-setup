@@ -57,6 +57,7 @@ def main():
 
     fist = Fist()
 
+    floor = pygame.sprite.Group(*level.floor)
     walls = pygame.sprite.Group(*level.walls)
     guards = pygame.sprite.Group(*level.guards)
     player = Player(walls)
@@ -100,6 +101,7 @@ def main():
 
         # Draw Everything
         game_screen.blit(background, (0, 0))
+        floor.draw(game_screen)
         walls.draw(game_screen)
         guards.draw(game_screen)
         allsprites.draw(game_screen)
