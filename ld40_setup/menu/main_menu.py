@@ -13,7 +13,7 @@ class MainMenu:
         self.bg_color = bg_color
         self.clock = pygame.time.Clock()
 
-        items = ['(S) Start', '(ESC) Quit']
+        items = ['(S) Start', '(Q) Quit']
         self.font = pygame.font.SysFont(font, font_size)
         self.font_color = font_color
 

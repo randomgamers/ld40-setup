@@ -43,15 +43,15 @@ def main():
     for level_num in range(1, max_levels+1):
 
         # while level not finished
-        show_menu(level_num, 'pre', screen)
+        # show_menu(level_num, 'pre', screen)
         while True:
             success = play_level(level_num, screen)
             if success:
                 break
             else:
-                show_menu(level_num, 'fail', screen)
+                # show_menu(level_num, 'fail', screen)
 
-    show_menu(-1, 'finished', screen)
+    # show_menu(-1, 'finished', screen)
 
     pygame.quit()
 
