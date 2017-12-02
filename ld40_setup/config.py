@@ -16,7 +16,7 @@ FPS = 23
 PLAYER_SPEED = 15
 
 # number of tiles on the
-TILE_SIZE = 100
+TILE_SIZE = 50
 TILES = (20, 10)
 
 # max camera acc
