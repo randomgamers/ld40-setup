@@ -1,13 +1,42 @@
 from typing import Tuple
 import pygame
 
+from ..utils import load_image_norect, load_image
+from .. import config
 from ..utils import load_image_norect, game_pixel_to_coord
 
 from .animated_sprite import AnimatedSprite
 
 
+class Soundwave(pygame.sprite.Sprite):
+    def __init__(self, parent, soundwave_radius):
+        super().__init__()
+        self.parent = parent
+        self.image, self.rect = load_image('soundwaves/circle.png', use_alpha=True)
+        self.original_image = self.image.copy()
+        self.soundwave_radius = soundwave_radius
+        self.reset()
+
+    def reset(self):
+        self.radius = 0
+
+    def update(self):
+        super().update()
+
+        self.radius += 1
+        self.rect.center = (self.parent.rect.center[0] + self.parent.rect.w / 2 - self.radius, self.parent.rect.center[1] + self.parent.rect.h / 2 - self.radius)
+        self.image = pygame.transform.scale(self.original_image, (self.radius * 2, self.radius * 2))
+        alpha = int(120 * (1 - (self.radius / max(self.radius, self.soundwave_radius))))
+        # print(alpha)
+        # self.image.set_alpha(128)
+        self.image.fill((255, 255, 255, alpha), None, pygame.BLEND_RGBA_MULT)
+
+        if self.radius > self.soundwave_radius:
+            self.reset()
+
+
 class Hostage(AnimatedSprite):
-    def __init__(self, image_dir, image_files, position, player, entry_tile):
+    def __init__(self, image_dir, image_files, position, player, entry_tile, soundwave_radius):
         super().__init__(image_dir=image_dir, image_files=image_files, position=position)
 
         # general stats
@@ -36,11 +65,19 @@ class Hostage(AnimatedSprite):
         # entry tile
         self.entry_tile = entry_tile
 
+        # soundwaves
+        self.soundwaves = pygame.sprite.Group()
+        self.soundwave_radius = soundwave_radius
+
+        self.ticks = 0
+
     def collision_check(self, _, player):
         return self.collision_rect.colliderect(player.rect)
 
-    def update(self):
+    def vyser_soundwave(self):
+        self.soundwaves.add(Soundwave(self, self.soundwave_radius))
 
+    def update(self):
         # compute deltas
         dx = self.rect.centerx - self.last_position[0]
         dy = self.rect.centery - self.last_position[1]
@@ -70,6 +107,11 @@ class Hostage(AnimatedSprite):
                     self.player.add_to_train(self)
                     self.in_train = True
 
+        self.ticks += 1
+        if self.ticks % (self.soundwave_radius / config.SOUNDWAVE_MOD) == 0:
+            if len(self.soundwaves) < (self.soundwave_radius / config.SOUNDWAVES_COUNT):
+                self.vyser_soundwave()
+
         if game_pixel_to_coord(self.rect.center) == self.entry_tile:
             self.player.remove_from_train(self)
             self.kill()
@@ -84,7 +126,7 @@ class NoisyChick(Hostage):
                          image_files=['walk_0{}.png'.format(i) for i in range(1, 9)],
                          position=position,
                          player=player,
-                         entry_tile=entry_tile)
+                         entry_tile=entry_tile, soundwave_radius=130)
         self.noise = 1
         self.idle_image = load_image_norect('characters/hostage1/idle.png', True)
 
@@ -95,7 +137,7 @@ class FatGuy(Hostage):
                          image_files=['walk_0{}.png'.format(i) for i in range(1, 9)],
                          position=position,
                          player=player,
-                         entry_tile=entry_tile)
+                         entry_tile=entry_tile, soundwave_radius=70)
         self.slowdown = 2
 
         self.idle_image = load_image_norect('characters/hostage2/idle.png', True)
