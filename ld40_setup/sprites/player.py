@@ -97,17 +97,17 @@ class Player(pygame.sprite.Sprite):
         direction = 'left' if speed < 0 else 'right'
         if self.allowed_directions[direction]:
             self.speed_x = speed
-            self.updateWalk()
         else:
-            self.stopWalk()
+            self.speed_x = 0
+        self.updateWalk()
 
     def moveY(self, speed):
         direction = 'top' if speed < 0 else 'bottom'
         if self.allowed_directions[direction]:
             self.speed_y = speed
-            self.updateWalk()
         else:
-            self.stopWalk()
+            self.speed_y = 0
+        self.updateWalk()
 
     def updateWalk(self):
         if self.speed_x != 0 or self.speed_y != 0:
