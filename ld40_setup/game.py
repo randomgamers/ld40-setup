@@ -51,7 +51,6 @@ def main():
     for x, y in level1.wall_coords:
         wall = Wall(x, y)
         walls.add(wall)
-        print(wall.rect)
 
     # Main Loop
     going = True

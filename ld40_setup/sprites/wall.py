@@ -9,5 +9,4 @@ class Wall(pygame.sprite.Sprite):
         self.image.fill((50, 50, 50))
 
         self.rect = self.image.get_rect()
-        print(x, y)
         self.rect.move_ip(x*20, y*20)

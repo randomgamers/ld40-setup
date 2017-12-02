@@ -8,8 +8,8 @@ SOUNDS_DIR = 'sounds'
 LEVELS_DIR = 'levels'
 
 # screen setting
-SCREEN_WIDTH = 480
-SCREEN_HEIGHT = 640
+SCREEN_WIDTH = 1280
+SCREEN_HEIGHT = 320
 FPS = 60
 
 # player speed
