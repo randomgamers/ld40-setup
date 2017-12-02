@@ -8,7 +8,8 @@ if not pygame.font: print('Warning, fonts disabled')
 if not pygame.mixer: print('Warning, sound disabled')
 
 from .utils import load_sound
-from .sprites import Player, Fist
+from .sprites import Player, Fist, Wall
+from .level import Level
 from . import config
 
 
@@ -43,6 +44,13 @@ def main():
     player = Player()
     fist = Fist()
     allsprites = pygame.sprite.RenderPlain((player, fist))
+
+    level1 = Level(1)
+    walls = pygame.sprite.Group()
+    for x, y in level1.wall_coords:
+        wall = Wall(x, y)
+        walls.add(wall)
+        print(wall.rect)
 
     # Main Loop
     going = True
@@ -84,6 +92,7 @@ def main():
         allsprites.update()
         # Draw Everything
         screen.blit(background, (0, 0))
+        walls.draw(screen)
         allsprites.draw(screen)
         pygame.display.flip()
 
