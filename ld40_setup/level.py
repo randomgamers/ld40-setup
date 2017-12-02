@@ -26,8 +26,8 @@ class Level:
         self.entry_coords = [(col_num, row_num) for row_num, row in enumerate(self.map)
                                                 for col_num, tile in enumerate(row)
                                                 if tile == 'E']
-
         assert len(self.entry_coords) == 1, 'Too many/few level entries'
+        self.entry_coord = self.entry_coords[0]
 
         self.doors_coords = [(col_num, row_num) for row_num, row in enumerate(self.map)
                                                 for col_num, tile in enumerate(row)
@@ -42,7 +42,7 @@ class Level:
             floor_tile = Floor(x, y)
             self.floor.append(floor_tile)
 
-        self.player = Player(position=self.entry_coords[0], walls=self.walls)
+        self.player = Player(position=self.entry_coord, walls=self.walls)
         self.guards = []
         self.hostages = []
 
@@ -70,7 +70,7 @@ class Level1(Level):
         ]
 
         self.hostages = [
-            hostages.NoisyChick(position=(1,16), player=self.player),
-            hostages.FatGuy(position=(26,9), player=self.player),
-            hostages.NoisyChick(position=(1, 18), player=self.player),
+            hostages.NoisyChick(position=(1,16), player=self.player, entry_tile=self.entry_coord),
+            hostages.FatGuy(position=(26,9), player=self.player, entry_tile=self.entry_coord),
+            hostages.NoisyChick(position=(1, 18), player=self.player, entry_tile=self.entry_coord),
         ]

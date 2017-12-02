@@ -1,13 +1,13 @@
 from typing import Tuple
 import pygame
 
-from ..utils import load_image_norect
+from ..utils import load_image_norect, game_pixel_to_coord
 
 from .animated_sprite import AnimatedSprite
 
 
 class Hostage(AnimatedSprite):
-    def __init__(self, image_dir, image_files, position, player):
+    def __init__(self, image_dir, image_files, position, player, entry_tile):
         super().__init__(image_dir=image_dir, image_files=image_files, position=position)
 
         # general stats
@@ -32,6 +32,9 @@ class Hostage(AnimatedSprite):
 
         # waiting for adding to train
         self.waiting = False
+
+        # entry tile
+        self.entry_tile = entry_tile
 
     def collision_check(self, _, player):
         return self.collision_rect.colliderect(player.rect)
@@ -67,26 +70,32 @@ class Hostage(AnimatedSprite):
                     self.player.add_to_train(self)
                     self.in_train = True
 
+        if game_pixel_to_coord(self.rect.center) == self.entry_tile:
+            self.player.remove_from_train(self)
+            self.kill()
+
     def move_to(self, new_position: Tuple[int,int]):
         self.rect.center = self.collision_rect.center = new_position
 
 
 class NoisyChick(Hostage):
-    def __init__(self, position, player):
+    def __init__(self, position, player, entry_tile):
         super().__init__(image_dir='characters/hostage1/walk',
                          image_files=['walk_0{}.png'.format(i) for i in range(1, 9)],
                          position=position,
-                         player=player)
+                         player=player,
+                         entry_tile=entry_tile)
         self.noise = 1
         self.idle_image = load_image_norect('characters/hostage1/idle.png', True)
 
 
 class FatGuy(Hostage):
-    def __init__(self, position, player):
+    def __init__(self, position, player, entry_tile):
         super().__init__(image_dir='characters/hostage2/walk',
                          image_files=['walk_0{}.png'.format(i) for i in range(1, 9)],
                          position=position,
-                         player=player)
+                         player=player,
+                         entry_tile=entry_tile)
         self.slowdown = 2
 
         self.idle_image = load_image_norect('characters/hostage2/idle.png', True)

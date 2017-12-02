@@ -3,6 +3,7 @@ from .wandering_sprite import WanderingSprite
 from .light_particle import LightParticle
 from .. import config
 
+
 class Guard(WanderingSprite):
 
     def __init__(self, **kwargs):

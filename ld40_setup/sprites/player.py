@@ -47,6 +47,9 @@ class Player(AnimatedSprite):
         # allowed directions of move
         self.allowed_directions = dict(left=True, right=True, top=True, bottom=True)
 
+        # number of saved hostages
+        self.num_saved_hostages = 0
+
     def update_walking_speed(self):
         train_slowdown = 1.0
         if len(self.train) > 0:
@@ -129,4 +132,10 @@ class Player(AnimatedSprite):
     def add_to_train(self, hostage):
         self.train.append(hostage)
         self.hostage_init_delay[len(self.train)-1] = config.TRAIN_DELAY * (len(self.train)+1) * config.FPS
+        self.update_walking_speed()
+
+    def remove_from_train(self, hostage):
+        print(self.train)
+        self.train.remove(hostage)
+        self.num_saved_hostages += 1
         self.update_walking_speed()

@@ -13,6 +13,7 @@ from .level import build_level
 from .game_camera import GameCamera
 from . import config
 
+
 def scale_window_to_screen(window, screen):
     pygame.transform.scale(window, screen.get_size(), screen)
 
@@ -30,6 +31,7 @@ def main():
     pygame.mouse.set_visible(0)
 
     level = build_level(1)
+    total_hostages = len(level.hostages)
 
     tiles = config.TILES
 
@@ -71,6 +73,10 @@ def main():
         # for i in range(100):
         # particle_group.add(Particle())
         clock.tick(config.FPS)
+
+        if total_hostages == player.num_saved_hostages:
+            print('done')
+            quit()
 
         # Handle Input Events
         for event in pygame.event.get():
