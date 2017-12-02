@@ -12,15 +12,15 @@ class Level:
         with open(level_file, 'r') as fin:
             self.map = [list(line)[:-1] for line in fin]
 
-        self.wall_coords = [(row_num, col_num) for row_num, row in enumerate(self.map)
+        self.wall_coords = [(col_num, row_num) for row_num, row in enumerate(self.map)
                                                for col_num, tile in enumerate(row)
                                                if tile == 'W']
 
-        self.entry_coords = [(row_num, col_num) for row_num, row in enumerate(self.map)
+        self.entry_coords = [(col_num, row_num) for row_num, row in enumerate(self.map)
                                                 for col_num, tile in enumerate(row)
                                                 if tile == 'E']
 
-        self.doors_coords = [(row_num, col_num) for row_num, row in enumerate(self.map)
+        self.doors_coords = [(col_num, row_num) for row_num, row in enumerate(self.map)
                                                 for col_num, tile in enumerate(row)
                                                 if tile == 'D']
 
