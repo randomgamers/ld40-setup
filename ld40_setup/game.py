@@ -38,7 +38,7 @@ def main():
 
     tiles = config.TILES
 
-    game_size = list(map(lambda shape: (shape + 5) * 100, level.map_shape))
+    game_size = list(map(lambda shape: (shape + 5) * config.TILE_SIZE, level.map_shape))
     game_screen = pygame.Surface(game_size)
     window_size = tiles[0] * 100, tiles[1] * 100
     window = pygame.Surface(window_size)
