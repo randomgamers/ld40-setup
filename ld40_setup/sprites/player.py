@@ -11,7 +11,7 @@ class Player(AnimatedSprite):
 
     def __init__(self, walls):
 
-        super().__init__(image_dir='characters/hostage1/walk',
+        super().__init__(image_dir='characters/hostage2/walk',
                          image_files=['walk_0{}.png'.format(i) for i in range(1, 9)],
                          position=(10, 10))
 
