@@ -13,7 +13,6 @@ from .level import Level
 from .game_camera import GameCamera
 from . import config
 
-
 def scale_window_to_screen(window, screen):
     pygame.transform.scale(window, screen.get_size(), screen)
 
@@ -67,7 +66,10 @@ def main():
     # Main Loop
     going = True
     pygame.key.set_repeat(1, int(1000 / config.FPS));
+
     while going:
+        # for i in range(100):
+        # particle_group.add(Particle())
         clock.tick(config.FPS)
 
         # Handle Input Events
@@ -98,6 +100,8 @@ def main():
 
         allsprites.update()
         guards.update()
+        for guard in guards.sprites():
+            guard.particles.update()
         hostages.update()
         camera.update()
 
@@ -105,9 +109,12 @@ def main():
         game_screen.blit(background, (0, 0))
         floor.draw(game_screen)
         walls.draw(game_screen)
+        for guard in guards.sprites():
+            guard.particles.draw(game_screen)
         guards.draw(game_screen)
         hostages.draw(game_screen)
         allsprites.draw(game_screen)
+        # player.particles.draw(game_screen)
 
         blit_game_to_window(game_screen, window, camera)
         scale_window_to_screen(window, screen)
