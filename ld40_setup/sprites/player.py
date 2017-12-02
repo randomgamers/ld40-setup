@@ -72,7 +72,7 @@ class Player(AnimatedSprite):
         # almost like super update
         self.rect.move_ip((self.speed_x, self.speed_y))
 
-        if self.speed_x != 0 or self.speed_y != 0:
+        if self.speed_x != 0 or self.speed_y != 0 or (self.image_index != 2 and self.image_index != 6):
             self.animate()
 
     def move_x(self, speed):
