@@ -5,7 +5,7 @@ import sys
 # fine tuning.
 
 buildOptions = dict(
-    packages=['ld40_setup'],
+    packages=['ld40_setup', 'numpy'],
     excludes=[],
     include_files=[('ld40_setup/resources', 'ld40_setup/resources')]
 )
