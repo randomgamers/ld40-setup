@@ -90,7 +90,7 @@ class Level:
 
 def get_level_classes() -> List[Type[Level]]:
     return [
-        Level1,
+        Level3,
         Level2,
         Level3,
         Level4
@@ -159,7 +159,7 @@ class Level3(Level):
         self.guards = [
             Guard(walk_path=[(1,7), (1,14)], walk_speed=2),
             Guard(walk_path=[(31,7), (31,14)], walk_speed=2),
-            Guard(walk_path=[(12,12), (19,12)], walk_speed=5),
+            Guard(walk_path=[(12,11), (19,11)], walk_speed=5),
         ]
 
         self.hostages = [
