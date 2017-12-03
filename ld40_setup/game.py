@@ -9,8 +9,8 @@ import time
 if not pygame.font: print('Warning, fonts disabled')
 if not pygame.mixer: print('Warning, sound disabled')
 
-from .utils import load_sound, coord_to_game_pixel, dist, init_screen, toggle_fullscreen, fullscreen
-from .sprites import Fist
+from .utils import load_sound, load_image, coord_to_game_pixel, game_pixel_to_coord, dist, init_screen, toggle_fullscreen, fullscreen
+# from .sprites import Fist
 from .level import get_level_classes
 from .game_camera import GameCamera
 from . import config
@@ -135,7 +135,7 @@ def play_level(level, screen):
     whiff_sound = load_sound('whiff.wav')
     punch_sound = load_sound('punch.wav')
 
-    fist = Fist(camera)
+    # fist = Fist(camera)
 
     floor = pygame.sprite.Group(*level.floor)
     walls = pygame.sprite.Group(*level.walls)
@@ -152,7 +152,14 @@ def play_level(level, screen):
     hostages = pygame.sprite.Group(*level.hostages)
     soundwaves = pygame.sprite.Group(*list(map(lambda h: h.soundwave, hostages)))
     player = level.player
-    allsprites = pygame.sprite.RenderPlain((player, fist))  # player.collision_sprite, guards.sprites()[0].particle_sprite
+    # allsprites = pygame.sprite.RenderPlain((player, fist))  # player.collision_sprite, guards.sprites()[0].particle_sprite
+    allsprites = pygame.sprite.RenderPlain(player)  # player.collision_sprite, guards.sprites()[0].particle_sprite
+
+    busted_blue = pygame.Surface(screen.get_size())
+    busted_blue = busted_blue.convert_alpha()
+    busted_blue.fill((180, 20, 20, 128))
+
+    busted, busted_rect = load_image('busted.png', use_alpha=True)
 
     # Main Loop
     going = True
@@ -175,15 +182,14 @@ def play_level(level, screen):
                 going = False
             elif event.type == pygame.KEYDOWN and event.key == pygame.K_f:
                 screen = toggle_fullscreen(screen)
-            elif event.type == MOUSEBUTTONDOWN:
-                if fist.punch(player):
-                    punch_sound.play()  # punch
-                else:
-                    whiff_sound.play()  # miss
-            elif event.type == MOUSEBUTTONUP:
-                fist.unpunch()
+            # elif event.type == MOUSEBUTTONDOWN:
+            #     if fist.punch(player):
+            #         punch_sound.play()  # punch
+            #     else:
+            #         whiff_sound.play()  # miss
+            # elif event.type == MOUSEBUTTONUP:
+            #     fist.unpunch()
 
-        screen_collision_box = pygame.Rect((np.array(camera.blit_position) * -1), (window.get_size()))
 
         player.stop_walk()
         if pygame.key.get_pressed()[pygame.K_UP] or pygame.key.get_pressed()[pygame.K_w]:
@@ -197,28 +203,54 @@ def play_level(level, screen):
 
         camera.wanted_position = player.rect.center
 
-        allsprites.update()
-        guards.update()
-        cameras.update()
-        for cameraguard in shit_with_light.sprites():
-            cameraguard.particles.update(level)
-            cameraguard.removed_particles.update(level)
+        if not player.busted:
+            allsprites.update()
+            guards.update()
+            cameras.update()
 
-            if check_for_detection(player, cameraguard, screen_collision_box):
-                player.dead = True
-            for hostage in player.train:
-                if check_for_detection(hostage, cameraguard, screen_collision_box):
-                    player.dead = True
+            screen_collision_box = pygame.Rect((np.array(camera.blit_position) * -1), (window.get_size()))
+            for cameraguard in shit_with_light.sprites():
+                cameraguard.particles.update(level)
+                cameraguard.removed_particles.update(level)
 
-        hostages.update()
-        soundwaves.update()
-        # This can be probably written more effectively but YOLO
-        for hostage in hostages.sprites():
+                if check_for_detection(player, cameraguard, screen_collision_box):
+                    player.busted = True
+                for hostage in player.train:
+                    if check_for_detection(hostage, cameraguard, screen_collision_box):
+                        player.busted = True
+
+            hostages.update()
+            soundwaves.update()
+            # This can be probably written more effectively but YOLO
+            for hostage in hostages.sprites():
+                for guard in guards.sprites():
+                    if dist(hostage.rect.center, guard.rect.center) < hostage.soundwave_radius:
+                        player.busted = True
+
+            if pygame.sprite.groupcollide(soundwaves, guards, dokilla=False, dokillb=False):
+                player.busted = True
+        else:
+            player_pos = player.rect.center
+            should_die_soon = False
             for guard in guards.sprites():
-                if dist(hostage.rect.center, guard.rect.center) < hostage.soundwave_radius:
+                if guard.orig_pos is None:
+                    guard.orig_pos = guard.rect.center
+
+                abs_dist = abs(guard.rect.centerx - player_pos[0]) + abs(guard.rect.centery - player_pos[1])
+                if abs_dist < 1.5 * config.TILE_SIZE:
+                    should_die_soon = True
+
+                dx = int(float(guard.orig_pos[0] - player_pos[0]) / float(config.FPS))
+                dy = int(float(guard.orig_pos[1] - player_pos[1]) / float(config.FPS))
+
+                if not should_die_soon:
+                    guard.rect.center = guard.rect.centerx - dx, guard.rect.centery - dy
+
+            if should_die_soon:
+                player.dead_count += 1
+                if player.dead_count >= (2 * config.FPS):
                     player.dead = True
 
-        pygame.sprite.groupcollide(soundwaves, guards, dokilla=False, dokillb=False)
         camera.update()
 
         # Draw Everything
@@ -244,6 +276,10 @@ def play_level(level, screen):
         # copy gamescreen to screen
         blit_game_to_window(game_screen, window, camera)
         scale_window_to_screen(window, screen)
+
+        if player.dead_count > 0:
+            screen.blit(busted_blue, (0, 0))
+            screen.blit(busted, (screen.get_size()[0] / 2 - busted_rect.w / 2, screen.get_size()[1] / 2 - busted_rect.h / 2))
 
         # render FPS counter
         font = pygame.font.Font(None, 48)

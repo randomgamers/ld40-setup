@@ -65,7 +65,7 @@ class Level:
         self.floor.append(entry_tile)
 
         # player
-        self.player = Player(position=self.entry_coord, walls=self.walls)
+        self.player = Player(position=(self.entry_coord[0], self.entry_coord[1] - 0.5), walls=self.walls)
 
         # sprites
         self.guards = []
@@ -108,7 +108,7 @@ class Level1(Level):
         ]
 
         self.cameras = [
-            Camera(position=(39, 4), angle_from=270, angle_to=271, rotation_speed=1, delay=1),
+            Camera(position=(38.5, 3.5), angle_from=270, angle_to=271, rotation_speed=1, delay=1),
         ]
 
         self.guards = [
@@ -133,10 +133,10 @@ class Level2(Level):
         ]
 
         self.cameras = [
-            Camera(position=(1, 12), angle_from=-90, angle_to=90, rotation_speed=70, delay=2),
-            Camera(position=(9, 25), angle_from=-45, angle_to=45, rotation_speed=50, delay=1.5),
-            Camera(position=(35, 22), angle_from=170, angle_to=260, rotation_speed=60, delay=1),
-            Camera(position=(44, 15), angle_from=0, angle_to=90, rotation_speed=30, delay=1)
+            Camera(position=(0.5, 12), angle_from=-90, angle_to=90, rotation_speed=70, delay=2),
+            Camera(position=(8.5, 25), angle_from=-45, angle_to=45, rotation_speed=50, delay=1.5),
+            Camera(position=(35, 21.5), angle_from=170, angle_to=260, rotation_speed=60, delay=1),
+            Camera(position=(43.5, 15), angle_from=0, angle_to=90, rotation_speed=30, delay=1)
         ]
 
         self.hostages = [

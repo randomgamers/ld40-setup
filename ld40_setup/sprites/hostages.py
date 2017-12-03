@@ -4,7 +4,7 @@ import random
 
 from .. import config
 from ..utils import load_image_norect, load_image, game_pixel_to_coord
-from ..sound import GameSound
+from ..game_sound import GameSound
 
 from .animated_sprite import AnimatedSprite
 
@@ -37,7 +37,7 @@ class Soundwave(AnimatedSprite):
 
 
 class Hostage(AnimatedSprite):
-    def __init__(self, image_dir, image_files, position, player, entry_tile, end_tiles, soundwave_radius, sounds):
+    def __init__(self, image_dir, image_files, position, player, entry_tile, end_tiles, soundwave_radius, sounds, sound_play_range):
         super().__init__(image_dir=image_dir, image_files=image_files, position=position)
 
         # general stats
@@ -77,19 +77,22 @@ class Hostage(AnimatedSprite):
 
         # Sounds
         self.sounds = sounds
-        self.soundwave_timer = 0
+        self.sound_play_range = sound_play_range
+        self.soundwave_timer = 0.0
         self.reset_sound()
 
     def reset_sound(self):
-        self.next_sound_at = random.randrange(config.MIN_PLAY_SOUND_AT * config.FPS, config.MAX_PLAY_SOUND_AT * config.FPS)
+        self.next_sound_at = random.randrange(self.sound_play_range[0] * config.FPS, self.sound_play_range[1] * config.FPS)
 
     def collision_check(self, _, player):
         return self.collision_rect.colliderect(player.rect)
 
     def play_sound(self):
-        GameSound(self.sounds[random.randrange(len(self.sounds))]).play()
+        sound = GameSound(self.sounds[random.randrange(len(self.sounds))])
+        sound.play()
+
         self.soundwave.enabled = True
-        self.soundwave_timer = config.MAX_SOUNDWAVE_TIMER * config.FPS
+        self.soundwave_timer = sound.length * float(config.FPS)
 
     def update(self):
         # compute deltas
@@ -152,7 +155,7 @@ class NoisyChick(Hostage):
                          entry_tile=entry_tile,
                          end_tiles=end_tiles,
                          soundwave_radius=100,
-                         sounds=['punch.wav', 'whiff.wav'])
+                         sounds=['punch.wav', 'whiff.wav'], sound_play_range=(20, 30))
         self.noise = 1
         self.idle_image = load_image_norect('characters/hostage1/idle.png', True)
 
@@ -165,8 +168,8 @@ class FatGuy(Hostage):
                          player=player,
                          entry_tile=entry_tile,
                          end_tiles=end_tiles,
-                         soundwave_radius=100,
-                         sounds=['punch.wav', 'whiff.wav'])
+                         soundwave_radius=75,
+                         sounds=['punch.wav', 'whiff.wav'], sound_play_range=(20, 30))
         self.slowdown = 2
 
         self.idle_image = load_image_norect('characters/hostage2/idle.png', True)
@@ -180,8 +183,8 @@ class RegularGuy(Hostage):
                          player=player,
                          entry_tile=entry_tile,
                          end_tiles=end_tiles,
-                         soundwave_radius=25,
-                         sounds=['punch.wav', 'whiff.wav'])
+                         soundwave_radius=50,
+                         sounds=['punch.wav', 'whiff.wav'], sound_play_range=(20, 30))
 
         self.idle_image = load_image_norect('characters/hostage3/idle.png', True)
 
