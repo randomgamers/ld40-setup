@@ -42,11 +42,14 @@ class LightParticle(pygame.sprite.Sprite):
         self.lifetime = config.LIGHT_PARTICLE_LIFETIME
 
     def update(self, level):
-        tile_x = int(self.rect.center[0]/config.TILE_SIZE)
-        tile_y = int(self.rect.center[1] / config.TILE_SIZE)
+        wall_check_points = [self.rect.topleft, self.rect.topright, self.rect.bottomleft, self.rect.bottomright]
+        for check_point in wall_check_points:
+            tile_x = int(check_point[0] / config.TILE_SIZE)
+            tile_y = int(check_point[1] / config.TILE_SIZE)
 
-        if level.map[tile_y][tile_x] == 'W':
-            self.parent.particles.remove(self)
+            if level.map[tile_y][tile_x] == 'W':
+                self.parent.particles.remove(self)
+                break
 
         self.rect.move_ip(self.speed_x, self.speed_y)
         size_const = 1 + 3 * (1 - (self.lifetime / config.LIGHT_PARTICLE_LIFETIME))
