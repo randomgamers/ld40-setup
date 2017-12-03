@@ -1,13 +1,36 @@
-# ld40-setup
+# Saving Crying Bryan
 
-## Usage
+## Installation
+Python 3.5+ (with proper `pip` installed) is required.
+From the repository root, run
+```bash
+pip3 install [--user] -r requirements.txt
+```
 
-Run the chimp example with
+## Run From Source
+From the project root, run
 
-`python -m ld40_setup.chimp`
+```
+python3 -m ld40_setup.game
+```
 
-## Executable
+## Build
+Build executable for the game.
 
-Build executable for the chimp example with
+```
+python3 setup.py build`
+```
 
-`python setup.py build`
+Tested operating systems:
+- Windows 8
+- Windows 10
+- Ubuntu 16.04 LTS
+- Arch Linux (kernel `4.13.12-1-ARCH`)
+- OS X High Sierra
+
+
+## Run From Binary
+After successfull build, run
+```bash
+build/<platform>/sample
+```

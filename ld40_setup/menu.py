@@ -168,3 +168,5 @@ class CreditsMenu(Menu):
     def event_handler(self, event):
         if event.type == pygame.KEYDOWN:
             return True
+        if event.type == pygame.QUIT:
+            return True
