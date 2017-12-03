@@ -91,7 +91,7 @@ class Level:
 def get_level_classes() -> List[Type[Level]]:
     # TODO: various levels
     return [
-        Level3,
+        Level1,
         Level2,
         Level3
     ]
