@@ -1,4 +1,5 @@
 # Saving Crying Bryan
+Simple stealth game created for Ludum Dare #40
 
 ## Installation
 Python 3.5+ (with proper `pip` installed) is required.
