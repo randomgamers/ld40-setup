@@ -57,6 +57,10 @@ class Menu:
             return 'start'
         elif event.type == pygame.KEYDOWN and event.key == pygame.K_q:
             return 'quit'
+        elif event.type == pygame.QUIT:
+            return 'quit'
+        elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+            return 'quit'
         return None
 
     def show(self):
