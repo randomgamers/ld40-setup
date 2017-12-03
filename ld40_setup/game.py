@@ -44,7 +44,14 @@ def main():
     # Initialize Everything
     pygame.mixer.pre_init(44100, -16, 1, 512) # Including this makes the sound not lag
     pygame.init()
-    screen = pygame.display.set_mode((0, 0))
+
+    if sys.platform == 'win32':
+        import ctypes
+        ctypes.windll.user32.SetProcessDPIAware()
+        true_res = (ctypes.windll.user32.GetSystemMetrics(0), ctypes.windll.user32.GetSystemMetrics(1))
+        screen = pygame.display.set_mode(true_res)
+    else:
+        screen = pygame.display.set_mode((0, 0))
     pygame.display.set_caption(config.GAME_NAME)
     pygame.mouse.set_visible(0)
 
