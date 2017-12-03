@@ -122,7 +122,7 @@ class SuccessMenu(Menu):
 
         max_count = max([count for _, count in histogram])
         score_bucket = 0
-        while histogram[score_bucket][0][1] + 0.1 < score: score_bucket += 1
+        while histogram[score_bucket][0][1] + 0.01 < score: score_bucket += 1
 
         for i, ((lower_bound, higher_bound), count) in enumerate(histogram):
             bar = pygame.Surface((bar_width, 10 + count * (bar_height - 10) / max_count)).convert()
