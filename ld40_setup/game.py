@@ -15,7 +15,7 @@ from .level import get_level_classes
 from .game_camera import GameCamera
 from .game_sound import GameSound
 from . import config
-from .menu import MainMenu, SuccessMenu, FailureMenu, GameWonMenu
+from .menu import MainMenu, SuccessMenu, FailureMenu, GameWonMenu, CreditsMenu
 from .database import insert_score, get_score_histogram
 
 
@@ -110,6 +110,10 @@ def main():
                 break
             elif response == 'start': pass
             else: raise ValueError('unknown menu response: {}'.format(response))
+
+    # show final credits
+    time.sleep(config.AFTER_QUIT_DELAY)
+    CreditsMenu(screen).show()
 
     pygame.quit()  # terminate gracefully
 
@@ -267,6 +271,10 @@ def play_level(level, screen):
         # Blit base game screen to game screen
         game_screen.blit(base_game_screen, (0, 0))
 
+        # render texts
+        for name, label, (width, height), (posx, posy) in level.texts:
+            game_screen.blit(label, (posx, posy))
+
         for cameraguard in shit_with_light.sprites():
             if cameraguard.particle_rect.colliderect(screen_collision_box):
                 cameraguard.particles.draw(game_screen)
@@ -278,10 +286,6 @@ def play_level(level, screen):
 
         allsprites.draw(game_screen)
         # player.particles.draw(game_screen)
-
-        # render texts
-        for name, label, (width, height), (posx, posy) in level.texts:
-            game_screen.blit(label, (posx, posy))
 
         # copy gamescreen to screen
         blit_game_to_window(game_screen, window, camera)
