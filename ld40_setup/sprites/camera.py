@@ -13,6 +13,8 @@ class Camera(RotatingSprite):
                          **kwargs)
 
         self.particles = pygame.sprite.Group()
+        self.removed_particles = pygame.sprite.Group()
+
         self.particle_rect = pygame.Rect(0, 0, 600, 600)
         self.particle_rect.center = self.rect.center
         self.particle_sprite = pygame.sprite.Sprite()
@@ -37,7 +39,7 @@ class Camera(RotatingSprite):
         light_offset_y = self.rect.center[1] + 25*math.sin(math.radians(self.direction - 45))
         self.particle_origin = (light_offset_x, light_offset_y)
 
-        if len(self.particles) < config.LIGHT_PARTICLE_COUNT:
+        if len(self.particles) + len(self.removed_particles) < config.LIGHT_PARTICLE_COUNT:
             for i in range(config.LIGHT_PARTICLE_BATCH_SIZE):
                 self.vyser_particle(i)
 
