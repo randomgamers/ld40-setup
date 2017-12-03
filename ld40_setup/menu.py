@@ -50,7 +50,6 @@ class Menu:
             label_position_x = (self.screen_width / 2) - (label_width / 2)
             text_block_height = len(menu_items) * label_height
             label_position_y = (self.screen_height / 2) - (text_block_height / 2) + (index * label_height)
-
             self.items.append([item, label, (label_width, label_height), (label_position_x, label_position_y)])
 
     def event_handler(self, event):
@@ -93,11 +92,25 @@ class MainMenu(Menu):
 
 class SuccessMenu(Menu):
 
-    def __init__(self, screen, num_level):
+    def __init__(self, screen, num_level, score):
         items = ['(S) Next Level', '(F) Toggle Fullscreen', '(Q) Main Menu']
         super().__init__(screen, menu_items=items, background_color=(44,51,38),
                          message='Level #{} Complete'.format(num_level))
 
+        self.show_score(score)
+
+    def show_score(self, score):
+        last_item_position = self.items[-1][-1][1] + self.items[-1][-2][1]
+
+        # score
+        score_text = "Your Score: %.1f" % score
+        score_font = pygame.font.Font(None, config.SCORE_SIZE)
+        score_label = score_font.render(score_text, 1, config.SCORE_COLOR)
+        score_width = score_label.get_rect().width
+        score_height = score_label.get_rect().height
+        score_position_x = (self.screen_width / 2) - (score_width / 2)
+        score_position_y = last_item_position + score_height
+        self.items.append([score_text, score_label, (score_width, score_height), (score_position_x, score_position_y)])
 
 class FailureMenu(Menu):
 
