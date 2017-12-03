@@ -38,7 +38,7 @@ class LightParticle(pygame.sprite.Sprite):
         self.speed_x = self.speed * math.cos(math.radians(direction))
         self.speed_y = self.speed * math.sin(math.radians(direction))
 
-        self.rect.center = self.parent.rect.center
+        self.rect.center = self.parent.particle_origin
         self.lifetime = config.LIGHT_PARTICLE_LIFETIME
 
     def update(self, level):
