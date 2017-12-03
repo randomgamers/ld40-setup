@@ -72,6 +72,8 @@ def init_screen(fullscreen):
 
 
 def toggle_fullscreen(screen):
+    global fullscreen
+    
     if pygame.display.get_driver() == 'x11':
         pygame.display.toggle_fullscreen()
     else:
