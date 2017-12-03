@@ -19,6 +19,9 @@ class LightParticle(pygame.sprite.Sprite):
         self.image, self.rect = utils.load_image('particles/particle.png', use_alpha=True)
         self.original_image = self.image.copy()
 
+        # Make the collision rect slightly bigger
+        self.collision_rect = self.rect.copy()
+
         self.speed = config.LIGHT_PARTICLE_SPEED  # random.randrange(16, 24)
         self.lifetime = 0
         self.reset()
@@ -50,6 +53,9 @@ class LightParticle(pygame.sprite.Sprite):
 
         self.image = pygame.transform.scale(self.original_image, (int(self.size * size_const), int(self.size * size_const)))
         self.lifetime -= 1
+
+        self.collision_rect = self.image.get_rect()
+        self.collision_rect.center = self.rect.center
 
         if self.lifetime == 1:
             self.reset()
