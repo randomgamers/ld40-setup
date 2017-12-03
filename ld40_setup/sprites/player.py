@@ -55,6 +55,16 @@ class Player(AnimatedSprite):
         # number of saved hostages
         self.num_saved_hostages = 0
 
+        # Busted sounds
+        self.busted_sounds = ['character/ohshit.ogg', 'character/fuckfuckFUCK.ogg', 'character/notagainman.ogg', 'character/FUCK.ogg']
+
+    def set_busted(self):
+        if self.busted:
+            return
+
+        self.busted = True
+        GameSound(self.busted_sounds[random.randrange(len(self.busted_sounds))]).play()
+
     def update_walking_speed(self):
         train_slowdown = 1.0
         if len(self.train) > 0:

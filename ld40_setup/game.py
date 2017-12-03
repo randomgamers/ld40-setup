@@ -224,10 +224,10 @@ def play_level(level, screen):
                 cameraguard.removed_particles.update(level)
 
                 if check_for_detection(player, cameraguard, screen_collision_box):
-                    player.busted = True
+                    player.set_busted()
                 for hostage in player.train:
                     if check_for_detection(hostage, cameraguard, screen_collision_box):
-                        player.busted = True
+                        player.set_busted()
 
             hostages.update()
             soundwaves.update()
@@ -235,7 +235,7 @@ def play_level(level, screen):
             for hostage in player.train:
                 for guard in guards.sprites():
                     if dist(hostage.rect.center, guard.rect.center) < hostage.soundwave_radius:
-                        player.busted = True
+                        player.set_busted()
 
             # if pygame.sprite.groupcollide(soundwaves, guards, dokilla=False, dokillb=False):
             #     player.busted = True
@@ -257,7 +257,6 @@ def play_level(level, screen):
                     guard.rect.center = guard.rect.centerx - dx, guard.rect.centery - dy
 
             if should_die_soon:
-                background_sound.stop()
                 player.dead_count += 1
                 if player.dead_count >= (2 * config.FPS):
                     player.dead = True
