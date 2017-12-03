@@ -148,3 +148,18 @@ class GameWonMenu(Menu):
         items = ['(S) Play Whole Game Again', '(F) Toggle Fullscreen', '(Q) Main Menu']
         super().__init__(screen, menu_items=items, background_color=(128,97,37), title_color=(0,0,0),
                          message='Game Completed')
+
+
+class CreditsMenu(Menu):
+
+    def __init__(self, screen):
+        items = ['Coding: @petrbel, @gyfis, @adikus, @MattyTesar',
+                 'Graphics: @MattyTesar',
+                 'Sounds:  @petrbel, @gyfis, @adikus, @MattyTesar, @TODO',
+                 'Music: @TODO']
+        super().__init__(screen, menu_items=items, background_color=(0,0,0), title_color=(255,255,255),
+                         message='Credits')
+
+    def event_handler(self, event):
+        if event.type == pygame.KEYDOWN:
+            return True

@@ -15,7 +15,7 @@ from .level import get_level_classes
 from .game_camera import GameCamera
 from .game_sound import GameSound
 from . import config
-from .menu import MainMenu, SuccessMenu, FailureMenu, GameWonMenu
+from .menu import MainMenu, SuccessMenu, FailureMenu, GameWonMenu, CreditsMenu
 from .database import insert_score, get_score_histogram
 
 
@@ -106,6 +106,10 @@ def main():
                 break
             elif response == 'start': pass
             else: raise ValueError('unknown menu response: {}'.format(response))
+
+    # show final credits
+    time.sleep(config.AFTER_QUIT_DELAY)
+    CreditsMenu(screen).show()
 
     pygame.quit()  # terminate gracefully
 
