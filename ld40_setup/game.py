@@ -186,7 +186,7 @@ def play_level(level, screen):
 
     # Main Loop
     going = True
-    pygame.key.set_repeat(1, int(1000 / config.FPS));
+    pygame.key.set_repeat(1, int(1000 / config.FPS))
 
     while going:
         delay = clock.tick(config.FPS)
