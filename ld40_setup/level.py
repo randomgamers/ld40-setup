@@ -44,6 +44,7 @@ class Level:
 
         self.player = Player(position=self.entry_coord, walls=self.walls)
         self.guards = []
+        self.cameras = []
         self.hostages = []
 
     @property
@@ -66,6 +67,9 @@ class Level1(Level):
             Guard(walk_path=[(2,6), (10,6)], walk_speed=1),
             Guard(walk_path=[(12,18), (12,10)], walk_speed=1),
             Guard(walk_path=[(16,10), (16,18)], walk_speed=2),
+        ]
+
+        self.cameras = [
             Camera(position=(3,14), angle_from=180, angle_to=270, rotation_speed=60, delay=1),
             Camera(position=(27,18), angle_from=180, angle_to=270, rotation_speed=60, delay=1),
         ]

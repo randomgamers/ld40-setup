@@ -9,7 +9,7 @@ import time
 if not pygame.font: print('Warning, fonts disabled')
 if not pygame.mixer: print('Warning, sound disabled')
 
-from .utils import load_sound, coord_to_game_pixel
+from .utils import load_sound, coord_to_game_pixel, dist
 from .sprites import Fist
 from .level import build_level
 from .game_camera import GameCamera
@@ -127,9 +127,13 @@ def play_level(level_num, screen):
     walls.draw(base_game_screen)
 
     guards = pygame.sprite.Group(*level.guards)
+    cameras = pygame.sprite.Group(*level.cameras)
+    shit_with_light = pygame.sprite.Group(*level.guards, *level.cameras)
     hostages = pygame.sprite.Group(*level.hostages)
+    soundwaves = pygame.sprite.Group(*list(map(lambda h: h.soundwave, hostages)))
     player = level.player
-    allsprites = pygame.sprite.RenderPlain((player, fist)) # player.collision_sprite, guards.sprites()[0].particle_sprite
+    allsprites = pygame.sprite.RenderPlain((player, fist))  # player.collision_sprite, guards.sprites()[0].particle_sprite
+    screen_rect = pygame.Rect((np.array(camera.blit_position) * -1), (window.get_size()))
 
     # Main Loop
     going = True
@@ -172,16 +176,21 @@ def play_level(level_num, screen):
 
         allsprites.update()
         guards.update()
-        for guard in guards.sprites():
-            guard.particles.update(level)
-            screen_rect = pygame.Rect((np.array(camera.blit_position)*-1), (window.get_size()))
-
-            if guard.particle_rect.colliderect(screen_rect) and pygame.sprite.collide_rect(guard.particle_sprite, player):
-                pass #playerwas detected by guard
+        cameras.update()
+        for cameraguard in shit_with_light.sprites():
+            cameraguard.particles.update(level)
+            if cameraguard.particle_rect.colliderect(screen_rect) and pygame.sprite.collide_rect(cameraguard.particle_sprite, player):
+                player.dead = True
 
         hostages.update()
+        soundwaves.update()
+        # This can be probably written more effectively but YOLO
         for hostage in hostages.sprites():
-            hostage.soundwaves.update()
+            for guard in guards.sprites():
+                if dist(hostage.rect.center, guard.rect.center) < hostage.soundwave_radius:
+                    player.dead = True
+
+        pygame.sprite.groupcollide(soundwaves, guards, dokilla=False, dokillb=False)
         camera.update()
 
         # Draw Everything
@@ -189,15 +198,15 @@ def play_level(level_num, screen):
         game_screen.blit(base_game_screen, (0, 0))
 
         screen_rect = pygame.Rect((np.array(camera.blit_position) * -1), (window.get_size()))
-        for guard in guards.sprites():
-            if guard.particle_rect.colliderect(screen_rect):
-                for particle in guard.particles.sprites():
+        for cameraguard in shit_with_light.sprites():
+            if cameraguard.particle_rect.colliderect(screen_rect):
+                for particle in cameraguard.particles.sprites():
                     if particle.visible:
                         pygame.sprite.GroupSingle(particle).draw(game_screen)
-        guards.draw(game_screen)
-        for hostage in hostages.sprites():
-            hostage.soundwaves.draw(game_screen)
 
+        guards.draw(game_screen)
+        cameras.draw(game_screen)
+        soundwaves.draw(game_screen)
         hostages.draw(game_screen)
 
         allsprites.draw(game_screen)

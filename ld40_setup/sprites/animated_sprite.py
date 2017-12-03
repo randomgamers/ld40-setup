@@ -10,7 +10,7 @@ from .. import config
 class AnimatedSprite(pygame.sprite.Sprite):
     """Basic animated and moveable sprite."""
 
-    def __init__(self, image_dir: str, image_files: List[str], position: Tuple[int, int], speed: Tuple[int, int]=(0,0)):
+    def __init__(self, image_dir: str, image_files: List[str], position: Tuple[int, int], speed: Tuple[int, int]=(0,0), skip_frames=False):
         super().__init__()
         assert len(image_files) > 0, 'Animated sprite must contain at least one image.'
 
@@ -24,7 +24,7 @@ class AnimatedSprite(pygame.sprite.Sprite):
 
         # frames-realted stuff
         self.frame_wait_counter = 0
-        self.frame_wait_max = config.FPS
+        self.frame_wait_max = 15 if skip_frames else config.FPS
         self.frame_wait_max /= len(self.images)
         self.frame_wait_max /= 3
 

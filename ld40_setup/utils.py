@@ -1,7 +1,7 @@
 import os, sys
 import pygame
-from pygame.locals import *
 from . import config
+import math
 
 
 class LoadError(RuntimeError):
@@ -50,3 +50,7 @@ def coord_to_game_pixel(coord):
 def game_pixel_to_coord(game_pixel):
     x, y = game_pixel
     return x // config.TILE_SIZE, y // config.TILE_SIZE
+
+
+def dist(coord1, coord2):
+    return math.sqrt((coord2[0] - coord1[0]) ** 2 + (coord2[1] - coord1[1]) ** 2)

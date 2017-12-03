@@ -8,31 +8,27 @@ from ..utils import load_image_norect, game_pixel_to_coord
 from .animated_sprite import AnimatedSprite
 
 
-class Soundwave(pygame.sprite.Sprite):
-    def __init__(self, parent, soundwave_radius):
-        super().__init__()
+class Soundwave(AnimatedSprite):
+    def __init__(self, parent, radius):
+        super().__init__(image_dir='soundwaves/circles{}'.format(radius),
+                         image_files=['circle_anim_0{}.png'.format(i) for i in range(1, 4)],
+                         position=(0, 0), skip_frames=True)
         self.parent = parent
         self.image, self.rect = load_image('soundwaves/circle.png', use_alpha=True)
-        self.original_image = self.image.copy()
-        self.soundwave_radius = soundwave_radius
-        self.reset()
-
-    def reset(self):
-        self.radius = 0
+        self.radius = radius
 
     def update(self):
         super().update()
 
-        self.radius += 1
         self.rect.center = (self.parent.rect.center[0] + self.parent.rect.w / 2 - self.radius, self.parent.rect.center[1] + self.parent.rect.h / 2 - self.radius)
-        # self.image = pygame.transform.scale(self.original_image, (self.radius * 2, self.radius * 2))
-        alpha = int(120 * (1 - (self.radius / max(self.radius, self.soundwave_radius))))
-        # print(alpha)
-        # self.image.set_alpha(128)
-        # self.image.fill((255, 255, 255, alpha), None, pygame.BLEND_RGBA_MULT)
-
-        if self.radius > self.soundwave_radius:
-            self.reset()
+        # # self.image = pygame.transform.scale(self.original_image, (self.radius * 2, self.radius * 2))
+        # alpha = int(120 * (1 - (self.radius / max(self.radius, self.soundwave_radius))))
+        # # print(alpha)
+        # # self.image.set_alpha(128)
+        # # self.image.fill((255, 255, 255, alpha), None, pygame.BLEND_RGBA_MULT)
+        #
+        # if self.radius > self.soundwave_radius:
+        #     self.reset()
 
 
 class Hostage(AnimatedSprite):
@@ -51,10 +47,10 @@ class Hostage(AnimatedSprite):
         self.collision_rect = self.rect.inflate(-self.rect.w*0.5, -self.rect.h*0.15)
 
         # visualization of collider TODO: remove
-        self.collision_sprite = pygame.sprite.Sprite()
-        self.collision_sprite.rect = self.collision_rect
-        self.collision_sprite.image = pygame.Surface((self.collision_rect.w, self.collision_rect.h))
-        self.collision_sprite.image.fill((255, 125, 0))
+        # self.collision_sprite = pygame.sprite.Sprite()
+        # self.collision_sprite.rect = self.collision_rect
+        # self.collision_sprite.image = pygame.Surface((self.collision_rect.w, self.collision_rect.h))
+        # self.collision_sprite.image.fill((255, 125, 0))
 
         # last speeds
         self.last_position = position
@@ -66,16 +62,11 @@ class Hostage(AnimatedSprite):
         self.entry_tile = entry_tile
 
         # soundwaves
-        self.soundwaves = pygame.sprite.Group()
         self.soundwave_radius = soundwave_radius
-
-        self.ticks = 0
+        self.soundwave = Soundwave(self, soundwave_radius)
 
     def collision_check(self, _, player):
         return self.collision_rect.colliderect(player.rect)
-
-    def vyser_soundwave(self):
-        self.soundwaves.add(Soundwave(self, self.soundwave_radius))
 
     def update(self):
         # compute deltas
@@ -107,11 +98,6 @@ class Hostage(AnimatedSprite):
                     self.player.add_to_train(self)
                     self.in_train = True
 
-        self.ticks += 1
-        if self.ticks % (self.soundwave_radius / config.SOUNDWAVE_MOD) == 0:
-            if len(self.soundwaves) < (self.soundwave_radius / config.SOUNDWAVES_COUNT):
-                self.vyser_soundwave()
-
         if game_pixel_to_coord(self.rect.center) == self.entry_tile:
             self.player.remove_from_train(self)
             self.kill()
@@ -126,7 +112,7 @@ class NoisyChick(Hostage):
                          image_files=['walk_0{}.png'.format(i) for i in range(1, 9)],
                          position=position,
                          player=player,
-                         entry_tile=entry_tile, soundwave_radius=130)
+                         entry_tile=entry_tile, soundwave_radius=100)
         self.noise = 1
         self.idle_image = load_image_norect('characters/hostage1/idle.png', True)
 
@@ -137,7 +123,7 @@ class FatGuy(Hostage):
                          image_files=['walk_0{}.png'.format(i) for i in range(1, 9)],
                          position=position,
                          player=player,
-                         entry_tile=entry_tile, soundwave_radius=70)
+                         entry_tile=entry_tile, soundwave_radius=100)
         self.slowdown = 2
 
         self.idle_image = load_image_norect('characters/hostage2/idle.png', True)
