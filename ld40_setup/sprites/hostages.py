@@ -87,12 +87,15 @@ class Hostage(AnimatedSprite):
     def collision_check(self, _, player):
         return self.collision_rect.colliderect(player.rect)
 
-    def play_sound(self):
-        sound = GameSound(self.sounds[random.randrange(len(self.sounds))])
+    def play_track(self, sound_track):
+        sound = GameSound(sound_track)
         sound.play()
 
         self.soundwave.enabled = True
         self.soundwave_timer = sound.length * float(config.FPS)
+
+    def play_sound(self):
+        self.play_track(self.sounds[random.randrange(len(self.sounds))])
 
     def update(self):
         # compute deltas

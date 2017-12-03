@@ -150,7 +150,7 @@ class Player(AnimatedSprite):
         self.train.append(hostage)
         self.hostage_init_delay[len(self.train)-1] = config.TRAIN_DELAY * (len(self.train)+1) * config.FPS
         self.update_walking_speed()
-        GameSound(hostage.add_sound).play()
+        hostage.play_track(hostage.add_sound)
 
     def remove_from_train(self, hostage):
         self.train.remove(hostage)
