@@ -1,5 +1,6 @@
 import os
 import numpy as np
+from typing import List, Type
 
 from . import config
 from .sprites import Player, hostages, Guard, Camera, Wall, Floor, Door
@@ -56,9 +57,13 @@ class Level:
         return np.array(self.map).T.shape
 
 
-def build_level(level_num: int) -> Level:
-    # TODO: multiple levels
-    return [Level1,Level1,Level1][level_num-1]()
+def get_level_classes() -> List[Type[Level]]:
+    # TODO: various levels
+    return [
+        Level1,
+        Level1,
+        Level1
+    ]
 
 
 class Level1(Level):
