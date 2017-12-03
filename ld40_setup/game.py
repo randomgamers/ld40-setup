@@ -151,6 +151,8 @@ def play_level(level, screen):
 
     camera = GameCamera(game_size, window_size)
 
+    pygame.mixer.init()
+
     # Create The Backgound
     background = pygame.Surface(game_screen.get_size())
     background = background.convert()
