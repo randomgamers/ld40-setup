@@ -73,18 +73,19 @@ class Level1(Level):
         super().__init__()
 
         self.guards = [
-            Guard(walk_path=[(3, 21), (25, 21)], walk_speed=1),
-            Guard(walk_path=[(31, 17), (31, 19)], walk_speed=2),
-            Guard(walk_path=[(51, 19), (51, 17)], walk_speed=2),
-            Guard(walk_path=[(31, 19), (51, 19)], walk_speed=2),
-            Guard(walk_path=[(49, 2), (49, 13)], walk_speed=3),
-            Guard(walk_path=[(33, 13), (33, 2)], walk_speed=3)
+            Guard(walk_path=[(3, 21), (25, 21)], walk_speed=3),
+            Guard(walk_path=[(32, 14), (32, 19)], walk_speed=2),
+            Guard(walk_path=[(57, 19), (57, 14)], walk_speed=2),
+            Guard(walk_path=[(35, 20), (50, 20)], walk_speed=5),
+            Guard(walk_path=[(50, 11), (50, 6)], walk_speed=3),
+            Guard(walk_path=[(43, 6), (43, 11)], walk_speed=3),
+            Guard(walk_path=[(34, 11), (34, 6)], walk_speed=3),
         ]
 
         self.cameras = [
-            Camera(position=(1, 11), angle_from=200, angle_to=320, rotation_speed=70, delay=2),
-            Camera(position=(8, 25), angle_from=300, angle_to=420, rotation_speed=50, delay=1.5),
-            Camera(position=(35, 22), angle_from=170, angle_to=260, rotation_speed=60, delay=1)
+            Camera(position=(1, 12), angle_from=-90, angle_to=90, rotation_speed=70, delay=2),
+            Camera(position=(9, 25), angle_from=-45, angle_to=45, rotation_speed=50, delay=1.5),
+            Camera(position=(35, 22), angle_from=170, angle_to=260, rotation_speed=60, delay=1),
         ]
 
         self.hostages = [
