@@ -54,11 +54,6 @@ SOUNDWAVES_COUNT = 20
 # floor items
 FLOOR_ITEM_PROBABILITY = 1
 
-# Saying shit
-MAX_SOUNDWAVE_TIMER = 3
-MIN_PLAY_SOUND_AT = 20
-MAX_PLAY_SOUND_AT = 30
-
 # Database
 DATABASE_URL = 'postgresql://ld40_user:S$~9M);=u=2:s)Mx@ld40.adikus.me:5432/ld40'
 DATABASE_TABLE = 'scores_dev'
