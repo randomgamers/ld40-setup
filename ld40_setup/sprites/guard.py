@@ -15,6 +15,8 @@ class Guard(WanderingSprite):
         self.direction = 0
         self.last_position = [0, 0]
 
+        self.particle_origin = (0, 0)
+
         # particle collision rectangle
         self.particle_rect = pygame.Rect(0, 0, 250, 60)
         self.particle_sprite = pygame.sprite.Sprite()
@@ -27,10 +29,15 @@ class Guard(WanderingSprite):
 
         self.particle_sprite.image = self.particle_image
 
+        self.collision_rect = self.rect.inflate(-self.rect.w * 0.7, -self.rect.h * 0.25)
+
     def vyser_particle(self, particle_id):
         self.particles.add(LightParticle(particle_id, self))
 
     def update(self):
+        self.particle_origin = self.rect.center
+        self.collision_rect.center = self.rect.center
+
         if self.direction == 0:
             self.particle_sprite.image = self.particle_image
             self.particle_rect.w = 250

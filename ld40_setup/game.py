@@ -11,7 +11,7 @@ if not pygame.mixer: print('Warning, sound disabled')
 
 from .utils import load_sound, coord_to_game_pixel, dist
 from .sprites import Fist
-from .level import build_level
+from .level import get_level_classes
 from .game_camera import GameCamera
 from . import config
 from .menu import MainMenu, SuccessMenu, FailureMenu, GameWonMenu
@@ -33,6 +33,9 @@ def main():
     pygame.display.set_caption(config.GAME_NAME)
     pygame.mouse.set_visible(0)
 
+    level_classes = get_level_classes()
+    max_levels = len(level_classes)
+
     # show game menu until quit
     while True:
 
@@ -42,11 +45,10 @@ def main():
         elif response == 'start': pass
         else: raise ValueError('unknown menu response: {}'.format(response))
 
-        max_levels = 3
-        win_levels = 0
+        won_levels = 0
 
         # foreach level
-        for level_num in range(1, max_levels+1):
+        for level_num, level_class in enumerate(level_classes, 1):
 
             # show success
             if level_num > 1:
@@ -61,9 +63,9 @@ def main():
 
             # while level not finished
             while True:
-                success = play_level(level_num, screen)  # play the fame
+                success = play_level(level_class(), screen)  # play the fame
                 if success:  # continue to next level
-                    win_levels += 1
+                    won_levels += 1
                     break
                 else:  # show failure menu
                     response = FailureMenu(screen, level_num).show()
@@ -77,7 +79,7 @@ def main():
             if go_to_menu:  # player didnt want to replay the level
                 break
 
-        if win_levels == max_levels:
+        if won_levels == max_levels:
             response = GameWonMenu(screen).show()
             if response == 'quit':
                 time.sleep(1)
@@ -88,8 +90,7 @@ def main():
     pygame.quit()  # terminate gracefully
 
 
-def play_level(level_num, screen):
-    level = build_level(level_num)
+def play_level(level, screen):
     total_hostages = len(level.hostages)
 
     tiles = config.TILES
@@ -135,7 +136,7 @@ def play_level(level_num, screen):
     soundwaves = pygame.sprite.Group(*list(map(lambda h: h.soundwave, hostages)))
     player = level.player
     allsprites = pygame.sprite.RenderPlain((player, fist))  # player.collision_sprite, guards.sprites()[0].particle_sprite
-    screen_rect = pygame.Rect((np.array(camera.blit_position) * -1), (window.get_size()))
+    screen_collision_box = pygame.Rect((np.array(camera.blit_position) * -1), (window.get_size()))
 
     # Main Loop
     going = True
@@ -181,7 +182,11 @@ def play_level(level_num, screen):
         cameras.update()
         for cameraguard in shit_with_light.sprites():
             cameraguard.particles.update(level)
-            if cameraguard.particle_rect.colliderect(screen_rect) and cameraguard.particle_rect.colliderect(player.collision_rect):
+            # Check collision with guards light beam
+            if cameraguard.particle_rect.colliderect(screen_collision_box) and pygame.sprite.collide_rect(cameraguard.particle_sprite, player):
+                if pygame.sprite.spritecollideany(player, cameraguard.particles, collided=lambda p, particle: p.light_collision_rect.colliderect(particle.collision_rect)):
+                    player.dead = True
+            if cameraguard.collision_rect.colliderect(player.light_collision_rect):
                 player.dead = True
 
         hostages.update()
@@ -199,9 +204,8 @@ def play_level(level_num, screen):
         # Blit base game screen to game screen
         game_screen.blit(base_game_screen, (0, 0))
 
-        screen_rect = pygame.Rect((np.array(camera.blit_position) * -1), (window.get_size()))
         for cameraguard in shit_with_light.sprites():
-            if cameraguard.particle_rect.colliderect(screen_rect):
+            if cameraguard.particle_rect.colliderect(screen_collision_box):
                 cameraguard.particles.draw(game_screen)
 
         guards.draw(game_screen)

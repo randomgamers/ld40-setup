@@ -21,13 +21,14 @@ class Player(AnimatedSprite):
         self.walls = walls
         self.dead = False
 
-        # collision rectangle
+        # collision rectangles
         self.collision_rect = self.rect.inflate(-self.rect.w*0.5, -self.rect.h*0.4)
+        self.light_collision_rect = self.rect.inflate(-self.rect.w * 0.7, -self.rect.h * 0.25)
 
         # visualization of collider TODO: remove
         self.collision_sprite = pygame.sprite.Sprite()
-        self.collision_sprite.rect = self.collision_rect
-        self.collision_sprite.image = pygame.Surface((self.collision_rect.w, self.collision_rect.h))
+        self.collision_sprite.rect = self.light_collision_rect
+        self.collision_sprite.image = pygame.Surface((self.light_collision_rect.w, self.light_collision_rect.h))
         self.collision_sprite.image.fill((255, 125, 0))
 
         # train stuff
@@ -64,6 +65,7 @@ class Player(AnimatedSprite):
     def update(self):
         # sprite update
         self.collision_rect.center = (self.rect.center[0], self.rect.center[1] + 0.2*self.rect.h)
+        self.light_collision_rect.center = (self.rect.center[0], self.rect.center[1] + 0.05 * self.rect.h)
 
         for direction, _ in self.allowed_directions.items():
             self.allowed_directions[direction] = True
