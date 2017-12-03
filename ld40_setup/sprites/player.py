@@ -28,6 +28,8 @@ class Player(AnimatedSprite):
         self.collision_rect = self.rect.inflate(-self.rect.w*0.5, -self.rect.h*0.4)
         self.light_collision_rect = self.rect.inflate(-self.rect.w * 0.7, -self.rect.h * 0.25)
 
+        self.layer = 0
+
         # visualization of collider TODO: remove
         self.collision_sprite = pygame.sprite.Sprite()
         self.collision_sprite.rect = self.light_collision_rect
@@ -83,6 +85,8 @@ class Player(AnimatedSprite):
 
         for direction, _ in self.allowed_directions.items():
             self.allowed_directions[direction] = True
+
+        self.layer = self.rect.center[1]
 
         collisions = pygame.sprite.spritecollide(self, self.walls, False, collided=self.collision_check)
         if collisions:
