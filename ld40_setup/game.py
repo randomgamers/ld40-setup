@@ -13,7 +13,7 @@ from .sprites import Fist
 from .level import build_level
 from .game_camera import GameCamera
 from . import config
-from .menu import MainMenu
+from .menu import MainMenu, SuccessMenu, FailureMenu, GameWonMenu
 
 
 def scale_window_to_screen(window, screen):
@@ -32,29 +32,54 @@ def main():
     pygame.display.set_caption(config.GAME_NAME)
     pygame.mouse.set_visible(0)
 
-    response = MainMenu(screen).run()
-    if response == 'quit':
-        quit()
-    elif response == 'start':
-        pass
+    # show game menu until quit
+    while True:
 
-    # foreach level
-    max_levels = 3
-    for level_num in range(1, max_levels+1):
+        # Main Menu
+        response = MainMenu(screen).run()
+        if response == 'quit': break
+        elif response == 'start': pass
+        else: raise ValueError('unknown menu response: {}'.format(response))
 
-        # while level not finished
-        # show_menu(level_num, 'pre', screen)
-        while True:
-            success = play_level(level_num, screen)
-            if success:
+        max_levels = 3
+        win_levels = 0
+
+        # foreach level
+        for level_num in range(1, max_levels+1):
+
+            # show success
+            if level_num > 1:
+                response = SuccessMenu(screen).run()
+                if response == 'quit': break
+                elif response == 'start': pass
+                else: raise ValueError('unknown menu response: {}'.format(response))
+
+            go_to_menu = False  # player doesnt want to continue playing the level and want to go back to menu
+
+            # while level not finished
+            while True:
+                success = play_level(level_num, screen)  # play the fame
+                if success:  # continue to next level
+                    win_levels += 1
+                    break
+                else:  # show failure menu
+                    response = FailureMenu(screen).run()
+                    if response == 'quit':
+                        go_to_menu = True
+                        break
+                    elif response == 'start': pass
+                    else: raise ValueError('unknown menu response: {}'.format(response))
+
+            if go_to_menu:  # player didnt want to replay the level
                 break
-            else:
-                pass
-                # show_menu(level_num, 'fail', screen)
 
-    # show_menu(-1, 'finished', screen)
+        if win_levels == max_levels:
+            response = GameWonMenu(screen).run()
+            if response == 'quit': break
+            elif response == 'start': pass
+            else: raise ValueError('unknown menu response: {}'.format(response))
 
-    pygame.quit()
+    pygame.quit()  # terminate gracefully
 
 
 def play_level(level_num, screen):
