@@ -1,4 +1,5 @@
 import pygame
+import random
 from .. import config
 from .. import utils
 
@@ -8,7 +9,12 @@ class Floor(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
 
         if type == '.':
-            self.floor_image = utils.load_image('map/floor_50.png')
+            item_chance = random.randint(0, 100)
+            if item_chance >= 100 - config.FLOOR_ITEM_PROBABILITY:
+                self.floor_image = utils.load_image('map/floor_item_{}.png'.format(random.randint(1, 5)))
+            else:
+                self.floor_image = utils.load_image('map/floor_50.png')
+
         elif type == ',':
             self.floor_image = utils.load_image('map/safe_floor_50.png')
         elif type == 'E':
