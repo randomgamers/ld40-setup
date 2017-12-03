@@ -18,7 +18,7 @@ python3 -m saving_crying_bryan.game
 Build executable for the game.
 
 ```
-python3 setup.py build`
+python3 setup.py build
 ```
 
 Tested operating systems:
