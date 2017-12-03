@@ -90,10 +90,10 @@ class Level:
 
 def get_level_classes() -> List[Type[Level]]:
     return [
-        Level3,
+        Level1,
         Level2,
         Level3,
-        Level4
+        Level4,
     ]
 
 
@@ -103,9 +103,10 @@ class Level1(Level):
         super().__init__()
 
         self.hostages = [
-            hostages.RegularGuy(position=(16, 2), player=self.player, entry_tile=self.entry_coord, end_tiles=self.end_coords),
-            hostages.RegularGuy(position=(46, 11), player=self.player, entry_tile=self.entry_coord, end_tiles=self.end_coords),
-            hostages.RegularGuy(position=(17, 8), player=self.player, entry_tile=self.entry_coord, end_tiles=self.end_coords)
+            hostages.NoisyChick(position=(16, 2), player=self.player, entry_tile=self.entry_coord, end_tiles=self.end_coords),
+            hostages.FatGuy(position=(46, 11), player=self.player, entry_tile=self.entry_coord, end_tiles=self.end_coords),
+            hostages.RegularGuy(position=(17, 8), player=self.player, entry_tile=self.entry_coord, end_tiles=self.end_coords),
+            hostages.RegularGuy(position=(17, 11), player=self.player, entry_tile=self.entry_coord, end_tiles=self.end_coords)
         ]
 
         self.cameras = [
@@ -116,6 +117,40 @@ class Level1(Level):
             Guard(walk_path=[(28, 8), (28, 11)], walk_speed=1),
         ]
 
+        self.add_text('This is the', (1, 2))
+        self.add_text('safety zone.', (1, 2.5))
+
+        self.add_text('Let\'s get all four', (1, 4))
+        self.add_text('hostages here as', (1, 4.5))
+        self.add_text('fast as possible.', (1, 5))
+
+        self.add_text('Seems like a', (15, 3))
+        self.add_text('kidnapped lady.', (15, 3.5))
+        self.add_text('Take her to safety!', (15, 4.5))
+
+        self.add_text('Some hostages are', (27, 3))
+        self.add_text('pretty loud and', (27, 3.5))
+        self.add_text('may attract attention.', (27, 4))
+
+        self.add_text('There\'s a camera', (33, 3))
+        self.add_text('on the right.', (33, 3.5))
+        self.add_text('Don\'t let it see you!', (33, 4))
+
+        self.add_text('Oh, the second hostage!', (44, 8.5))
+        self.add_text('Such a fat guy,', (44, 9))
+        self.add_text('bet he\'s very slow.', (44, 9.5))
+
+        self.add_text('What a dangerous guard!', (32, 11))
+        self.add_text('Better watch his moves', (32, 11.5))
+        self.add_text('before you pass him.', (32, 12))
+
+        self.add_text('The final hostages! Let\'s', (19, 8))
+        self.add_text('take them home together.', (19, 8.5))
+        self.add_text('Hostages will form a line', (19, 9.5))
+        self.add_text('following your steps.', (19, 10))
+        self.add_text('The more you have it', (19, 10.5))
+        self.add_text('the harder the escape is.', (19, 11))
+
 
 class Level2(Level):
     def __init__(self):
@@ -124,30 +159,18 @@ class Level2(Level):
         super().__init__()
 
         self.guards = [
-            Guard(walk_path=[(3, 21), (25, 21)], walk_speed=3),
-            Guard(walk_path=[(32, 14), (32, 19)], walk_speed=2),
-            Guard(walk_path=[(57, 19), (57, 14)], walk_speed=2),
-            Guard(walk_path=[(35, 20), (50, 20)], walk_speed=5),
-            Guard(walk_path=[(50, 11), (50, 6)], walk_speed=3),
-            Guard(walk_path=[(43, 6), (43, 11)], walk_speed=3),
-            Guard(walk_path=[(34, 11), (34, 6)], walk_speed=3),
-        ]
-
-        self.cameras = [
-            Camera(position=(0.5, 12), angle_from=-90, angle_to=90, rotation_speed=70, delay=2),
-            Camera(position=(8.5, 25), angle_from=-45, angle_to=45, rotation_speed=50, delay=1.5),
-            Camera(position=(35, 21.5), angle_from=170, angle_to=260, rotation_speed=60, delay=1),
-            Camera(position=(43.5, 15), angle_from=0, angle_to=90, rotation_speed=30, delay=1)
+            Guard(walk_path=[(2,3), (11,3)], walk_speed=2),
+            Guard(walk_path=[(11,5), (2,5)], walk_speed=2),
+            Guard(walk_path=[(2,7), (11,7)], walk_speed=2),
+            Guard(walk_path=[(26,7), (16,7), (16,5), (26,5), (26,3), (16,3)], walk_speed=7),
         ]
 
         self.hostages = [
-            hostages.RegularGuy(position=(8, 10), player=self.player, entry_tile=self.entry_coord, end_tiles=self.end_coords),
-            hostages.RegularGuy(position=(26, 25), player=self.player, entry_tile=self.entry_coord, end_tiles=self.end_coords),
-            hostages.RegularGuy(position=(58, 23), player=self.player, entry_tile=self.entry_coord, end_tiles=self.end_coords),
-            hostages.RegularGuy(position=(19, 10), player=self.player, entry_tile=self.entry_coord, end_tiles=self.end_coords),
+            hostages.FatGuy(position=(1, 1), player=self.player, entry_tile=self.entry_coord, end_tiles=self.end_coords),
+            hostages.NoisyChick(position=(13, 1), player=self.player, entry_tile=self.entry_coord, end_tiles=self.end_coords),
+            hostages.NoisyChick(position=(15, 1), player=self.player, entry_tile=self.entry_coord, end_tiles=self.end_coords),
+            hostages.FatGuy(position=(27, 1), player=self.player, entry_tile=self.entry_coord, end_tiles=self.end_coords),
         ]
-
-        self.add_text('hello motherfucker', (5,5))
 
 
 class Level3(Level):
@@ -183,15 +206,25 @@ class Level4(Level):
         super().__init__()
 
         self.guards = [
-            Guard(walk_path=[(2,3), (11,3)], walk_speed=2),
-            Guard(walk_path=[(2,5), (11,5)], walk_speed=2),
-            Guard(walk_path=[(2,7), (11,7)], walk_speed=2),
-            Guard(walk_path=[(26,7), (16,7), (16,5), (26,5), (26,3), (16,3)], walk_speed=5),
+            Guard(walk_path=[(3, 21), (25, 21)], walk_speed=3),
+            Guard(walk_path=[(32, 14), (32, 19)], walk_speed=2),
+            Guard(walk_path=[(57, 19), (57, 14)], walk_speed=2),
+            Guard(walk_path=[(35, 20), (50, 20)], walk_speed=5),
+            Guard(walk_path=[(50, 11), (50, 6)], walk_speed=3),
+            Guard(walk_path=[(43, 6), (43, 11)], walk_speed=3),
+            Guard(walk_path=[(34, 11), (34, 6)], walk_speed=3),
+        ]
+
+        self.cameras = [
+            Camera(position=(0.5, 12), angle_from=-90, angle_to=90, rotation_speed=70, delay=2),
+            Camera(position=(8.5, 25), angle_from=-45, angle_to=45, rotation_speed=50, delay=1.5),
+            Camera(position=(35, 21.5), angle_from=170, angle_to=260, rotation_speed=60, delay=1),
+            Camera(position=(43.5, 15), angle_from=0, angle_to=90, rotation_speed=30, delay=1)
         ]
 
         self.hostages = [
-            hostages.FatGuy(position=(1, 1), player=self.player, entry_tile=self.entry_coord, end_tiles=self.end_coords),
-            hostages.NoisyChick(position=(13, 1), player=self.player, entry_tile=self.entry_coord, end_tiles=self.end_coords),
-            hostages.NoisyChick(position=(15, 1), player=self.player, entry_tile=self.entry_coord, end_tiles=self.end_coords),
-            hostages.FatGuy(position=(27, 1), player=self.player, entry_tile=self.entry_coord, end_tiles=self.end_coords),
+            hostages.RegularGuy(position=(8, 10), player=self.player, entry_tile=self.entry_coord, end_tiles=self.end_coords),
+            hostages.RegularGuy(position=(26, 25), player=self.player, entry_tile=self.entry_coord, end_tiles=self.end_coords),
+            hostages.RegularGuy(position=(58, 23), player=self.player, entry_tile=self.entry_coord, end_tiles=self.end_coords),
+            hostages.RegularGuy(position=(19, 10), player=self.player, entry_tile=self.entry_coord, end_tiles=self.end_coords),
         ]
