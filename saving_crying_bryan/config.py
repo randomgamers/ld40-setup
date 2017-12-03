@@ -15,7 +15,7 @@ INGAME_TEXT_SIZE = 24
 INGAME_TEXT_COLOR = (0,0,0)
 
 # resources
-PROJECT_ROOT = 'ld40_setup'
+PROJECT_ROOT = 'saving_crying_bryan'
 RESOURCES_ROOT = 'resources'
 IMAGES_DIR = 'images'
 SOUNDS_DIR = 'sounds'

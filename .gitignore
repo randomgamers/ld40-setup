@@ -104,4 +104,7 @@ ENV/
 
 .DS_Store
 
-ld40_setup/resources/**/Thumbs.db
+## our
+saving_crying_bryan/resources/**/Thumbs.db
+profile.txt
+saving_crying_bryan/profile.txt
