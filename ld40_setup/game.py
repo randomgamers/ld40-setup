@@ -136,7 +136,6 @@ def play_level(level, screen):
     soundwaves = pygame.sprite.Group(*list(map(lambda h: h.soundwave, hostages)))
     player = level.player
     allsprites = pygame.sprite.RenderPlain((player, fist))  # player.collision_sprite, guards.sprites()[0].particle_sprite
-    screen_collision_box = pygame.Rect((np.array(camera.blit_position) * -1), (window.get_size()))
 
     # Main Loop
     going = True
@@ -164,6 +163,8 @@ def play_level(level, screen):
                     whiff_sound.play()  # miss
             elif event.type == MOUSEBUTTONUP:
                 fist.unpunch()
+
+        screen_collision_box = pygame.Rect((np.array(camera.blit_position) * -1), (window.get_size()))
 
         player.stop_walk()
         if pygame.key.get_pressed()[pygame.K_UP] or pygame.key.get_pressed()[pygame.K_w]:

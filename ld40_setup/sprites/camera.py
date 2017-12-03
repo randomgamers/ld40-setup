@@ -13,7 +13,7 @@ class Camera(RotatingSprite):
                          **kwargs)
 
         self.particles = pygame.sprite.Group()
-        self.particle_rect = pygame.Rect(0, 0, 30, 30)
+        self.particle_rect = pygame.Rect(0, 0, 600, 600)
         self.particle_rect.center = self.rect.center
         self.particle_sprite = pygame.sprite.Sprite()
         self.particle_sprite.rect = self.particle_rect
@@ -21,7 +21,7 @@ class Camera(RotatingSprite):
 
         self.particle_origin = (0, 0)
 
-        self.collision_rect = pygame.Rect(0, 0, 30, 30)
+        self.collision_rect = pygame.Rect(0, 0, 0, 0)
         self.collision_rect.center = self.rect.center
 
     def vyser_particle(self, particle_id):
