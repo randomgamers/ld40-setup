@@ -92,14 +92,14 @@ class MainMenu(Menu):
 
 class SuccessMenu(Menu):
 
-    def __init__(self, screen, num_level, score):
+    def __init__(self, screen, num_level, score, histogram):
         items = ['(S) Next Level', '(F) Toggle Fullscreen', '(Q) Main Menu']
         super().__init__(screen, menu_items=items, background_color=(44,51,38),
                          message='Level #{} Complete'.format(num_level))
 
-        self.show_score(score)
+        self.show_score(score, histogram)
 
-    def show_score(self, score):
+    def show_score(self, score, histogram):
         last_item_position = self.items[-1][-1][1] + self.items[-1][-2][1]
 
         # score
@@ -111,6 +111,28 @@ class SuccessMenu(Menu):
         score_position_x = (self.screen_width / 2) - (score_width / 2)
         score_position_y = last_item_position + score_height
         self.items.append([score_text, score_label, (score_width, score_height), (score_position_x, score_position_y)])
+
+        if histogram is None:
+            return
+
+        bar_width = 20
+        bar_height = 100
+        separator_width = 10
+        n = len(histogram)
+
+        max_count = max([count for _, count in histogram])
+        score_bucket = 0
+        while histogram[score_bucket][0][1] + 0.1 < score: score_bucket += 1
+
+        for i, ((lower_bound, higher_bound), count) in enumerate(histogram):
+            bar = pygame.Surface((bar_width, 10 + count * (bar_height - 10) / max_count)).convert()
+            bar.fill(config.SCORE_COLOR if i == score_bucket else config.ITEM_COLOR)
+            bar_rect = bar.get_rect()
+            bar_rect.bottom = score_position_y + score_height + 20 + bar_height
+            bar_rect.left = (self.screen_width - (n * bar_width + (n - 1) * separator_width))/2 + i * separator_width + i * bar_width
+
+            self.items.append(['bucket-'+str(i), bar, (bar_rect.w, bar_rect.h), (bar_rect.left, bar_rect.top)])
+
 
 class FailureMenu(Menu):
 
