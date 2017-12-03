@@ -22,14 +22,13 @@ class LightParticle(pygame.sprite.Sprite):
         # Make the collision rect slightly bigger
         self.collision_rect = self.rect.copy()
 
+        self.killed = True
+
         self.speed = config.LIGHT_PARTICLE_SPEED  # random.randrange(16, 24)
         self.lifetime = 0
         self.reset()
 
     def reset(self):
-        if not self.parent.particles.has(self):
-            self.parent.particles.add(self)
-
         self.image = self.original_image.copy()
 
         # self.parent.speed_x > 0 && self.parent.speed_y > 0
@@ -40,6 +39,11 @@ class LightParticle(pygame.sprite.Sprite):
 
         self.rect.center = self.parent.particle_origin
         self.lifetime = config.LIGHT_PARTICLE_LIFETIME
+
+        if self.killed:
+            self.kill()
+            self.killed = False
+            self.parent.particles.add(self)
 
     def update(self, level):
         wall_check_points = [self.rect.topleft, self.rect.topright, self.rect.bottomleft, self.rect.bottomright]
@@ -53,7 +57,9 @@ class LightParticle(pygame.sprite.Sprite):
                 continue
 
             if level.map[tile_y][tile_x] == 'W':
-                self.parent.particles.remove(self)
+                self.kill()
+                self.parent.removed_particles.add(self)
+                self.killed = True
                 break
 
         self.rect.move_ip(self.speed_x, self.speed_y)
@@ -62,8 +68,8 @@ class LightParticle(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(self.original_image, (int(self.size * size_const), int(self.size * size_const)))
         self.lifetime -= 1
 
+        if self.lifetime <= 1:
+            self.reset()
+
         self.collision_rect = self.image.get_rect()
         self.collision_rect.center = self.rect.center
-
-        if self.lifetime == 1:
-            self.reset()
