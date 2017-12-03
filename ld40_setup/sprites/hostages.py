@@ -234,6 +234,6 @@ class Gangsta(Hostage):
                          sound_play_range=(20, 30))
 
         self.idle_image = load_image_norect('characters/hostage4/idle.png', True)
-        self.add_sound = 'gangsta/add.ogg'
+        self.add_sound = 'gangsta/myman.ogg'
 
 
