@@ -222,13 +222,13 @@ def play_level(level, screen):
             hostages.update()
             soundwaves.update()
             # This can be probably written more effectively but YOLO
-            for hostage in hostages.sprites():
+            for hostage in player.train:
                 for guard in guards.sprites():
                     if dist(hostage.rect.center, guard.rect.center) < hostage.soundwave_radius:
                         player.busted = True
 
-            if pygame.sprite.groupcollide(soundwaves, guards, dokilla=False, dokillb=False):
-                player.busted = True
+            # if pygame.sprite.groupcollide(soundwaves, guards, dokilla=False, dokillb=False):
+            #     player.busted = True
         else:
             player_pos = player.rect.center
             should_die_soon = False

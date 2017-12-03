@@ -183,8 +183,8 @@ class RegularGuy(Hostage):
                          player=player,
                          entry_tile=entry_tile,
                          end_tiles=end_tiles,
-                         soundwave_radius=50,
-                         sounds=['punch.wav', 'whiff.wav'], sound_play_range=(20, 30))
+                         soundwave_radius=100,
+                         sounds=['punch.wav', 'whiff.wav'], sound_play_range=(5, 10))
 
         self.idle_image = load_image_norect('characters/hostage3/idle.png', True)
 
