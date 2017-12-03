@@ -189,3 +189,17 @@ class RegularGuy(Hostage):
         self.idle_image = load_image_norect('characters/hostage3/idle.png', True)
 
 
+class Gangsta(Hostage):
+    def __init__(self, position, player, entry_tile, end_tiles):
+        super().__init__(image_dir='characters/hostage4/walk2',
+                         image_files=['walk_0{}.png'.format(i) for i in range(1, 9)],
+                         position=position,
+                         player=player,
+                         entry_tile=entry_tile,
+                         end_tiles=end_tiles,
+                         soundwave_radius=50,
+                         sounds=['punch.wav', 'whiff.wav'], sound_play_range=(20, 30))
+
+        self.idle_image = load_image_norect('characters/hostage4/idle.png', True)
+
+
