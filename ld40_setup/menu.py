@@ -80,6 +80,11 @@ class Menu:
                 self.screen.blit(label, (posx, posy))
 
             pygame.display.flip()
+
+        # cleanup
+        for event in pygame.event.get():
+            pass
+
         return result
 
 
