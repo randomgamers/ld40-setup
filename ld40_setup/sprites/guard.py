@@ -35,6 +35,8 @@ class Guard(WanderingSprite):
         self.dx = 0
         self.dy = 0
 
+        self.orig_pos = None
+
     def vyser_particle(self, particle_id):
         self.particles.add(LightParticle(particle_id, self))
 
