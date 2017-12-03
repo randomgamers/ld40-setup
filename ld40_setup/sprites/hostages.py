@@ -10,8 +10,8 @@ from .animated_sprite import AnimatedSprite
 
 class Soundwave(AnimatedSprite):
     def __init__(self, parent, radius):
-        super().__init__(image_dir='soundwaves/circles{}'.format(radius),
-                         image_files=['circle_anim_0{}.png'.format(i) for i in range(1, 4)],
+        super().__init__(image_dir='soundwaves/circles/250',
+                         image_files=['circle_{}.png'.format(str(i).zfill(2)) for i in range(1, 13)],
                          position=(0, 0), skip_frames=True)
         self.parent = parent
         self.image, self.rect = load_image('soundwaves/circle.png', use_alpha=True)
