@@ -151,6 +151,8 @@ def play_level(level, screen):
 
     camera = GameCamera(game_size, window_size)
 
+    pygame.mixer.init()
+
     # Create The Backgound
     background = pygame.Surface(game_screen.get_size())
     background = background.convert()
@@ -230,6 +232,7 @@ def play_level(level, screen):
         cameras.update()
         for cameraguard in shit_with_light.sprites():
             cameraguard.particles.update(level)
+            cameraguard.removed_particles.update(level)
 
             if check_for_detection(player, cameraguard, screen_collision_box):
                 player.dead = True
