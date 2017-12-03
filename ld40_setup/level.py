@@ -86,6 +86,7 @@ class Level1(Level):
             Camera(position=(1, 12), angle_from=-90, angle_to=90, rotation_speed=70, delay=2),
             Camera(position=(9, 25), angle_from=-45, angle_to=45, rotation_speed=50, delay=1.5),
             Camera(position=(35, 22), angle_from=170, angle_to=260, rotation_speed=60, delay=1),
+            Camera(position=(44, 15), angle_from=0, angle_to=90, rotation_speed=30, delay=1)
         ]
 
         self.hostages = [
