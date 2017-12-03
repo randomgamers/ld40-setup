@@ -5,6 +5,7 @@ import numpy as np
 
 from .. import config
 from ..utils import load_image_norect
+from ..game_sound import GameSound
 from .animated_sprite import AnimatedSprite
 
 
@@ -149,6 +150,7 @@ class Player(AnimatedSprite):
         self.train.append(hostage)
         self.hostage_init_delay[len(self.train)-1] = config.TRAIN_DELAY * (len(self.train)+1) * config.FPS
         self.update_walking_speed()
+        GameSound(hostage.add_sound).play()
 
     def remove_from_train(self, hostage):
         self.train.remove(hostage)

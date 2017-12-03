@@ -13,6 +13,7 @@ from .utils import load_sound, load_image, coord_to_game_pixel, game_pixel_to_co
 # from .sprites import Fist
 from .level import get_level_classes
 from .game_camera import GameCamera
+from .game_sound import GameSound
 from . import config
 from .menu import MainMenu, SuccessMenu, FailureMenu, GameWonMenu
 from .database import insert_score, get_score_histogram
@@ -111,6 +112,10 @@ def main():
 
 def play_level(level, screen):
     # return True, 15.26 # For testing score screen
+
+    background_sound = GameSound('arcadefunk.ogg')
+    background_sound.set_volume(0.2)
+    background_sound.play()
 
     total_hostages = len(level.hostages)
 
@@ -255,6 +260,7 @@ def play_level(level, screen):
                     guard.rect.center = guard.rect.centerx - dx, guard.rect.centery - dy
 
             if should_die_soon:
+                background_sound.stop()
                 player.dead_count += 1
                 if player.dead_count >= (2 * config.FPS):
                     player.dead = True

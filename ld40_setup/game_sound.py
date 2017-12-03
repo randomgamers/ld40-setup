@@ -14,3 +14,6 @@ class GameSound:
     @property
     def length(self):
         return self.sound.get_length()
+
+    def set_volume(self, volume):
+        return self.sound.set_volume(volume)

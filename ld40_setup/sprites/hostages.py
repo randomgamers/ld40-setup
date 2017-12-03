@@ -141,7 +141,6 @@ class Hostage(AnimatedSprite):
         else:
             self.soundwave_timer -= 1
 
-
     def move_to(self, new_position: Tuple[int,int]):
         self.rect.center = self.collision_rect.center = new_position
 
@@ -158,6 +157,7 @@ class NoisyChick(Hostage):
                          sounds=['punch.wav', 'whiff.wav'], sound_play_range=(20, 30))
         self.noise = 1
         self.idle_image = load_image_norect('characters/hostage1/idle.png', True)
+        self.add_sound = 'noisy_chick/add.ogg'
 
 
 class FatGuy(Hostage):
@@ -173,6 +173,7 @@ class FatGuy(Hostage):
         self.slowdown = 2
 
         self.idle_image = load_image_norect('characters/hostage2/idle.png', True)
+        self.add_sound = 'fat_guy/add.ogg'
 
 
 class RegularGuy(Hostage):
@@ -184,9 +185,10 @@ class RegularGuy(Hostage):
                          entry_tile=entry_tile,
                          end_tiles=end_tiles,
                          soundwave_radius=100,
-                         sounds=['punch.wav', 'whiff.wav'], sound_play_range=(5, 10))
+                         sounds=['punch.wav', 'whiff.wav'], sound_play_range=(20, 30))
 
         self.idle_image = load_image_norect('characters/hostage3/idle.png', True)
+        self.add_sound = 'regular_guy/add.ogg'
 
 
 class Gangsta(Hostage):
@@ -201,5 +203,6 @@ class Gangsta(Hostage):
                          sounds=['punch.wav', 'whiff.wav'], sound_play_range=(20, 30))
 
         self.idle_image = load_image_norect('characters/hostage4/idle.png', True)
+        self.add_sound = 'gangsta/add.ogg'
 
 
