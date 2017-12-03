@@ -180,7 +180,7 @@ def play_level(level_num, screen):
         screen.blit(fps_text, fps_text_pos)
 
         pygame.display.flip()
-    # quit()   #TODO: without this the game cannot be terminated
+    quit()   #TODO: without this the game cannot be terminated
 
 
 if __name__ == '__main__':
