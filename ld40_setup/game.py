@@ -236,13 +236,15 @@ def play_level(level, screen):
                 if guard.orig_pos is None:
                     guard.orig_pos = guard.rect.center
 
+                abs_dist = abs(guard.rect.centerx - player_pos[0]) + abs(guard.rect.centery - player_pos[1])
+                if abs_dist < 1.5 * config.TILE_SIZE:
+                    should_die_soon = True
+
                 dx = int(float(guard.orig_pos[0] - player_pos[0]) / float(config.FPS))
                 dy = int(float(guard.orig_pos[1] - player_pos[1]) / float(config.FPS))
 
-                if game_pixel_to_coord(guard.rect.center) != game_pixel_to_coord(player_pos):
+                if not should_die_soon:
                     guard.rect.center = guard.rect.centerx - dx, guard.rect.centery - dy
-                else:
-                    should_die_soon = True
 
             if should_die_soon:
                 player.dead_count += 1
