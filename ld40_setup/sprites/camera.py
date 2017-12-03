@@ -24,6 +24,9 @@ class Camera(RotatingSprite):
         self.collision_rect = pygame.Rect(0, 0, 0, 0)
         self.collision_rect.center = self.rect.center
 
+        self.dx = 0
+        self.dy = 0
+
     def vyser_particle(self, particle_id):
         self.particles.add(LightParticle(particle_id, self))
 
