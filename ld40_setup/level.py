@@ -6,7 +6,7 @@ import pygame
 
 from . import config
 from .sprites import Player, hostages, Guard, Camera, Wall, Floor, Door
-from .utils import game_pixel_to_coord
+from .utils import coord_to_game_pixel
 
 
 class Level:
@@ -57,13 +57,12 @@ class Level:
         # text config
         self.font = pygame.font.Font(None, config.INGAME_TEXT_SIZE)
 
-    def add_text(self, message, tile_x, tile_y):
+    def add_text(self, message, position):
         label = self.font.render(message, 1, config.INGAME_TEXT_COLOR)
         width = label.get_rect().width
         height = label.get_rect().height
-        position_x, position_y = game_pixel_to_coord((tile_x, tile_y))
-        self.texts.append([message, label, (width, height), (position_x, position_y)])
-
+        px_position = coord_to_game_pixel(position)
+        self.texts.append([message, label, (width, height), px_position])
 
     @property
     def map_shape(self):
@@ -109,9 +108,7 @@ class Level1(Level):
             hostages.RegularGuy(position=(19, 10), player=self.player, entry_tile=self.entry_coord),
         ]
 
-        self.texts = [
-
-        ]
+        self.add_text('hello motherfucker', (5,5))
 
 
 class Level3(Level):

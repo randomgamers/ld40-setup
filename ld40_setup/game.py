@@ -239,9 +239,15 @@ def play_level(level, screen):
         allsprites.draw(game_screen)
         # player.particles.draw(game_screen)
 
+        # render texts
+        for name, label, (width, height), (posx, posy) in level.texts:
+            game_screen.blit(label, (posx, posy))
+
+        # copy gamescreen to screen
         blit_game_to_window(game_screen, window, camera)
         scale_window_to_screen(window, screen)
 
+        # render FPS counter
         font = pygame.font.Font(None, 48)
         fps_text = font.render("%.2f" % (1000.0/delay), 1, (10, 10, 10))
         fps_text_pos = fps_text.get_rect()
