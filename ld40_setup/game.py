@@ -15,6 +15,7 @@ from .level import get_level_classes
 from .game_camera import GameCamera
 from . import config
 from .menu import MainMenu, SuccessMenu, FailureMenu, GameWonMenu
+from .database import insert_score, get_score_histogram
 
 
 def scale_window_to_screen(window, screen):
@@ -68,7 +69,8 @@ def main():
 
             # show success
             if level_num > 1:
-                response = SuccessMenu(screen, level_num-1, score).show()
+                histogram = get_score_histogram(level_num - 1)
+                response = SuccessMenu(screen, level_num-1, score, histogram).show()
                 if response == 'quit':
                     time.sleep(config.AFTER_QUIT_DELAY)
                     break
@@ -82,6 +84,7 @@ def main():
                 success, score = play_level(level_class(), screen)  # play the fame
                 if success:  # continue to next level
                     won_levels += 1
+                    insert_score(score, level_num)
                     break
                 else:  # show failure menu
                     response = FailureMenu(screen, level_num).show()
@@ -107,7 +110,7 @@ def main():
 
 
 def play_level(level, screen):
-    #return True, 15.26 # For testing score screen
+    # return True, 15.26 # For testing score screen
 
     total_hostages = len(level.hostages)
 
