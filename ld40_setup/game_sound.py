@@ -10,3 +10,7 @@ class GameSound:
 
     def stop(self):
         self.sound.stop()
+
+    @property
+    def length(self):
+        return self.sound.get_length()
