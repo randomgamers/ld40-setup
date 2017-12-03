@@ -5,7 +5,8 @@ from ld40_setup import config
 
 class Menu:
 
-    def __init__(self, screen, items, bg_color, font_size, font_color=(255, 255, 255), font=None):
+    def __init__(self, screen, items, bg_color, font_size, message, font_color=(255, 255, 255), font=None):
+        # save stuff
         self.screen = screen
         self.scr_width = self.screen.get_rect().width
         self.scr_height = self.screen.get_rect().height
@@ -17,18 +18,34 @@ class Menu:
         self.font_color = font_color
 
         self.items = []
+
+        # title
+        title_label = self.font.render(config.GAME_NAME, 1, font_color)
+        label_width = title_label.get_rect().width
+        label_height = title_label.get_rect().height
+        label_position_x = (self.scr_width / 2) - (label_width / 2)
+        label_position_y = self.scr_height / 4
+        self.items.append([config.GAME_NAME, title_label, (label_width, label_height), (label_position_x, label_position_y)])
+
+        # message
+        title_label = self.font.render(message, 1, font_color)
+        label_width = title_label.get_rect().width
+        label_height = title_label.get_rect().height
+        label_position_x = (self.scr_width / 2) - (label_width / 2)
+        label_position_y = 3 * self.scr_height / 8
+        self.items.append([message, title_label, (label_width, label_height), (label_position_x, label_position_y)])
+
+        # generate menu items
         for index, item in enumerate(items):
             label = self.font.render(item, 1, font_color)
+            label_width = label.get_rect().width
+            label_height = label.get_rect().height
 
-            width = label.get_rect().width
-            height = label.get_rect().height
+            label_position_x = (self.scr_width / 2) - (label_width / 2)
+            text_block_height = len(items) * label_height
+            label_position_y = (self.scr_height / 2) - (text_block_height / 2) + (index * label_height)
 
-            posx = (self.scr_width / 2) - (width / 2)
-            # t_h: total height of text block
-            t_h = len(items) * height
-            posy = (self.scr_height / 2) - (t_h / 2) + (index * height)
-
-            self.items.append([item, label, (width, height), (posx, posy)])
+            self.items.append([item, label, (label_width, label_height), (label_position_x, label_position_y)])
 
     def event_handler(self, event):
         if event.type == pygame.KEYDOWN and event.key == pygame.K_s:
@@ -37,22 +54,19 @@ class Menu:
             return 'quit'
         return None
 
-    def run(self):
+    def show(self):
         result = None
         while result is None:
             self.clock.tick(config.FPS)
 
-            if pygame.key.get_pressed()[pygame.K_s]:
-                result = 'start'
-            if pygame.key.get_pressed()[pygame.K_q]:
-                result = 'quit'
-
+            # check keyboard
             for event in pygame.event.get():
-                self.event_handler(event)
+                result = self.event_handler(event)
 
-            # Redraw the background
+            # render the background
             self.screen.fill(self.bg_color)
 
+            # render menu items
             for name, label, (width, height), (posx, posy) in self.items:
                 self.screen.blit(label, (posx, posy))
 
@@ -63,25 +77,27 @@ class Menu:
 class MainMenu(Menu):
     def __init__(self, screen):
         items = ['(S) Start', '(Q) Quit']
-        super().__init__(screen, items=items, bg_color=(0,0,0), font_size=30)
+        super().__init__(screen, items=items, bg_color=(0,0,0), font_size=30, message='Main Menu')
 
 
 class SuccessMenu(Menu):
 
-    def __init__(self, screen):
+    def __init__(self, screen, num_level):
         items = ['(S) Next Level', '(Q) Main Menu']
-        super().__init__(screen, items=items, bg_color=(0,0,0), font_size=30)
+        super().__init__(screen, items=items, bg_color=(0,0,0), font_size=30,
+                         message='Level #{} Complete'.format(num_level))
 
 
 class FailureMenu(Menu):
 
-    def __init__(self, screen):
+    def __init__(self, screen, num_level):
         items = ['(S) Try Again', '(Q) Main Menu']
-        super().__init__(screen, items=items, bg_color=(0,0,0), font_size=30)
+        super().__init__(screen, items=items, bg_color=(0,0,0), font_size=30,
+                         message = 'Level #{} Failed'.format(num_level))
 
 
 class GameWonMenu(Menu):
 
     def __init__(self, screen):
         items = ['(S) Play Whole Game Again', '(Q) Main Menu']
-        super().__init__(screen, items=items, bg_color=(0,0,0), font_size=30)
+        super().__init__(screen, items=items, bg_color=(0,0,0), font_size=30, message='Game Completed')

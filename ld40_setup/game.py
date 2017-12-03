@@ -4,6 +4,7 @@ from pygame.compat import geterror
 import sys
 import os
 import numpy as np
+import time
 
 if not pygame.font: print('Warning, fonts disabled')
 if not pygame.mixer: print('Warning, sound disabled')
@@ -36,7 +37,7 @@ def main():
     while True:
 
         # Main Menu
-        response = MainMenu(screen).run()
+        response = MainMenu(screen).show()
         if response == 'quit': break
         elif response == 'start': pass
         else: raise ValueError('unknown menu response: {}'.format(response))
@@ -49,8 +50,10 @@ def main():
 
             # show success
             if level_num > 1:
-                response = SuccessMenu(screen).run()
-                if response == 'quit': break
+                response = SuccessMenu(screen, level_num-1).show()
+                if response == 'quit':
+                    time.sleep(1)
+                    break
                 elif response == 'start': pass
                 else: raise ValueError('unknown menu response: {}'.format(response))
 
@@ -63,8 +66,9 @@ def main():
                     win_levels += 1
                     break
                 else:  # show failure menu
-                    response = FailureMenu(screen).run()
+                    response = FailureMenu(screen, level_num).show()
                     if response == 'quit':
+                        time.sleep(1)
                         go_to_menu = True
                         break
                     elif response == 'start': pass
@@ -74,8 +78,10 @@ def main():
                 break
 
         if win_levels == max_levels:
-            response = GameWonMenu(screen).run()
-            if response == 'quit': break
+            response = GameWonMenu(screen).show()
+            if response == 'quit':
+                time.sleep(1)
+                break
             elif response == 'start': pass
             else: raise ValueError('unknown menu response: {}'.format(response))
 
@@ -205,7 +211,6 @@ def play_level(level_num, screen):
         screen.blit(fps_text, fps_text_pos)
 
         pygame.display.flip()
-    quit()   #TODO: without this the game cannot be terminated
 
 
 if __name__ == '__main__':
