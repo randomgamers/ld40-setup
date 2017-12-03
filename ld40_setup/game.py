@@ -11,7 +11,7 @@ if not pygame.mixer: print('Warning, sound disabled')
 
 from .utils import load_sound, coord_to_game_pixel, dist
 from .sprites import Fist
-from .level import build_level
+from .level import get_level_classes
 from .game_camera import GameCamera
 from . import config
 from .menu import MainMenu, SuccessMenu, FailureMenu, GameWonMenu
@@ -33,6 +33,9 @@ def main():
     pygame.display.set_caption(config.GAME_NAME)
     pygame.mouse.set_visible(0)
 
+    level_classes = get_level_classes()
+    max_levels = len(level_classes)
+
     # show game menu until quit
     while True:
 
@@ -42,11 +45,10 @@ def main():
         elif response == 'start': pass
         else: raise ValueError('unknown menu response: {}'.format(response))
 
-        max_levels = 3
-        win_levels = 0
+        won_levels = 0
 
         # foreach level
-        for level_num in range(1, max_levels+1):
+        for level_num, level_class in enumerate(level_classes, 1):
 
             # show success
             if level_num > 1:
@@ -61,9 +63,9 @@ def main():
 
             # while level not finished
             while True:
-                success = play_level(level_num, screen)  # play the fame
+                success = play_level(level_class(), screen)  # play the fame
                 if success:  # continue to next level
-                    win_levels += 1
+                    won_levels += 1
                     break
                 else:  # show failure menu
                     response = FailureMenu(screen, level_num).show()
@@ -77,7 +79,7 @@ def main():
             if go_to_menu:  # player didnt want to replay the level
                 break
 
-        if win_levels == max_levels:
+        if won_levels == max_levels:
             response = GameWonMenu(screen).show()
             if response == 'quit':
                 time.sleep(1)
@@ -88,8 +90,7 @@ def main():
     pygame.quit()  # terminate gracefully
 
 
-def play_level(level_num, screen):
-    level = build_level(level_num)
+def play_level(level, screen):
     total_hostages = len(level.hostages)
 
     tiles = config.TILES
