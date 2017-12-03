@@ -5,21 +5,21 @@ import sys
 # fine tuning.
 
 buildOptions = dict(
-    packages=['ld40_setup', 'numpy', 'psycopg2', 'sqlalchemy'],
+    packages=['saving_crying_bryan', 'numpy', 'psycopg2', 'sqlalchemy'],
     excludes=[],
-    include_files=[('ld40_setup/resources', 'ld40_setup/resources')]
+    include_files=[('saving_crying_bryan/resources', 'saving_crying_bryan/resources')]
 )
 
 base = 'Win32GUI' if sys.platform == 'win32' else None
 
 executables = [
-    Executable('sample.py', base=base)
+    Executable('saving_crying_bryan_game.py', base=base)
 ]
 
 setup(
-    name='Sample',
+    name='Saving Crying Bryan',
     version='1.0',
-    description='Sample',
+    description='Saving Crying Bryan',
     options=dict(build_exe=buildOptions),
     executables=executables
 )
