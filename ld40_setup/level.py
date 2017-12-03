@@ -90,7 +90,7 @@ class Level:
 
 def get_level_classes() -> List[Type[Level]]:
     return [
-        Level1,
+        Level3,
         Level2,
         Level3
     ]
@@ -158,18 +158,18 @@ class Level3(Level):
         self.guards = [
             Guard(walk_path=[(1,7), (1,14)], walk_speed=2),
             Guard(walk_path=[(31,7), (31,14)], walk_speed=2),
-            Guard(walk_path=[(12,12), (19,12)], walk_speed=5),
+            Guard(walk_path=[(12,11), (19,11)], walk_speed=5),
         ]
 
         self.hostages = [
             hostages.RegularGuy(position=(3, 15), player=self.player, entry_tile=self.entry_coord, end_tiles=self.end_coords),
             hostages.RegularGuy(position=(29, 15), player=self.player, entry_tile=self.entry_coord, end_tiles=self.end_coords),
-            hostages.RegularGuy(position=(13, 15), player=self.player, entry_tile=self.entry_coord, end_tiles=self.end_coords),
-            hostages.RegularGuy(position=(14, 15), player=self.player, entry_tile=self.entry_coord, end_tiles=self.end_coords),
-            hostages.RegularGuy(position=(15, 15), player=self.player, entry_tile=self.entry_coord, end_tiles=self.end_coords),
-            hostages.RegularGuy(position=(16, 15), player=self.player, entry_tile=self.entry_coord, end_tiles=self.end_coords),
-            hostages.RegularGuy(position=(17, 15), player=self.player, entry_tile=self.entry_coord, end_tiles=self.end_coords),
-            hostages.RegularGuy(position=(18, 15), player=self.player, entry_tile=self.entry_coord, end_tiles=self.end_coords),
-            hostages.RegularGuy(position=(19, 15), player=self.player, entry_tile=self.entry_coord, end_tiles=self.end_coords),
-            hostages.RegularGuy(position=(20, 15), player=self.player, entry_tile=self.entry_coord, end_tiles=self.end_coords),
+            hostages.RegularGuy(position=(13, 17), player=self.player, entry_tile=self.entry_coord, end_tiles=self.end_coords),
+            hostages.FatGuy(position=(14, 17), player=self.player, entry_tile=self.entry_coord, end_tiles=self.end_coords),
+            hostages.RegularGuy(position=(15, 17), player=self.player, entry_tile=self.entry_coord, end_tiles=self.end_coords),
+            hostages.NoisyChick(position=(16, 17), player=self.player, entry_tile=self.entry_coord, end_tiles=self.end_coords),
+            hostages.RegularGuy(position=(17, 17), player=self.player, entry_tile=self.entry_coord, end_tiles=self.end_coords),
+            hostages.RegularGuy(position=(18, 17), player=self.player, entry_tile=self.entry_coord, end_tiles=self.end_coords),
+            hostages.FatGuy(position=(19, 17), player=self.player, entry_tile=self.entry_coord, end_tiles=self.end_coords),
+            hostages.RegularGuy(position=(20, 17), player=self.player, entry_tile=self.entry_coord, end_tiles=self.end_coords),
         ]
