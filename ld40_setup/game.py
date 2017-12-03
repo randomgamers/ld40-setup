@@ -25,6 +25,21 @@ def blit_game_to_window(game_screen, window, camera):
     window.blit(game_screen, pygame.Rect(*camera.blit_position, *window.get_size()))
 
 
+def character_collided_with_light(character, particle):
+    return character.light_collision_rect.colliderect(particle.collision_rect)
+
+
+def check_for_detection(character, cameraguard, screen_collision_box):
+    # Check collision with guards light beam
+    if cameraguard.particle_rect.colliderect(screen_collision_box) and pygame.sprite.collide_rect(cameraguard.particle_sprite, character):
+        if pygame.sprite.spritecollideany(character, cameraguard.particles, collided=character_collided_with_light):
+            return True
+    # Check for collision with the guard himself
+    if cameraguard.collision_rect.colliderect(character.light_collision_rect):
+        return True
+    return False
+
+
 def main():
     # Initialize Everything
     pygame.mixer.pre_init(44100, -16, 1, 512) # Including this makes the sound not lag
@@ -183,12 +198,12 @@ def play_level(level, screen):
         cameras.update()
         for cameraguard in shit_with_light.sprites():
             cameraguard.particles.update(level)
-            # Check collision with guards light beam
-            if cameraguard.particle_rect.colliderect(screen_collision_box) and pygame.sprite.collide_rect(cameraguard.particle_sprite, player):
-                if pygame.sprite.spritecollideany(player, cameraguard.particles, collided=lambda p, particle: p.light_collision_rect.colliderect(particle.collision_rect)):
-                    player.dead = True
-            if cameraguard.collision_rect.colliderect(player.light_collision_rect):
+
+            if check_for_detection(player, cameraguard, screen_collision_box):
                 player.dead = True
+            for hostage in player.train:
+                if check_for_detection(hostage, cameraguard, screen_collision_box):
+                    player.dead = True
 
         hostages.update()
         soundwaves.update()
