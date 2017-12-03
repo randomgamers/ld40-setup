@@ -7,6 +7,10 @@ MESSAGE_COLOR = (142,128,165)
 ITEM_SIZE = 48
 ITEM_COLOR = (255, 255, 255)
 
+# in-game texts
+INGAME_TEXT_SIZE = 36
+INGAME_TEXT_COLOR = (0,0,0)
+
 # resources
 PROJECT_ROOT = 'ld40_setup'
 RESOURCES_ROOT = 'resources'

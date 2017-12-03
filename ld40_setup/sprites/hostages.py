@@ -32,7 +32,7 @@ class Soundwave(AnimatedSprite):
 
 
 class Hostage(AnimatedSprite):
-    def __init__(self, image_dir, image_files, position, player, entry_tile, soundwave_radius):
+    def __init__(self, image_dir, image_files, position, player, entry_tile, end_tiles, soundwave_radius):
         super().__init__(image_dir=image_dir, image_files=image_files, position=position)
 
         # general stats
@@ -60,6 +60,9 @@ class Hostage(AnimatedSprite):
 
         # entry tile
         self.entry_tile = entry_tile
+
+        # end tiles
+        self.end_tiles = end_tiles
 
         # soundwaves
         self.soundwave_radius = soundwave_radius
@@ -101,44 +104,45 @@ class Hostage(AnimatedSprite):
                     self.player.add_to_train(self)
                     self.in_train = True
 
-        if game_pixel_to_coord(self.rect.center) == self.entry_tile:
-            self.player.remove_from_train(self)
-            self.kill()
+        for end_coord in self.end_tiles + [self.entry_tile]:
+            if game_pixel_to_coord(self.rect.center) == end_coord:
+                self.player.remove_from_train(self)
+                self.kill()
 
     def move_to(self, new_position: Tuple[int,int]):
         self.rect.center = self.collision_rect.center = new_position
 
 
 class NoisyChick(Hostage):
-    def __init__(self, position, player, entry_tile):
+    def __init__(self, position, player, entry_tile, end_tiles):
         super().__init__(image_dir='characters/hostage1/walk',
                          image_files=['walk_0{}.png'.format(i) for i in range(1, 9)],
                          position=position,
                          player=player,
-                         entry_tile=entry_tile, soundwave_radius=100)
+                         entry_tile=entry_tile, end_tiles=end_tiles, soundwave_radius=100)
         self.noise = 1
         self.idle_image = load_image_norect('characters/hostage1/idle.png', True)
 
 
 class FatGuy(Hostage):
-    def __init__(self, position, player, entry_tile):
+    def __init__(self, position, player, entry_tile, end_tiles):
         super().__init__(image_dir='characters/hostage2/walk',
                          image_files=['walk_0{}.png'.format(i) for i in range(1, 9)],
                          position=position,
                          player=player,
-                         entry_tile=entry_tile, soundwave_radius=100)
+                         entry_tile=entry_tile, end_tiles=end_tiles, soundwave_radius=100)
         self.slowdown = 2
 
         self.idle_image = load_image_norect('characters/hostage2/idle.png', True)
 
 
 class RegularGuy(Hostage):
-    def __init__(self, position, player, entry_tile):
+    def __init__(self, position, player, entry_tile, end_tiles):
         super().__init__(image_dir='characters/hostage3/walk',
                          image_files=['walk_0{}.png'.format(i) for i in range(1, 9)],
                          position=position,
                          player=player,
-                         entry_tile=entry_tile, soundwave_radius=25)
+                         entry_tile=entry_tile, end_tiles=end_tiles, soundwave_radius=25)
 
         self.idle_image = load_image_norect('characters/hostage3/idle.png', True)
 
