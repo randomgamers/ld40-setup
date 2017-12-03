@@ -92,7 +92,8 @@ def get_level_classes() -> List[Type[Level]]:
     return [
         Level1,
         Level2,
-        Level3
+        Level3,
+        Level4
     ]
 
 
@@ -172,4 +173,25 @@ class Level3(Level):
             hostages.RegularGuy(position=(18, 17), player=self.player, entry_tile=self.entry_coord, end_tiles=self.end_coords),
             hostages.FatGuy(position=(19, 17), player=self.player, entry_tile=self.entry_coord, end_tiles=self.end_coords),
             hostages.RegularGuy(position=(20, 17), player=self.player, entry_tile=self.entry_coord, end_tiles=self.end_coords),
+        ]
+
+
+class Level4(Level):
+    def __init__(self):
+        self.level_num = 4
+
+        super().__init__()
+
+        self.guards = [
+            Guard(walk_path=[(2,3), (11,3)], walk_speed=2),
+            Guard(walk_path=[(2,5), (11,5)], walk_speed=2),
+            Guard(walk_path=[(2,7), (11,7)], walk_speed=2),
+            Guard(walk_path=[(26,7), (16,7), (16,5), (26,5), (26,3), (16,3)], walk_speed=5),
+        ]
+
+        self.hostages = [
+            hostages.FatGuy(position=(1, 1), player=self.player, entry_tile=self.entry_coord, end_tiles=self.end_coords),
+            hostages.NoisyChick(position=(13, 1), player=self.player, entry_tile=self.entry_coord, end_tiles=self.end_coords),
+            hostages.NoisyChick(position=(15, 1), player=self.player, entry_tile=self.entry_coord, end_tiles=self.end_coords),
+            hostages.FatGuy(position=(27, 1), player=self.player, entry_tile=self.entry_coord, end_tiles=self.end_coords),
         ]
