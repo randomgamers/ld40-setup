@@ -123,7 +123,7 @@ class FatGuy(Hostage):
                          image_files=['walk_0{}.png'.format(i) for i in range(1, 9)],
                          position=position,
                          player=player,
-                         entry_tile=entry_tile, soundwave_radius=100)
+                         entry_tile=entry_tile, soundwave_radius=75)
         self.slowdown = 2
 
         self.idle_image = load_image_norect('characters/hostage2/idle.png', True)
@@ -135,7 +135,7 @@ class RegularGuy(Hostage):
                          image_files=['walk_0{}.png'.format(i) for i in range(1, 9)],
                          position=position,
                          player=player,
-                         entry_tile=entry_tile)
+                         entry_tile=entry_tile, soundwave_radius=50)
 
         self.idle_image = load_image_norect('characters/hostage3/idle.png', True)
 
