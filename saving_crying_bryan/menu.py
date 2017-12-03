@@ -160,8 +160,8 @@ class CreditsMenu(Menu):
     def __init__(self, screen):
         items = ['Coding: @petrbel, @gyfis, @adikus, @MattyTesar',
                  'Graphics: @MattyTesar',
-                 'Sounds:  @petrbel, @gyfis, @adikus, @MattyTesar, @TODO',
-                 'Music: @TODO']
+                 'Sounds:  @petrbel, @gyfis, @adikus, @MattyTesar',
+                 'Music: Alumo Music']
         super().__init__(screen, menu_items=items, background_color=(0,0,0), title_color=(255,255,255),
                          message='Credits')
 
