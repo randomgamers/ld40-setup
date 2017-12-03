@@ -25,11 +25,11 @@ class Soundwave(pygame.sprite.Sprite):
 
         self.radius += 1
         self.rect.center = (self.parent.rect.center[0] + self.parent.rect.w / 2 - self.radius, self.parent.rect.center[1] + self.parent.rect.h / 2 - self.radius)
-        self.image = pygame.transform.scale(self.original_image, (self.radius * 2, self.radius * 2))
+        # self.image = pygame.transform.scale(self.original_image, (self.radius * 2, self.radius * 2))
         alpha = int(120 * (1 - (self.radius / max(self.radius, self.soundwave_radius))))
         # print(alpha)
         # self.image.set_alpha(128)
-        self.image.fill((255, 255, 255, alpha), None, pygame.BLEND_RGBA_MULT)
+        # self.image.fill((255, 255, 255, alpha), None, pygame.BLEND_RGBA_MULT)
 
         if self.radius > self.soundwave_radius:
             self.reset()

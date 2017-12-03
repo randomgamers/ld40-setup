@@ -96,6 +96,8 @@ def play_level(level_num, screen):
 
     game_size = list(map(lambda shape: shape * config.TILE_SIZE, level.map_shape))
     game_screen = pygame.Surface(game_size)
+    base_game_screen = pygame.Surface(game_size)
+
     window_size = tiles[0] * config.TILE_SIZE, tiles[1] * config.TILE_SIZE
     window = pygame.Surface(window_size)
 
@@ -119,6 +121,11 @@ def play_level(level_num, screen):
 
     floor = pygame.sprite.Group(*level.floor)
     walls = pygame.sprite.Group(*level.walls)
+
+    base_game_screen.blit(background, (0, 0))
+    floor.draw(base_game_screen)
+    walls.draw(base_game_screen)
+
     guards = pygame.sprite.Group(*level.guards)
     hostages = pygame.sprite.Group(*level.hostages)
     player = level.player
@@ -178,9 +185,9 @@ def play_level(level_num, screen):
         camera.update()
 
         # Draw Everything
-        game_screen.blit(background, (0, 0))
-        floor.draw(game_screen)
-        walls.draw(game_screen)
+        # Blit base game screen to game screen
+        game_screen.blit(base_game_screen, (0, 0))
+
         screen_rect = pygame.Rect((np.array(camera.blit_position) * -1), (window.get_size()))
         for guard in guards.sprites():
             if guard.particle_rect.colliderect(screen_rect):
@@ -190,13 +197,8 @@ def play_level(level_num, screen):
         guards.draw(game_screen)
         for hostage in hostages.sprites():
             hostage.soundwaves.draw(game_screen)
-            # if hostage.soundwave_rect.colliderect(screen_rect):
+
         hostages.draw(game_screen)
-        #
-        # for hostage in hostages.sprites():
-        #     for circle in hostage.soundwaves:
-        #         if circle['radius'] > 3:
-        #             pygame.draw.circle(game_screen, (255, 0, 0, 100) , hostage.rect.center, circle['radius'], 3)
 
         allsprites.draw(game_screen)
         # player.particles.draw(game_screen)
@@ -215,3 +217,6 @@ def play_level(level_num, screen):
 
 if __name__ == '__main__':
     main()
+
+# import cProfile as profile
+# profile.run('main()', 'profile.txt')
