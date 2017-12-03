@@ -161,13 +161,15 @@ class NoisyChick(Hostage):
                              'noisy_chick/help.ogg',
                              'noisy_chick/ihatesuzan.ogg',
                              'noisy_chick/imvegan.ogg',
-                             'noisy_chick/ineedadoctor.ogg',
-                             'noisy_chick/thanksforfindingme.ogg',
-                             'noisy_chick/thankyousir.ogg'
+                             'noisy_chick/ineedadoctor.ogg'
                          ], sound_play_range=(20, 30))
         self.noise = 1
         self.idle_image = load_image_norect('characters/hostage1/idle.png', True)
-        self.add_sound = 'noisy_chick/thankyousir.ogg'
+        self.add_sounds = [
+            'noisy_chick/thankyousir.ogg',
+            'noisy_chick/thanksforfindingme.ogg',
+            'noisy_chick/imvegan.ogg'
+        ]
 
 
 class FatGuy(Hostage):
@@ -191,7 +193,7 @@ class FatGuy(Hostage):
         self.slowdown = 2
 
         self.idle_image = load_image_norect('characters/hostage2/idle.png', True)
-        self.add_sound = 'fat_guy/cheers_mate.ogg'
+        self.add_sounds = ['fat_guy/cheers_mate.ogg']
 
 
 class RegularGuy(Hostage):
@@ -214,7 +216,7 @@ class RegularGuy(Hostage):
                          ], sound_play_range=(20, 30))
 
         self.idle_image = load_image_norect('characters/hostage3/idle.png', True)
-        self.add_sound = 'regular_guy/thanks.ogg'
+        self.add_sounds = ['regular_guy/thanks.ogg']
 
 
 class Gangsta(Hostage):
@@ -237,6 +239,6 @@ class Gangsta(Hostage):
                          sound_play_range=(20, 30))
 
         self.idle_image = load_image_norect('characters/hostage4/idle.png', True)
-        self.add_sound = 'gangsta/myman.ogg'
+        self.add_sounds = ['gangsta/myman.ogg']
 
 
