@@ -32,10 +32,10 @@ class Level:
 
         self.doors_coords = [(col_num, row_num) for row_num, row in enumerate(self.map)
                                                 for col_num, tile in enumerate(row)
-                                                if tile == 'D']
+                                                if tile == 'D' or tile == 'F' or tile == 'G']
         self.doors = []
         for x, y in self.doors_coords:
-            door_tile = Door(x, y)
+            door_tile = Door(x, y, self.map[y][x])
             self.doors.append(door_tile)
 
         self.floor_coords = [(col_num, row_num) for row_num, row in enumerate(self.map)
