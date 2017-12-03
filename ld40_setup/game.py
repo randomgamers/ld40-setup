@@ -136,7 +136,7 @@ def play_level(level, screen):
     soundwaves = pygame.sprite.Group(*list(map(lambda h: h.soundwave, hostages)))
     player = level.player
     allsprites = pygame.sprite.RenderPlain((player, fist))  # player.collision_sprite, guards.sprites()[0].particle_sprite
-    screen_rect = pygame.Rect((np.array(camera.blit_position) * -1), (window.get_size()))
+    screen_collision_box = pygame.Rect((np.array(camera.blit_position) * -1), (window.get_size()))
 
     # Main Loop
     going = True
@@ -182,7 +182,11 @@ def play_level(level, screen):
         cameras.update()
         for cameraguard in shit_with_light.sprites():
             cameraguard.particles.update(level)
-            if cameraguard.particle_rect.colliderect(screen_rect) and cameraguard.particle_rect.colliderect(player.collision_rect):
+            # Check collision with guards light beam
+            if cameraguard.particle_rect.colliderect(screen_collision_box) and pygame.sprite.collide_rect(cameraguard.particle_sprite, player):
+                if pygame.sprite.spritecollideany(player, cameraguard.particles, collided=lambda p, particle: p.light_collision_rect.colliderect(particle.collision_rect)):
+                    player.dead = True
+            if cameraguard.collision_rect.colliderect(player.light_collision_rect):
                 player.dead = True
 
         hostages.update()
@@ -200,9 +204,8 @@ def play_level(level, screen):
         # Blit base game screen to game screen
         game_screen.blit(base_game_screen, (0, 0))
 
-        screen_rect = pygame.Rect((np.array(camera.blit_position) * -1), (window.get_size()))
         for cameraguard in shit_with_light.sprites():
-            if cameraguard.particle_rect.colliderect(screen_rect):
+            if cameraguard.particle_rect.colliderect(screen_collision_box):
                 cameraguard.particles.draw(game_screen)
 
         guards.draw(game_screen)
