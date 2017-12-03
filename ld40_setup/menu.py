@@ -103,7 +103,7 @@ class SuccessMenu(Menu):
         last_item_position = self.items[-1][-1][1] + self.items[-1][-2][1]
 
         # score
-        score_text = "Your Time: %.1f" % score
+        score_text = "Your Time: %.1fs" % score
         score_font = pygame.font.Font(None, config.SCORE_SIZE)
         score_label = score_font.render(score_text, 1, config.SCORE_COLOR)
         score_width = score_label.get_rect().width
