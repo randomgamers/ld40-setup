@@ -157,10 +157,10 @@ class NoisyChick(Hostage):
                          sounds=[
                              'noisy_chick/help.ogg',
                              'noisy_chick/ihatesuzan.ogg',
-                             'noisy_chick/imvegan',
+                             'noisy_chick/imvegan.ogg',
                              'noisy_chick/ineedadoctor.ogg',
                              'noisy_chick/thanksforfindingme.ogg',
-                             'noisy_chick/thankyousir.wav'
+                             'noisy_chick/thankyousir.ogg'
                          ], sound_play_range=(20, 30))
         self.noise = 1
         self.idle_image = load_image_norect('characters/hostage1/idle.png', True)
