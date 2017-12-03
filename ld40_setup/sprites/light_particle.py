@@ -24,7 +24,8 @@ class LightParticle(pygame.sprite.Sprite):
         self.reset()
 
     def reset(self):
-        self.visible = True
+        if not self.parent.particles.has(self):
+            self.parent.particles.add(self)
 
         self.image = self.original_image.copy()
 
@@ -42,7 +43,7 @@ class LightParticle(pygame.sprite.Sprite):
         tile_y = int(self.rect.center[1] / config.TILE_SIZE)
 
         if level.map[tile_y][tile_x] == 'W':
-            self.visible = False
+            self.parent.particles.remove(self)
 
         self.rect.move_ip(self.speed_x, self.speed_y)
         size_const = 1 + 3 * (1 - (self.lifetime / config.LIGHT_PARTICLE_LIFETIME))
