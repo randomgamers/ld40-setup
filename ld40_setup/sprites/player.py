@@ -19,7 +19,9 @@ class Player(AnimatedSprite):
 
         # TODO: this shuld be somewhere else
         self.walls = walls
+        self.busted = False
         self.dead = False
+        self.dead_count = 0
 
         # collision rectangles
         self.collision_rect = self.rect.inflate(-self.rect.w*0.5, -self.rect.h*0.4)
