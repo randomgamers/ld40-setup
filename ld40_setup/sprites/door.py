@@ -8,10 +8,10 @@ class Door(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
 
         if type == 'D':
-            self.door_image = utils.load_image('map/door_bottom_50.png')
+            self.door_image = utils.load_image('map/door_bottom_cut_50.png')
         elif type == 'G':
-            self.door_image = utils.load_image('map/door_top_horizontal_50.png')
+            self.door_image = utils.load_image('map/door_top_cut_horizontal_50.png')
         elif type == 'F':
-            self.door_image = utils.load_image('map/door_top_vertical_50.png')
+            self.door_image = utils.load_image('map/door_top_cut_vertical_50.png')
         self.image, self.rect = self.door_image
         self.rect.move_ip(x * config.TILE_SIZE, y * config.TILE_SIZE)
