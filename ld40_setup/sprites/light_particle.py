@@ -35,8 +35,8 @@ class LightParticle(pygame.sprite.Sprite):
         # self.parent.speed_x > 0 && self.parent.speed_y > 0
         direction = self.parent.direction - config.LIGHT_PARTICLE_ANGLE/2 + (self.particle_id / (config.LIGHT_PARTICLE_BATCH_SIZE - 1)) * config.LIGHT_PARTICLE_ANGLE
 
-        self.speed_x = self.speed * math.cos(math.radians(direction))
-        self.speed_y = self.speed * math.sin(math.radians(direction))
+        self.speed_x = self.speed * math.cos(math.radians(direction)) + self.parent.dx
+        self.speed_y = self.speed * math.sin(math.radians(direction)) + self.parent.dy
 
         self.rect.center = self.parent.particle_origin
         self.lifetime = config.LIGHT_PARTICLE_LIFETIME
@@ -46,6 +46,11 @@ class LightParticle(pygame.sprite.Sprite):
         for check_point in wall_check_points:
             tile_x = int(check_point[0] / config.TILE_SIZE)
             tile_y = int(check_point[1] / config.TILE_SIZE)
+
+            if tile_y >= len(level.map) or tile_y < 0:
+                continue
+            if tile_x >= len(level.map[tile_y]) or tile_x < 0:
+                continue
 
             if level.map[tile_y][tile_x] == 'W':
                 self.parent.particles.remove(self)

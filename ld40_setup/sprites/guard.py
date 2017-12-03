@@ -31,6 +31,9 @@ class Guard(WanderingSprite):
 
         self.collision_rect = self.rect.inflate(-self.rect.w * 0.7, -self.rect.h * 0.25)
 
+        self.dx = 0
+        self.dy = 0
+
     def vyser_particle(self, particle_id):
         self.particles.add(LightParticle(particle_id, self))
 
@@ -66,16 +69,16 @@ class Guard(WanderingSprite):
         super().update()
 
         # compute deltas
-        dx = self.rect.centerx - self.last_position[0]
-        dy = self.rect.centery - self.last_position[1]
+        self.dx = self.rect.centerx - self.last_position[0]
+        self.dy = self.rect.centery - self.last_position[1]
 
-        if dx > 0:
+        if self.dx > 0:
             self.direction = 0
-        elif dx < 0:
+        elif self.dx < 0:
             self.direction = 180
-        elif dy > 0:
+        elif self.dy > 0:
             self.direction = 90
-        elif dy < 0:
+        elif self.dy < 0:
             self.direction = 270
 
         # update last position
