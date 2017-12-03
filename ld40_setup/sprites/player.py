@@ -35,6 +35,7 @@ class Player(AnimatedSprite):
         self.train = []
         self.position_history = []
         self.hostage_init_delay = defaultdict(int)
+        self.wait_position_history_delete = int(config.TRAIN_DELAY * 2 * config.FPS)
 
         # player stuff
         self.dizzy = 0
@@ -97,9 +98,11 @@ class Player(AnimatedSprite):
         speed_x, speed_y = self.normalize_speed()
         self.rect.move_ip((speed_x, speed_y))
 
-        if self.speed_x != 0 or self.speed_y != 0:  # TODO: can be reaaaaly big list
+        # update position history
+        if self.speed_x != 0 or self.speed_y != 0:
             self.position_history.append(self.rect.center)
 
+        # animate/idle based on speed
         if self.speed_x != 0 or self.speed_y != 0:
             self.animate()
         else:
@@ -113,6 +116,15 @@ class Player(AnimatedSprite):
             elif self.speed_x != 0 or self.speed_y != 0:
                 hostage.waiting = True
                 self.hostage_init_delay[i] -= 1
+
+        # prune position history
+        if self.speed_x != 0 or self.speed_y != 0:
+            min_history_len = int(config.TRAIN_DELAY * (len(self.train)+3) * config.FPS)
+            if len(self.position_history) > min_history_len and self.wait_position_history_delete <= 0:
+                self.position_history = self.position_history[-min_history_len:]
+                self.wait_position_history_delete = min_history_len
+            else:
+                self.wait_position_history_delete -= 1
 
     def normalize_speed(self):
         normalization_factor = np.sqrt(((self.speed_x/self.walking_speed)**2 + (self.speed_y/self.walking_speed)**2))

@@ -9,7 +9,7 @@ import time
 if not pygame.font: print('Warning, fonts disabled')
 if not pygame.mixer: print('Warning, sound disabled')
 
-from .utils import load_sound, coord_to_game_pixel, dist
+from .utils import load_sound, coord_to_game_pixel, dist, init_screen, toggle_fullscreen, fullscreen
 from .sprites import Fist
 from .level import get_level_classes
 from .game_camera import GameCamera
@@ -40,23 +40,10 @@ def check_for_detection(character, cameraguard, screen_collision_box):
     return False
 
 
-def init_screen(fullscreen):
-    flags = pygame.FULLSCREEN|pygame.DOUBLEBUF if fullscreen else 0
-
-    if sys.platform == 'win32':
-        import ctypes
-        ctypes.windll.user32.SetProcessDPIAware()
-        true_res = (ctypes.windll.user32.GetSystemMetrics(0), ctypes.windll.user32.GetSystemMetrics(1))
-        return pygame.display.set_mode(true_res, flags)
-    else:
-        return pygame.display.set_mode((0, 0), flags)
-
-
 def main():
     # Initialize Everything
     pygame.mixer.pre_init(44100, -16, 1, 512) # Including this makes the sound not lag
     pygame.init()
-
 
     pygame.display.set_caption(config.GAME_NAME)
     pygame.mouse.set_visible(0)
@@ -64,31 +51,12 @@ def main():
     level_classes = get_level_classes()
     max_levels = len(level_classes)
 
-    fullscreen = False
-
-    def toggle_fullscreen():
-        nonlocal fullscreen
-        nonlocal screen
-
-        if pygame.display.get_driver() == 'x11':
-            pygame.display.toggle_fullscreen()
-        else:
-            screen_copy = screen.copy()
-            if fullscreen:
-                screen = init_screen(False)
-            else:
-                screen = init_screen(True)
-                screen.blit(screen_copy, (0, 0))
-                pygame.display.update()
-            fullscreen = not fullscreen
-
     # show game menu until quit
     while True:
 
         # Main Menu
         response = MainMenu(screen).show()
         if response == 'quit': break
-        elif response == 'fullscreen': toggle_fullscreen(); continue
         elif response == 'start': pass
         else: raise ValueError('unknown menu response: {}'.format(response))
 
@@ -101,7 +69,7 @@ def main():
             if level_num > 1:
                 response = SuccessMenu(screen, level_num-1).show()
                 if response == 'quit':
-                    time.sleep(1)
+                    time.sleep(config.AFTER_QUIT_DELAY)
                     break
                 elif response == 'start': pass
                 else: raise ValueError('unknown menu response: {}'.format(response))
@@ -117,7 +85,7 @@ def main():
                 else:  # show failure menu
                     response = FailureMenu(screen, level_num).show()
                     if response == 'quit':
-                        time.sleep(1)
+                        time.sleep(config.AFTER_QUIT_DELAY)
                         go_to_menu = True
                         break
                     elif response == 'start': pass
@@ -129,7 +97,7 @@ def main():
         if won_levels == max_levels:
             response = GameWonMenu(screen).show()
             if response == 'quit':
-                time.sleep(1)
+                time.sleep(config.AFTER_QUIT_DELAY)
                 break
             elif response == 'start': pass
             else: raise ValueError('unknown menu response: {}'.format(response))
@@ -150,6 +118,8 @@ def play_level(level, screen):
     window = pygame.Surface(window_size)
 
     camera = GameCamera(game_size, window_size)
+
+    pygame.mixer.init()
 
     # Create The Backgound
     background = pygame.Surface(game_screen.get_size())
@@ -203,6 +173,8 @@ def play_level(level, screen):
                 going = False
             elif event.type == KEYDOWN and event.key == K_ESCAPE:
                 going = False
+            elif event.type == pygame.KEYDOWN and event.key == pygame.K_f:
+                screen = toggle_fullscreen(screen)
             elif event.type == MOUSEBUTTONDOWN:
                 if fist.punch(player):
                     punch_sound.play()  # punch
@@ -230,6 +202,7 @@ def play_level(level, screen):
         cameras.update()
         for cameraguard in shit_with_light.sprites():
             cameraguard.particles.update(level)
+            cameraguard.removed_particles.update(level)
 
             if check_for_detection(player, cameraguard, screen_collision_box):
                 player.dead = True

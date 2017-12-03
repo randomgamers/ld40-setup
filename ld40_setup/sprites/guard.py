@@ -12,6 +12,7 @@ class Guard(WanderingSprite):
                          **kwargs)
 
         self.particles = pygame.sprite.Group()
+        self.removed_particles = pygame.sprite.Group()
         self.direction = 0
         self.last_position = [0, 0]
 
@@ -84,6 +85,6 @@ class Guard(WanderingSprite):
         # update last position
         self.last_position = self.rect.center
 
-        if len(self.particles) < config.LIGHT_PARTICLE_COUNT:
+        if len(self.particles) + len(self.removed_particles) < config.LIGHT_PARTICLE_COUNT:
             for i in range(config.LIGHT_PARTICLE_BATCH_SIZE):
                 self.vyser_particle(i)

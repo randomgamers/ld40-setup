@@ -54,3 +54,33 @@ def game_pixel_to_coord(game_pixel):
 
 def dist(coord1, coord2):
     return math.sqrt((coord2[0] - coord1[0]) ** 2 + (coord2[1] - coord1[1]) ** 2)
+
+
+fullscreen = False
+
+
+def init_screen(fullscreen):
+    flags = pygame.FULLSCREEN|pygame.DOUBLEBUF if fullscreen else 0
+
+    if sys.platform == 'win32':
+        import ctypes
+        ctypes.windll.user32.SetProcessDPIAware()
+        true_res = (ctypes.windll.user32.GetSystemMetrics(0), ctypes.windll.user32.GetSystemMetrics(1))
+        return pygame.display.set_mode(true_res, flags)
+    else:
+        return pygame.display.set_mode((0, 0), flags)
+
+
+def toggle_fullscreen(screen):
+    if pygame.display.get_driver() == 'x11':
+        pygame.display.toggle_fullscreen()
+    else:
+        screen_copy = screen.copy()
+        if fullscreen:
+            screen = init_screen(False)
+        else:
+            screen = init_screen(True)
+            screen.blit(screen_copy, (0, 0))
+            pygame.display.update()
+        fullscreen = not fullscreen
+    return screen
