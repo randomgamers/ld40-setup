@@ -24,12 +24,6 @@ class Level:
             wall = Wall(x, y)
             self.walls.append(wall)
 
-        self.entry_coords = [(col_num, row_num) for row_num, row in enumerate(self.map)
-                                                for col_num, tile in enumerate(row)
-                                                if tile == 'E']
-        assert len(self.entry_coords) == 1, 'Too many/few level entries'
-        self.entry_coord = self.entry_coords[0]
-
         self.doors_coords = [(col_num, row_num) for row_num, row in enumerate(self.map)
                                                 for col_num, tile in enumerate(row)
                                                 if tile == 'D' or tile == 'F' or tile == 'G']
@@ -40,12 +34,23 @@ class Level:
 
         self.floor_coords = [(col_num, row_num) for row_num, row in enumerate(self.map)
                              for col_num, tile in enumerate(row)
-                             if tile == '.']
+                             if tile == '.' or tile == ',']
 
         self.floor = []
         for x, y in self.floor_coords:
-            floor_tile = Floor(x, y)
+            floor_tile = Floor(x, y, self.map[y][x])
             self.floor.append(floor_tile)
+
+
+
+        self.entry_coords = [(col_num, row_num) for row_num, row in enumerate(self.map)
+                                                for col_num, tile in enumerate(row)
+                                                if tile == 'E']
+        assert len(self.entry_coords) == 1, 'Too many/few level entries'
+        self.entry_coord = self.entry_coords[0]
+
+        entry_tile = Floor(self.entry_coord[0], self.entry_coord[1])
+        self.floor.append(entry_tile)
 
         self.player = Player(position=self.entry_coord, walls=self.walls)
         self.guards = []
