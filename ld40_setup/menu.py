@@ -1,6 +1,7 @@
 import pygame
 
-from ld40_setup import config
+from . import config
+from .utils import toggle_fullscreen
 
 
 class Menu:
@@ -55,14 +56,12 @@ class Menu:
     def event_handler(self, event):
         if event.type == pygame.KEYDOWN and event.key == pygame.K_s:
             return 'start'
-        elif event.type == pygame.KEYDOWN and event.key == pygame.K_q:
-            return 'quit'
-        elif event.type == pygame.QUIT:
-            return 'quit'
-        elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+        elif event.type == pygame.KEYDOWN and event.key == pygame.K_q or \
+             event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE or \
+             event.type == pygame.QUIT:
             return 'quit'
         elif event.type == pygame.KEYDOWN and event.key == pygame.K_f:
-            return 'fullscreen'
+            self.screen = toggle_fullscreen(self.screen)
         return None
 
     def show(self):
@@ -87,7 +86,7 @@ class Menu:
 
 class MainMenu(Menu):
     def __init__(self, screen):
-        items = ['(S) Start', '(F) Fullscreen', '(Q) Quit']
+        items = ['(S) Start', '(F) Toggle Fullscreen', '(Q) Quit']
         super().__init__(screen, menu_items=items, background_color=(40, 42, 56),
                          message='Main Menu')
 
@@ -95,7 +94,7 @@ class MainMenu(Menu):
 class SuccessMenu(Menu):
 
     def __init__(self, screen, num_level):
-        items = ['(S) Next Level', '(Q) Main Menu']
+        items = ['(S) Next Level', '(F) Toggle Fullscreen', '(Q) Main Menu']
         super().__init__(screen, menu_items=items, background_color=(44,51,38),
                          message='Level #{} Complete'.format(num_level))
 
@@ -103,7 +102,7 @@ class SuccessMenu(Menu):
 class FailureMenu(Menu):
 
     def __init__(self, screen, num_level):
-        items = ['(S) Try Again', '(Q) Main Menu']
+        items = ['(S) Try Again', '(F) Toggle Fullscreen', '(Q) Main Menu']
         super().__init__(screen, menu_items=items, background_color=(59,37,37),
                          message = 'Level #{} Failed'.format(num_level))
 
@@ -111,6 +110,6 @@ class FailureMenu(Menu):
 class GameWonMenu(Menu):
 
     def __init__(self, screen):
-        items = ['(S) Play Whole Game Again', '(Q) Main Menu']
+        items = ['(S) Play Whole Game Again', '(F) Toggle Fullscreen', '(Q) Main Menu']
         super().__init__(screen, menu_items=items, background_color=(128,97,37), title_color=(0,0,0),
                          message='Game Completed')
