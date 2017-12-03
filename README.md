@@ -11,7 +11,7 @@ pip3 install [--user] -r requirements.txt
 From the project root, run
 
 ```
-python3 -m ld40_setup.game
+python3 -m saving_crying_bryan.game
 ```
 
 ## Build
