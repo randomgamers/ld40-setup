@@ -105,7 +105,7 @@ class Level1(Level):
         self.hostages = [
             hostages.NoisyChick(position=(16, 2), player=self.player, entry_tile=self.entry_coord, end_tiles=self.end_coords),
             hostages.FatGuy(position=(46, 11), player=self.player, entry_tile=self.entry_coord, end_tiles=self.end_coords),
-            hostages.RegularGuy(position=(17, 8), player=self.player, entry_tile=self.entry_coord, end_tiles=self.end_coords),
+            hostages.Gangsta (position=(17, 8), player=self.player, entry_tile=self.entry_coord, end_tiles=self.end_coords),
             hostages.RegularGuy(position=(17, 11), player=self.player, entry_tile=self.entry_coord, end_tiles=self.end_coords)
         ]
 
@@ -166,9 +166,9 @@ class Level2(Level):
         ]
 
         self.hostages = [
-            hostages.FatGuy(position=(1, 1), player=self.player, entry_tile=self.entry_coord, end_tiles=self.end_coords),
+            hostages.RegularGuy(position=(1, 1), player=self.player, entry_tile=self.entry_coord, end_tiles=self.end_coords),
             hostages.NoisyChick(position=(13, 1), player=self.player, entry_tile=self.entry_coord, end_tiles=self.end_coords),
-            hostages.NoisyChick(position=(15, 1), player=self.player, entry_tile=self.entry_coord, end_tiles=self.end_coords),
+            hostages.Gangsta(position=(15, 1), player=self.player, entry_tile=self.entry_coord, end_tiles=self.end_coords),
             hostages.FatGuy(position=(27, 1), player=self.player, entry_tile=self.entry_coord, end_tiles=self.end_coords),
         ]
 
@@ -187,7 +187,7 @@ class Level3(Level):
 
         self.hostages = [
             hostages.RegularGuy(position=(3, 15), player=self.player, entry_tile=self.entry_coord, end_tiles=self.end_coords),
-            hostages.RegularGuy(position=(29, 15), player=self.player, entry_tile=self.entry_coord, end_tiles=self.end_coords),
+            hostages.Gangsta(position=(29, 15), player=self.player, entry_tile=self.entry_coord, end_tiles=self.end_coords),
             hostages.RegularGuy(position=(13, 17), player=self.player, entry_tile=self.entry_coord, end_tiles=self.end_coords),
             hostages.FatGuy(position=(14, 17), player=self.player, entry_tile=self.entry_coord, end_tiles=self.end_coords),
             hostages.RegularGuy(position=(15, 17), player=self.player, entry_tile=self.entry_coord, end_tiles=self.end_coords),
@@ -224,7 +224,7 @@ class Level4(Level):
 
         self.hostages = [
             hostages.RegularGuy(position=(8, 10), player=self.player, entry_tile=self.entry_coord, end_tiles=self.end_coords),
-            hostages.RegularGuy(position=(26, 25), player=self.player, entry_tile=self.entry_coord, end_tiles=self.end_coords),
+            hostages.Gangsta(position=(26, 25), player=self.player, entry_tile=self.entry_coord, end_tiles=self.end_coords),
             hostages.RegularGuy(position=(58, 23), player=self.player, entry_tile=self.entry_coord, end_tiles=self.end_coords),
             hostages.RegularGuy(position=(19, 10), player=self.player, entry_tile=self.entry_coord, end_tiles=self.end_coords),
         ]
