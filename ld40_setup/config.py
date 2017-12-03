@@ -6,6 +6,8 @@ MESSAGE_SIZE = 54
 MESSAGE_COLOR = (142,128,165)
 ITEM_SIZE = 48
 ITEM_COLOR = (255, 255, 255)
+SCORE_SIZE = 54
+SCORE_COLOR = (255, 255, 125)
 AFTER_QUIT_DELAY = 0.1  # SECONDS
 
 # in-game texts
@@ -22,7 +24,7 @@ LEVELS_DIR = 'levels'
 # screen setting
 SCREEN_WIDTH = 1280
 SCREEN_HEIGHT = 1000
-FPS = 30
+FPS = 40
 
 # player speed
 PLAYER_SPEED = 500  # px/second
@@ -51,3 +53,12 @@ SOUNDWAVES_COUNT = 20
 
 # floor items
 FLOOR_ITEM_PROBABILITY = 1
+
+# Saying shit
+MAX_SOUNDWAVE_TIMER = 3
+MIN_PLAY_SOUND_AT = 20
+MAX_PLAY_SOUND_AT = 30
+
+# Database
+DATABASE_URL = 'postgresql://ld40_user:S$~9M);=u=2:s)Mx@ld40.adikus.me:5432/ld40'
+DATABASE_TABLE = 'scores_dev'

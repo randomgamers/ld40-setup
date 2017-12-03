@@ -60,6 +60,7 @@ def main():
         elif response == 'start': pass
         else: raise ValueError('unknown menu response: {}'.format(response))
 
+        score = 0
         won_levels = 0
 
         # foreach level
@@ -67,7 +68,7 @@ def main():
 
             # show success
             if level_num > 1:
-                response = SuccessMenu(screen, level_num-1).show()
+                response = SuccessMenu(screen, level_num-1, score).show()
                 if response == 'quit':
                     time.sleep(config.AFTER_QUIT_DELAY)
                     break
@@ -78,7 +79,7 @@ def main():
 
             # while level not finished
             while True:
-                success = play_level(level_class(), screen)  # play the fame
+                success, score = play_level(level_class(), screen)  # play the fame
                 if success:  # continue to next level
                     won_levels += 1
                     break
@@ -106,6 +107,8 @@ def main():
 
 
 def play_level(level, screen):
+    #return True, 15.26 # For testing score screen
+
     total_hostages = len(level.hostages)
 
     tiles = config.TILES
@@ -165,14 +168,16 @@ def play_level(level, screen):
     going = True
     pygame.key.set_repeat(1, int(1000 / config.FPS))
 
+    start_time = time.time()
+
     while going:
         delay = clock.tick(config.FPS)
 
         if total_hostages == player.num_saved_hostages:
-            return True
+            return True, time.time() - start_time
 
         if player.dead:
-            return False
+            return False, 0
 
         # Handle Input Events
         for event in pygame.event.get():
@@ -281,14 +286,25 @@ def play_level(level, screen):
             screen.blit(busted_blue, (0, 0))
             screen.blit(busted, (screen.get_size()[0] / 2 - busted_rect.w / 2, screen.get_size()[1] / 2 - busted_rect.h / 2))
 
-        # render FPS counter
+        # Render FPS counter
         font = pygame.font.Font(None, 48)
         fps_text = font.render("%.2f" % (1000.0/delay), 1, (10, 10, 10))
         fps_text_pos = fps_text.get_rect()
-        fps_text_pos.topleft = (0, 0)
+        fps_text_pos.topleft = (5, 5)
         screen.blit(fps_text, fps_text_pos)
 
+        time_elapsed = time.time() - start_time
+
+        # Render time counter
+        font = pygame.font.Font(None, 48)
+        time_text = font.render("%.1fs" % time_elapsed, 1, (10, 10, 10))
+        time_text_pos = time_text.get_rect()
+        time_text_pos.topright = (screen.get_size()[0] - 5, 5)
+        screen.blit(time_text, time_text_pos)
+
         pygame.display.flip()
+
+    return None, 0
 
 
 if __name__ == '__main__':
