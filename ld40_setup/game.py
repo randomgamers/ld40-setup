@@ -10,7 +10,7 @@ if not pygame.font: print('Warning, fonts disabled')
 if not pygame.mixer: print('Warning, sound disabled')
 
 from .utils import load_sound, coord_to_game_pixel, dist, init_screen, toggle_fullscreen, fullscreen
-from .sprites import Fist
+# from .sprites import Fist
 from .level import get_level_classes
 from .game_camera import GameCamera
 from . import config
@@ -135,7 +135,7 @@ def play_level(level, screen):
     whiff_sound = load_sound('whiff.wav')
     punch_sound = load_sound('punch.wav')
 
-    fist = Fist(camera)
+    # fist = Fist(camera)
 
     floor = pygame.sprite.Group(*level.floor)
     walls = pygame.sprite.Group(*level.walls)
@@ -152,7 +152,8 @@ def play_level(level, screen):
     hostages = pygame.sprite.Group(*level.hostages)
     soundwaves = pygame.sprite.Group(*list(map(lambda h: h.soundwave, hostages)))
     player = level.player
-    allsprites = pygame.sprite.RenderPlain((player, fist))  # player.collision_sprite, guards.sprites()[0].particle_sprite
+    # allsprites = pygame.sprite.RenderPlain((player, fist))  # player.collision_sprite, guards.sprites()[0].particle_sprite
+    allsprites = pygame.sprite.RenderPlain(player)  # player.collision_sprite, guards.sprites()[0].particle_sprite
 
     # Main Loop
     going = True
@@ -175,13 +176,13 @@ def play_level(level, screen):
                 going = False
             elif event.type == pygame.KEYDOWN and event.key == pygame.K_f:
                 screen = toggle_fullscreen(screen)
-            elif event.type == MOUSEBUTTONDOWN:
-                if fist.punch(player):
-                    punch_sound.play()  # punch
-                else:
-                    whiff_sound.play()  # miss
-            elif event.type == MOUSEBUTTONUP:
-                fist.unpunch()
+            # elif event.type == MOUSEBUTTONDOWN:
+            #     if fist.punch(player):
+            #         punch_sound.play()  # punch
+            #     else:
+            #         whiff_sound.play()  # miss
+            # elif event.type == MOUSEBUTTONUP:
+            #     fist.unpunch()
 
         screen_collision_box = pygame.Rect((np.array(camera.blit_position) * -1), (window.get_size()))
 
