@@ -51,6 +51,8 @@ class Hostage(AnimatedSprite):
         # collision rectangle
         self.collision_rect = self.rect.inflate(-self.rect.w*0.5, -self.rect.h*0.15)
 
+        self.layer = 0
+
         # visualization of collider TODO: remove
         # self.collision_sprite = pygame.sprite.Sprite()
         # self.collision_sprite.rect = self.collision_rect
@@ -104,6 +106,8 @@ class Hostage(AnimatedSprite):
 
         # update last position
         self.last_position = self.rect.center
+
+        self.layer = self.rect.center[1]
 
         if dx != 0 or dy != 0:  # instead of super update
             self.animate()

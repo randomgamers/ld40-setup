@@ -167,6 +167,9 @@ def play_level(level, screen):
     # allsprites = pygame.sprite.RenderPlain((player, fist))  # player.collision_sprite, guards.sprites()[0].particle_sprite
     allsprites = pygame.sprite.RenderPlain(player)  # player.collision_sprite, guards.sprites()[0].particle_sprite
 
+    characters = pygame.sprite.LayeredUpdates(*level.hostages)
+    characters.add(player)
+
     busted_blue = pygame.Surface(screen.get_size())
     busted_blue = busted_blue.convert_alpha()
     busted_blue.fill((180, 20, 20, 128))
@@ -279,12 +282,14 @@ def play_level(level, screen):
             if cameraguard.particle_rect.colliderect(screen_collision_box):
                 cameraguard.particles.draw(game_screen)
 
+        for character in characters.sprites():
+            characters.change_layer(character, character.layer)
+
         guards.draw(game_screen)
         cameras.draw(game_screen)
         soundwaves.draw(game_screen)
-        hostages.draw(game_screen)
 
-        allsprites.draw(game_screen)
+        characters.draw(game_screen)
         # player.particles.draw(game_screen)
 
         # copy gamescreen to screen
