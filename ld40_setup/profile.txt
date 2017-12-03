@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/usr/local/Cellar/python3/3.6.3/Frameworks/Python.framework/Versions/3.6/lib/python3.6/runpy.py", line 193, in _run_module_as_main
+    "__main__", mod_spec)
+  File "/usr/local/Cellar/python3/3.6.3/Frameworks/Python.framework/Versions/3.6/lib/python3.6/runpy.py", line 85, in _run_code
+    exec(code, run_globals)
+  File "/usr/local/Cellar/python3/3.6.3/Frameworks/Python.framework/Versions/3.6/lib/python3.6/cProfile.py", line 160, in <module>
+    main()
+  File "/usr/local/Cellar/python3/3.6.3/Frameworks/Python.framework/Versions/3.6/lib/python3.6/cProfile.py", line 145, in main
+    with open(progname, 'rb') as fp:
+FileNotFoundError: [Errno 2] No such file or directory: 'ld40_setup/game.py'
