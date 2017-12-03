@@ -69,7 +69,7 @@ def main():
             if level_num > 1:
                 response = SuccessMenu(screen, level_num-1).show()
                 if response == 'quit':
-                    time.sleep(1)
+                    time.sleep(config.AFTER_QUIT_DELAY)
                     break
                 elif response == 'start': pass
                 else: raise ValueError('unknown menu response: {}'.format(response))
@@ -85,7 +85,7 @@ def main():
                 else:  # show failure menu
                     response = FailureMenu(screen, level_num).show()
                     if response == 'quit':
-                        time.sleep(1)
+                        time.sleep(config.AFTER_QUIT_DELAY)
                         go_to_menu = True
                         break
                     elif response == 'start': pass
@@ -97,7 +97,7 @@ def main():
         if won_levels == max_levels:
             response = GameWonMenu(screen).show()
             if response == 'quit':
-                time.sleep(1)
+                time.sleep(config.AFTER_QUIT_DELAY)
                 break
             elif response == 'start': pass
             else: raise ValueError('unknown menu response: {}'.format(response))
