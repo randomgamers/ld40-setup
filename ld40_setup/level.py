@@ -61,12 +61,41 @@ def get_level_classes() -> List[Type[Level]]:
     # TODO: various levels
     return [
         Level1,
-        Level1,
-        Level1
+        Level3,
+        Level3
     ]
 
 
 class Level1(Level):
+    def __init__(self):
+        self.level_num = 1
+
+        super().__init__()
+
+        self.guards = [
+            Guard(walk_path=[(3, 21), (25, 21)], walk_speed=1),
+            Guard(walk_path=[(31, 17), (31, 19)], walk_speed=2),
+            Guard(walk_path=[(51, 19), (51, 17)], walk_speed=2),
+            Guard(walk_path=[(31, 19), (51, 19)], walk_speed=2),
+            Guard(walk_path=[(49, 2), (49, 13)], walk_speed=3),
+            Guard(walk_path=[(33, 13), (33, 2)], walk_speed=3)
+        ]
+
+        self.cameras = [
+            Camera(position=(1, 11), angle_from=200, angle_to=320, rotation_speed=70, delay=2),
+            Camera(position=(8, 25), angle_from=300, angle_to=420, rotation_speed=50, delay=1.5),
+            Camera(position=(35, 22), angle_from=170, angle_to=260, rotation_speed=60, delay=1)
+        ]
+
+        self.hostages = [
+            hostages.RegularGuy(position=(8, 10), player=self.player, entry_tile=self.entry_coord),
+            hostages.RegularGuy(position=(26, 25), player=self.player, entry_tile=self.entry_coord),
+            hostages.RegularGuy(position=(58, 23), player=self.player, entry_tile=self.entry_coord),
+            hostages.RegularGuy(position=(19, 10), player=self.player, entry_tile=self.entry_coord),
+        ]
+
+
+class Level3(Level):
     def __init__(self):
         self.level_num = 1
 
