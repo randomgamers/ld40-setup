@@ -5,8 +5,16 @@ from . import config
 import random
 import numpy as np
 
+
+connection = None
+
+
 def get_db():
-    return create_engine(config.DATABASE_URL)
+    global connection
+
+    if connection is None:
+        connection = create_engine(config.DATABASE_URL)
+    return connection
 
 
 def insert_score(score, level, name=None):
@@ -37,6 +45,11 @@ def get_score_histogram(level):
         print("Couldn't connect to the database")
         return None
 
+
+try:
+    get_db()
+except:
+    print("Couldn't connect to the database")
 
 #for i in range(1000):
 #    insert_score(random.gauss(500, 200), 1, 'test-' + str(i))

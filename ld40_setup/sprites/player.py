@@ -2,12 +2,12 @@ from collections import defaultdict
 
 import pygame
 import numpy as np
+import random
 
 from .. import config
 from ..utils import load_image_norect
 from ..game_sound import GameSound
 from .animated_sprite import AnimatedSprite
-
 
 class Player(AnimatedSprite):
     """Player sprite."""
@@ -150,7 +150,7 @@ class Player(AnimatedSprite):
         self.train.append(hostage)
         self.hostage_init_delay[len(self.train)-1] = config.TRAIN_DELAY * (len(self.train)+1) * config.FPS
         self.update_walking_speed()
-        hostage.play_track(hostage.add_sound)
+        hostage.play_track(hostage.add_sounds[random.randrange(len(hostage.add_sounds))])
 
     def remove_from_train(self, hostage):
         self.train.remove(hostage)

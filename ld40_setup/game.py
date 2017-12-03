@@ -47,6 +47,10 @@ def main():
     pygame.mixer.pre_init(44100, -16, 1, 512) # Including this makes the sound not lag
     pygame.init()
 
+    background_sound = GameSound('backgroundmusic.ogg')
+    background_sound.set_volume(0.2)
+    background_sound.play()
+
     pygame.display.set_caption(config.GAME_NAME)
     pygame.mouse.set_visible(0)
     screen = init_screen(False)
@@ -116,11 +120,6 @@ def main():
 
 def play_level(level, screen):
     # return True, 15.26 # For testing score screen
-
-    background_sound = GameSound('arcadefunk.ogg')
-    background_sound.set_volume(0.2)
-    background_sound.play()
-
     total_hostages = len(level.hostages)
 
     tiles = config.TILES
@@ -147,8 +146,6 @@ def play_level(level, screen):
 
     # Prepare Game Objects
     clock = pygame.time.Clock()
-    whiff_sound = load_sound('whiff.wav')
-    punch_sound = load_sound('punch.wav')
 
     # fist = Fist(camera)
 
@@ -275,6 +272,10 @@ def play_level(level, screen):
         # Blit base game screen to game screen
         game_screen.blit(base_game_screen, (0, 0))
 
+        # render texts
+        for name, label, (width, height), (posx, posy) in level.texts:
+            game_screen.blit(label, (posx, posy))
+
         for cameraguard in shit_with_light.sprites():
             if cameraguard.particle_rect.colliderect(screen_collision_box):
                 cameraguard.particles.draw(game_screen)
@@ -286,10 +287,6 @@ def play_level(level, screen):
 
         allsprites.draw(game_screen)
         # player.particles.draw(game_screen)
-
-        # render texts
-        for name, label, (width, height), (posx, posy) in level.texts:
-            game_screen.blit(label, (posx, posy))
 
         # copy gamescreen to screen
         blit_game_to_window(game_screen, window, camera)
