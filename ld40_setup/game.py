@@ -49,7 +49,7 @@ def main():
 
     background_sound = GameSound('backgroundmusic.ogg')
     background_sound.set_volume(0.2)
-    background_sound.play()
+    background_sound.play(-1)
 
     pygame.display.set_caption(config.GAME_NAME)
     pygame.mouse.set_visible(0)

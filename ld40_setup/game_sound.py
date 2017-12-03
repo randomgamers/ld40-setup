@@ -5,8 +5,8 @@ class GameSound:
     def __init__(self, filename):
         self.sound = load_sound(filename)
 
-    def play(self):
-        self.sound.play()
+    def play(self, loops=0):
+        self.sound.play(loops)
 
     def stop(self):
         self.sound.stop()
