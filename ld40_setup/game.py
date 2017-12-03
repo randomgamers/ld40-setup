@@ -40,23 +40,47 @@ def check_for_detection(character, cameraguard, screen_collision_box):
     return False
 
 
-def main():
-    # Initialize Everything
-    pygame.mixer.pre_init(44100, -16, 1, 512) # Including this makes the sound not lag
-    pygame.init()
+def init_screen(fullscreen):
+    flags = pygame.FULLSCREEN|pygame.DOUBLEBUF if fullscreen else 0
 
     if sys.platform == 'win32':
         import ctypes
         ctypes.windll.user32.SetProcessDPIAware()
         true_res = (ctypes.windll.user32.GetSystemMetrics(0), ctypes.windll.user32.GetSystemMetrics(1))
-        screen = pygame.display.set_mode(true_res)
+        return pygame.display.set_mode(true_res, flags)
     else:
-        screen = pygame.display.set_mode((0, 0))
+        return pygame.display.set_mode((0, 0), flags)
+
+
+def main():
+    # Initialize Everything
+    pygame.mixer.pre_init(44100, -16, 1, 512) # Including this makes the sound not lag
+    pygame.init()
+
+
     pygame.display.set_caption(config.GAME_NAME)
     pygame.mouse.set_visible(0)
-
+    screen = init_screen(False)
     level_classes = get_level_classes()
     max_levels = len(level_classes)
+
+    fullscreen = False
+
+    def toggle_fullscreen():
+        nonlocal fullscreen
+        nonlocal screen
+
+        if pygame.display.get_driver() == 'x11':
+            pygame.display.toggle_fullscreen()
+        else:
+            screen_copy = screen.copy()
+            if fullscreen:
+                screen = init_screen(False)
+            else:
+                screen = init_screen(True)
+                screen.blit(screen_copy, (0, 0))
+                pygame.display.update()
+            fullscreen = not fullscreen
 
     # show game menu until quit
     while True:
@@ -64,6 +88,7 @@ def main():
         # Main Menu
         response = MainMenu(screen).show()
         if response == 'quit': break
+        elif response == 'fullscreen': toggle_fullscreen(); continue
         elif response == 'start': pass
         else: raise ValueError('unknown menu response: {}'.format(response))
 

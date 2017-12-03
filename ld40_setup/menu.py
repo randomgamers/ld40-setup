@@ -61,6 +61,8 @@ class Menu:
             return 'quit'
         elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
             return 'quit'
+        elif event.type == pygame.KEYDOWN and event.key == pygame.K_f:
+            return 'fullscreen'
         return None
 
     def show(self):
@@ -85,7 +87,7 @@ class Menu:
 
 class MainMenu(Menu):
     def __init__(self, screen):
-        items = ['(S) Start', '(Q) Quit']
+        items = ['(S) Start', '(F) Fullscreen', '(Q) Quit']
         super().__init__(screen, menu_items=items, background_color=(40, 42, 56),
                          message='Main Menu')
 
