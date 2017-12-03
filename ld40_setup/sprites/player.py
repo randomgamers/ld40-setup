@@ -136,5 +136,6 @@ class Player(AnimatedSprite):
 
     def remove_from_train(self, hostage):
         self.train.remove(hostage)
+        hostage.soundwave.kill()
         self.num_saved_hostages += 1
         self.update_walking_speed()

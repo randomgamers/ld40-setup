@@ -122,10 +122,12 @@ def play_level(level, screen):
 
     floor = pygame.sprite.Group(*level.floor)
     walls = pygame.sprite.Group(*level.walls)
+    doors = pygame.sprite.Group(*level.doors)
 
     base_game_screen.blit(background, (0, 0))
     floor.draw(base_game_screen)
     walls.draw(base_game_screen)
+    doors.draw(base_game_screen)
 
     guards = pygame.sprite.Group(*level.guards)
     cameras = pygame.sprite.Group(*level.cameras)
