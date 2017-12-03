@@ -179,7 +179,7 @@ def play_level(level_num, screen):
         cameras.update()
         for cameraguard in shit_with_light.sprites():
             cameraguard.particles.update(level)
-            if cameraguard.particle_rect.colliderect(screen_rect) and pygame.sprite.collide_rect(cameraguard.particle_sprite, player):
+            if cameraguard.particle_rect.colliderect(screen_rect) and cameraguard.particle_rect.colliderect(player.collision_rect):
                 player.dead = True
 
         hostages.update()
@@ -200,9 +200,7 @@ def play_level(level_num, screen):
         screen_rect = pygame.Rect((np.array(camera.blit_position) * -1), (window.get_size()))
         for cameraguard in shit_with_light.sprites():
             if cameraguard.particle_rect.colliderect(screen_rect):
-                for particle in cameraguard.particles.sprites():
-                    if particle.visible:
-                        pygame.sprite.GroupSingle(particle).draw(game_screen)
+                cameraguard.particles.draw(game_screen)
 
         guards.draw(game_screen)
         cameras.draw(game_screen)
