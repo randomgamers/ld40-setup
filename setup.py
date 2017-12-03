@@ -13,7 +13,7 @@ buildOptions = dict(
 base = 'Win32GUI' if sys.platform == 'win32' else None
 
 executables = [
-    Executable('saving_crying_bryan_game.py', base=base)
+    Executable('saving_crying_bryan_game.py', base=base, icon='saving_crying_bryan/resources/icon.ico')
 ]
 
 setup(
