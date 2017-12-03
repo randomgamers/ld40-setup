@@ -7,13 +7,13 @@ import sys
 buildOptions = dict(
     packages=['saving_crying_bryan', 'numpy', 'psycopg2', 'sqlalchemy'],
     excludes=[],
-    include_files=['saving_crying_bryan/resources']
+    include_files=[('saving_crying_bryan/resources', 'saving_crying_bryan/resources')]
 )
 
 base = 'Win32GUI' if sys.platform == 'win32' else None
 
 executables = [
-    Executable('saving_crying_bryan.py', base=base)
+    Executable('saving_crying_bryan_game.py', base=base)
 ]
 
 setup(
