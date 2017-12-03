@@ -1,11 +1,11 @@
 import pygame
 
-from .. import config
+from ld40_setup import config
 
 
-class MainMenu:
-    def __init__(self, screen, bg_color=(0, 0, 0), font=None, font_size=30,
-                 font_color=(255, 255, 255)):
+class Menu:
+
+    def __init__(self, screen, items, bg_color, font_size, font_color=(255, 255, 255), font=None):
         self.screen = screen
         self.scr_width = self.screen.get_rect().width
         self.scr_height = self.screen.get_rect().height
@@ -13,7 +13,6 @@ class MainMenu:
         self.bg_color = bg_color
         self.clock = pygame.time.Clock()
 
-        items = ['(S) Start', '(Q) Quit']
         self.font = pygame.font.Font(None, 48)
         self.font_color = font_color
 
@@ -31,6 +30,13 @@ class MainMenu:
 
             self.items.append([item, label, (width, height), (posx, posy)])
 
+    def event_handler(self, event):
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_s:
+            return 'start'
+        elif event.type == pygame.KEYDOWN and event.key == pygame.K_q:
+            return 'quit'
+        return None
+
     def run(self):
         result = None
         while result is None:
@@ -42,10 +48,7 @@ class MainMenu:
                 result = 'quit'
 
             for event in pygame.event.get():
-                if event.type == pygame.KEYDOWN and event.key == pygame.K_s:
-                    result = 'start'
-                elif event.type == pygame.KEYDOWN and event.key == pygame.K_q:
-                    result = 'quit'
+                self.event_handler(event)
 
             # Redraw the background
             self.screen.fill(self.bg_color)
@@ -55,3 +58,30 @@ class MainMenu:
 
             pygame.display.flip()
         return result
+
+
+class MainMenu(Menu):
+    def __init__(self, screen):
+        items = ['(S) Start', '(Q) Quit']
+        super().__init__(screen, items=items, bg_color=(0,0,0), font_size=30)
+
+
+class SuccessMenu(Menu):
+
+    def __init__(self, screen):
+        items = ['(S) Next Level', '(Q) Main Menu']
+        super().__init__(screen, items=items, bg_color=(0,0,0), font_size=30)
+
+
+class FailureMenu(Menu):
+
+    def __init__(self, screen):
+        items = ['(S) Try Again', '(Q) Main Menu']
+        super().__init__(screen, items=items, bg_color=(0,0,0), font_size=30)
+
+
+class GameWonMenu(Menu):
+
+    def __init__(self, screen):
+        items = ['(S) Play Whole Game Again', '(Q) Main Menu']
+        super().__init__(screen, items=items, bg_color=(0,0,0), font_size=30)
