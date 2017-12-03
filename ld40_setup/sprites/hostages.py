@@ -65,6 +65,8 @@ class Hostage(AnimatedSprite):
         self.soundwave_radius = soundwave_radius
         self.soundwave = Soundwave(self, soundwave_radius)
 
+        self.light_collision_rect = self.rect.inflate(-self.rect.w * 0.7, -self.rect.h * 0.25)
+
     def collision_check(self, _, player):
         return self.collision_rect.colliderect(player.rect)
 
@@ -90,6 +92,7 @@ class Hostage(AnimatedSprite):
             self.flipped = False
 
         self.collision_rect.center = self.rect.center
+        self.light_collision_rect.center = (self.rect.center[0], self.rect.center[1] + 0.05 * self.rect.h)
 
         collisions = pygame.sprite.spritecollide(self, [self.player], False, collided=self.collision_check)
         if collisions:
